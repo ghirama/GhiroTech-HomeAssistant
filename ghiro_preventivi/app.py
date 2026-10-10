@@ -107,7 +107,7 @@ class H(BaseHTTPRequestHandler):
    if path=='/api/auth/setup':
     if admin_exists(c):return self.send({'errore':'Account gia configurato'},403)
     d=self.body();user=str(d.get('username','')).strip();password=str(d.get('password',''))
-    if len(user)<3 or len(password)<12 or len(password)>256:return self.send({'errore':'Utente minimo 3 caratteri e password minimo 12'},400)
+    if len(user)<3 or len(password)<10 or len(password)>256:return self.send({'errore':'Utente minimo 3 caratteri e password minimo 10'},400)
     c.execute('INSERT INTO admin_login(id,username,password_hash) VALUES(1,?,?)',(user,password_hash(password)));c.commit();return self.set_session(c)
    if path=='/api/auth/login':
     ip=self.client_address[0]
@@ -127,7 +127,7 @@ class H(BaseHTTPRequestHandler):
     d=self.body();r=c.execute('SELECT password_hash FROM admin_login WHERE id=1').fetchone()
     if not verify_password(str(d.get('old_password','')),r['password_hash']):return self.send({'errore':'Password attuale errata'},403)
     new=str(d.get('new_password',''))
-    if len(new)<12 or len(new)>256:return self.send({'errore':'Nuova password minimo 12 caratteri'},400)
+    if len(new)<10 or len(new)>256:return self.send({'errore':'Nuova password minimo 10 caratteri'},400)
     c.execute('UPDATE admin_login SET password_hash=? WHERE id=1',(password_hash(new),));c.execute('DELETE FROM auth_sessions');c.commit();return self.send({'ok':True})
    if path.startswith('/api/upload/'):
     cid=int(path.split('/')[-1]);length=int(self.headers.get('Content-Length','0'))
