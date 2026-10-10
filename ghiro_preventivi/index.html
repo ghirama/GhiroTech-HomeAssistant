@@ -48,8 +48,17 @@ async function loadChecklistItems(id){let items=await api('checklist-voci/'+id);
 
 // Navigazione mobile: evidenzia la sezione attiva senza alterare i dati.
 document.querySelectorAll('main>nav button').forEach(b=>b.addEventListener('click',()=>{document.querySelectorAll('main>nav button').forEach(x=>x.classList.remove('active'));b.classList.add('active')}));document.querySelector('main>nav button')?.classList.add('active');
-async function logoutGhiro(){await fetch('api/auth/logout',{method:'POST',credentials:'same-origin'});location.reload()}
-async function changeGhiroPassword(event){event.preventDefault();const r=await fetch('api/auth/password',{method:'POST',credentials:'same-origin',headers:{'Content-Type':'application/json'},body:JSON.stringify({old_password:document.getElementById('oldGhiroPassword').value,new_password:document.getElementById('newGhiroPassword').value})});const d=await r.json();document.getElementById('passwordMessage').textContent=r.ok?'Password cambiata. Accedi nuovamente.':d.errore||'Errore';if(r.ok)setTimeout(()=>location.reload(),1000)}
+async function logoutGhiro(){await fetch('api/auth/logout',{method:'POST',credentials:'same-origin'});sessionStorage.removeItem('ghiro_session');location.reload()}
+async function changeGhiroPassword(event){event.preventDefault();const r=await fetch('api/auth/password',{method:'POST',credentials:'same-origin',headers:{'Content-Type':'application/json'},body:JSON.stringify({old_password:document.getElementById('oldGhiroPassword').value,new_password:document.getElementById('newGhiroPassword').value})});const d=await r.json();document.getElementById('passwordMessage').textContent=r.ok?'Password cambiata. Accedi nuovamente.':d.errore||'Errore';if(r.ok){sessionStorage.removeItem('ghiro_session');setTimeout(()=>location.reload(),1000)}}
+const ghiroFetch=window.fetch.bind(window);
+window.fetch=function(url,options){
+ options=options||{};
+ if(String(url).startsWith('api/')){
+  const token=sessionStorage.getItem('ghiro_session');
+  if(token){options={...options,headers:{...Object.fromEntries(new Headers(options.headers||{})), 'X-Ghiro-Session':token}}}
+ }
+ return ghiroFetch(url,options);
+};
 async function authStart(){try{let r=await fetch('api/auth/status',{credentials:'same-origin',cache:'no-store'});let state=await r.json();if(state.authenticated){document.getElementById('authGate').classList.add('hidden');refresh();searchItems();render();renderRooms();return}document.getElementById('authSubtitle').textContent=state.configured?'Accedi al gestionale':'Primo accesso: crea il tuo account amministratore';document.getElementById('authButton').textContent=state.configured?'Accedi':'Crea account';document.getElementById('authPassword').autocomplete=state.configured?'current-password':'new-password';window.ghiroSetup=!state.configured}catch(e){document.getElementById('authError').textContent='Impossibile raggiungere il server. Ricarica la pagina.'}}
-document.getElementById('authForm').addEventListener('submit',async e=>{e.preventDefault();let endpoint=window.ghiroSetup?'setup':'login';let r=await fetch('api/auth/'+endpoint,{method:'POST',credentials:'same-origin',headers:{'Content-Type':'application/json'},body:JSON.stringify({username:document.getElementById('authUsername').value,password:document.getElementById('authPassword').value})});if(r.ok){location.reload()}else{let d=await r.json();document.getElementById('authError').textContent=d.errore||'Accesso non riuscito'}});
+document.getElementById('authForm').addEventListener('submit',async e=>{e.preventDefault();let endpoint=window.ghiroSetup?'setup':'login';let r=await fetch('api/auth/'+endpoint,{method:'POST',credentials:'same-origin',headers:{'Content-Type':'application/json'},body:JSON.stringify({username:document.getElementById('authUsername').value,password:document.getElementById('authPassword').value})});if(r.ok){let result=await r.json();if(result.session_token)sessionStorage.setItem('ghiro_session',result.session_token);location.reload()}else{let d=await r.json();document.getElementById('authError').textContent=d.errore||'Accesso non riuscito'}});
 authStart();</script></html>
