@@ -16,6 +16,9 @@ def init():
  CREATE TABLE IF NOT EXISTS documenti(id INTEGER PRIMARY KEY,cliente_id INTEGER,nome TEXT,path TEXT,caricato TEXT);
  CREATE TABLE IF NOT EXISTS configurazioni_civili(id INTEGER PRIMARY KEY,cliente_id INTEGER,titolo TEXT,stanze_json TEXT,aggiornato TEXT);
  CREATE TABLE IF NOT EXISTS listini(id INTEGER PRIMARY KEY,etichetta TEXT,caricato TEXT,numero_voci INTEGER);
+ CREATE TABLE IF NOT EXISTS impianti_fv(id INTEGER PRIMARY KEY,cliente_id INTEGER,titolo TEXT,pannelli INTEGER DEFAULT 0,watt_pannello REAL DEFAULT 0,inverter_kw REAL DEFAULT 0,batteria_kwh REAL DEFAULT 0,orientamento TEXT DEFAULT '',inclinazione REAL DEFAULT 0,materiali_json TEXT DEFAULT '[]',note TEXT DEFAULT '',aggiornato TEXT);
+ CREATE TABLE IF NOT EXISTS checklist_pratiche(id INTEGER PRIMARY KEY,lavoro_id INTEGER,cliente_id INTEGER,tipo TEXT,titolo TEXT,stato TEXT DEFAULT 'Da preparare',scadenza TEXT DEFAULT '',responsabile TEXT DEFAULT '',note TEXT DEFAULT '',creata TEXT);
+ CREATE TABLE IF NOT EXISTS checklist_voci(id INTEGER PRIMARY KEY,pratica_id INTEGER,titolo TEXT,completata INTEGER DEFAULT 0);
  ''')
  for tab,col,typ in [('preventivi','cliente_id','INTEGER'),('preventivi','sconto_materiale','REAL DEFAULT 0'),('righe','quota_materiale','REAL DEFAULT 0')]:
   if col not in [x[1] for x in c.execute('PRAGMA table_info('+tab+')')]:c.execute('ALTER TABLE '+tab+' ADD COLUMN '+col+' '+typ)
@@ -29,6 +32,10 @@ class H(BaseHTTPRequestHandler):
   u=urlparse(self.path);path=u.path.rstrip('/');c=conn()
   try:
    if path in ('','/'):b=(BASE/'index.html').read_bytes();self.send_response(200);self.send_header('Content-Type','text/html; charset=utf-8');self.end_headers();self.wfile.write(b);return
+   if path=='/api/fotovoltaico':self.send([dict(x) for x in c.execute('SELECT * FROM impianti_fv ORDER BY id DESC')]);return
+   if path=='/api/checklist':self.send([dict(x) for x in c.execute('SELECT * FROM checklist_pratiche ORDER BY id DESC')]);return
+   if path.startswith('/api/checklist-voci/'):
+    pid=int(path.split('/')[-1]);self.send([dict(x) for x in c.execute('SELECT * FROM checklist_voci WHERE pratica_id=? ORDER BY id',(pid,))]);return
    if path=='/api/configurazioni':self.send([dict(x) for x in c.execute('SELECT * FROM configurazioni_civili ORDER BY id DESC')]);return
    if path=='/api/voci':
     q=parse_qs(u.query).get('q',[''])[0];self.send([dict(x) for x in c.execute('SELECT * FROM voci WHERE codice LIKE ? OR descrizione LIKE ? OR dettagli LIKE ? LIMIT 100',('%'+q+'%',)*3)]);return
@@ -68,7 +75,22 @@ class H(BaseHTTPRequestHandler):
      if code and price>=0:valid.append((code,str(r.get('descrizione','')),str(r.get('dettagli','')),str(r.get('unita','')),str(r.get('categoria','')),price,float(r.get('manodopera',0) or 0)))
     c.executemany('INSERT OR REPLACE INTO voci VALUES(?,?,?,?,?,?,?)',valid);c.execute('INSERT INTO listini(etichetta,caricato,numero_voci) VALUES(?,?,?)',(str(data.get('etichetta','Aggiornamento')),datetime.date.today().isoformat(),len(valid)));c.commit();return self.send({'importate':len(valid)})
    d=self.body()
-   if path=='/api/configurazioni':
+   if path=='/api/fotovoltaico':
+    cid=int(d.get('id') or 0);args=(d.get('cliente_id') or None,str(d.get('titolo','Impianto fotovoltaico')),max(0,int(d.get('pannelli') or 0)),max(0,float(d.get('watt_pannello') or 0)),max(0,float(d.get('inverter_kw') or 0)),max(0,float(d.get('batteria_kwh') or 0)),str(d.get('orientamento','')),float(d.get('inclinazione') or 0),json.dumps(d.get('materiali',[]),ensure_ascii=False),str(d.get('note','')),datetime.date.today().isoformat())
+    if cid:
+     c.execute('UPDATE impianti_fv SET cliente_id=?,titolo=?,pannelli=?,watt_pannello=?,inverter_kw=?,batteria_kwh=?,orientamento=?,inclinazione=?,materiali_json=?,note=?,aggiornato=? WHERE id=?',args+(cid,));cur=c.execute('SELECT id FROM impianti_fv WHERE id=?',(cid,))
+    else:cur=c.execute('INSERT INTO impianti_fv(cliente_id,titolo,pannelli,watt_pannello,inverter_kw,batteria_kwh,orientamento,inclinazione,materiali_json,note,aggiornato) VALUES(?,?,?,?,?,?,?,?,?,?,?)',args)
+   elif path=='/api/checklist':
+    template={'Fotovoltaico':['Verificare progetto e documentazione tecnica','Pratica connessione distributore (se applicabile)','Regolamento di esercizio (se richiesto)','Adempimenti GSE (se applicabili)','Dichiarazione di conformita e allegati','Verifiche e collaudo','Consegna documenti al cliente'],'Elettrico':['Verificare obbligo di progetto','Dichiarazione di conformita e allegati','Verifiche finali','Consegna documenti al cliente']}
+    tipo=str(d.get('tipo','Elettrico'));cur=c.execute('INSERT INTO checklist_pratiche(lavoro_id,cliente_id,tipo,titolo,stato,scadenza,responsabile,note,creata) VALUES(?,?,?,?,?,?,?,?,?)',(d.get('lavoro_id') or None,d.get('cliente_id') or None,tipo,str(d.get('titolo','Nuova pratica')),str(d.get('stato','Da preparare')),str(d.get('scadenza','')),str(d.get('responsabile','')),str(d.get('note','')),datetime.date.today().isoformat()))
+    for voce in template.get(tipo,[]):c.execute('INSERT INTO checklist_voci(pratica_id,titolo) VALUES(?,?)',(cur.lastrowid,voce))
+   elif path=='/api/checklist/update':
+    pid=int(d.get('id') or 0);allowed=['titolo','stato','scadenza','responsabile','note','lavoro_id','cliente_id'];fields=[k for k in allowed if k in d];
+    if not fields:return self.send({'errore':'Nessuna modifica'},400)
+    c.execute('UPDATE checklist_pratiche SET '+','.join(k+'=?' for k in fields)+' WHERE id=?',[d[k] for k in fields]+[pid]);c.commit();return self.send({'ok':True})
+   elif path=='/api/checklist/voce':
+    vid=int(d.get('id') or 0);c.execute('UPDATE checklist_voci SET completata=? WHERE id=?',(1 if d.get('completata') else 0,vid));c.commit();return self.send({'ok':True})
+   elif path=='/api/configurazioni':
     cid=d.get('id'); args=(d.get('cliente_id') or None,str(d.get('titolo','')),json.dumps(d.get('stanze',[]),ensure_ascii=False),datetime.date.today().isoformat())
     if cid:
      c.execute('UPDATE configurazioni_civili SET cliente_id=?,titolo=?,stanze_json=?,aggiornato=? WHERE id=?',args+(int(cid),));cur=c.execute('SELECT id FROM configurazioni_civili WHERE id=?',(int(cid),))
