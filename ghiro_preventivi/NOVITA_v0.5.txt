@@ -1,1 +1,0 @@
-v0.5: elenco stanze a discesa, nomi personalizzati, nuovo cliente nel menu con campi sotto. Database persistente in /data.
