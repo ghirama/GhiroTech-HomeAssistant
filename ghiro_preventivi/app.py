@@ -31,6 +31,8 @@ class H(BaseHTTPRequestHandler):
  def do_GET(self):
   u=urlparse(self.path);path=u.path.rstrip('/');c=conn()
   try:
+   if path in ('/manifest.webmanifest','/icon.svg'):
+    name='manifest.webmanifest' if path.endswith('webmanifest') else 'icon.svg';b=(BASE/name).read_bytes();self.send_response(200);self.send_header('Content-Type','application/manifest+json' if name.endswith('webmanifest') else 'image/svg+xml');self.send_header('Cache-Control','public, max-age=3600');self.send_header('Content-Length',str(len(b)));self.end_headers();self.wfile.write(b);return
    if path in ('','/'):b=(BASE/'index.html').read_bytes();self.send_response(200);self.send_header('Content-Type','text/html; charset=utf-8');self.end_headers();self.wfile.write(b);return
    if path=='/api/fotovoltaico':self.send([dict(x) for x in c.execute('SELECT * FROM impianti_fv ORDER BY id DESC')]);return
    if path=='/api/checklist':self.send([dict(x) for x in c.execute('SELECT * FROM checklist_pratiche ORDER BY id DESC')]);return
