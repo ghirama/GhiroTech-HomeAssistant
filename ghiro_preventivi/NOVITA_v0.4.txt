@@ -1,0 +1,1 @@
+Versione 0.4: creazione rapida cliente dal preventivo e dal configuratore civile. Database e documenti in /data conservati. Il collegamento automatico dei punti alle voci EPPAT è ancora da sviluppare. Eseguire un backup prima di aggiornare.
