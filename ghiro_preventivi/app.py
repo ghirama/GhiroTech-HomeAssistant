@@ -28,6 +28,12 @@ def init():
   if col not in [x[1] for x in c.execute('PRAGMA table_info('+tab+')')]:c.execute('ALTER TABLE '+tab+' ADD COLUMN '+col+' '+typ)
  c.commit();c.close()
 init()
+LOGIN_FAILURES={}
+def login_allowed(ip):
+ now=time.time();attempts=[t for t in LOGIN_FAILURES.get(ip,[]) if now-t<900];LOGIN_FAILURES[ip]=attempts
+ return len(attempts)<8
+def login_failed(ip):
+ LOGIN_FAILURES.setdefault(ip,[]).append(time.time())
 def admin_exists(c):
  return c.execute('SELECT 1 FROM admin_login WHERE id=1').fetchone() is not None
 def token_digest(token):
@@ -102,8 +108,12 @@ class H(BaseHTTPRequestHandler):
     if len(user)<3 or len(password)<12 or len(password)>256:return self.send({'errore':'Utente minimo 3 caratteri e password minimo 12'},400)
     c.execute('INSERT INTO admin_login(id,username,password_hash) VALUES(1,?,?)',(user,password_hash(password)));c.commit();return self.set_session(c)
    if path=='/api/auth/login':
+    ip=self.client_address[0]
+    if not login_allowed(ip):return self.send({'errore':'Troppi tentativi: riprova tra 15 minuti'},429)
     d=self.body();r=c.execute('SELECT username,password_hash FROM admin_login WHERE id=1').fetchone()
-    if not r or not hmac.compare_digest(str(d.get('username','')),r['username']) or not verify_password(str(d.get('password','')),r['password_hash']):return self.send({'errore':'Credenziali non valide'},401)
+    if not r or not hmac.compare_digest(str(d.get('username','')),r['username']) or not verify_password(str(d.get('password','')),r['password_hash']):
+     login_failed(ip);return self.send({'errore':'Credenziali non valide'},401)
+    LOGIN_FAILURES.pop(ip,None)
     return self.set_session(c)
    if not self.authenticated(c):return self.send({'errore':'Accesso richiesto'},401)
    if not self.same_origin():return self.send({'errore':'Origine non valida'},403)
