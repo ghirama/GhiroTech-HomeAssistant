@@ -1,14 +1,20 @@
 # Ghiro Tech & Light — Home Assistant
 
-Repository per gli aggiornamenti dell'add-on.
+Repository ufficiale dell'add-on gestionale Ghiro Tech & Light.
+
+## Struttura
+- `repository.yaml`: metadati del repository add-on
+- `ghiro_preventivi/`: codice dell'add-on e listino EPPAT iniziale
+- `.github/workflows/import-addon.yml`: importazione dei futuri pacchetti ZIP
 
 ## Installazione
-1. Caricare nella cartella `ghiro_preventivi/` i file dell'add-on (`config.yaml`, `Dockerfile`, `app.py`, `index.html`, `prezzario.sqlite`).
-2. In Home Assistant aprire **Impostazioni → Componenti aggiuntivi → Negozio → ⋮ → Repository**.
-3. Aggiungere `https://github.com/ghirama/GhiroTech-HomeAssistant`.
-4. Installare l'add-on dal negozio.
+In Home Assistant apri **Impostazioni → Componenti aggiuntivi → Negozio → ⋮ → Repository** e aggiungi:
 
-## Sicurezza
-Non pubblicare database in uso, documenti dei clienti, credenziali o backup. Il `prezzario.sqlite` del pacchetto iniziale contiene il listino, non i dati operativi. I dati operativi restano nella cartella persistente `/data` di Home Assistant.
+`https://github.com/ghirama/GhiroTech-HomeAssistant`
 
-Eseguire un backup prima di ogni aggiornamento. La pubblicazione di una nuova versione su GitHub non la installa automaticamente: Home Assistant deve rilevare e applicare l'aggiornamento.
+Aggiorna il negozio e verifica la presenza dell'add-on. Prima di sostituire un'installazione locale già in uso, esegui un backup e verifica la migrazione dei dati.
+
+## Nuove versioni
+Carica nella cartella principale un file `GhiroTech_HA_Addon_vX.Y.zip` contenente `ghiro_preventivi/`: GitHub Actions lo estrarrà nella cartella corretta. Una volta importato, il file ZIP può essere eliminato per mantenere pulito il repository.
+
+**Importante:** non pubblicare database operativi, documenti clienti, credenziali o backup. I dati dell'applicazione devono restare nella cartella persistente `/data` di Home Assistant. Gli aggiornamenti di Home Assistant non vengono installati automaticamente soltanto perché è cambiato il repository: serve incrementare la versione dell'add-on e configurare l'aggiornamento in Home Assistant.
