@@ -40,6 +40,8 @@ def token_digest(token):
  return hashlib.sha256(token.encode('utf-8')).hexdigest()
 class H(BaseHTTPRequestHandler):
  def authenticated(self,c):
+  supplied=self.headers.get('X-Ghiro-Session','')
+  if len(supplied)==64 and c.execute('SELECT 1 FROM auth_sessions WHERE token_hash=? AND expires>?',(token_digest(supplied),int(time.time()))).fetchone():return True
   raw=self.headers.get('Cookie','')
   cookie=SimpleCookie()
   try:cookie.load(raw)
@@ -59,7 +61,7 @@ class H(BaseHTTPRequestHandler):
   self.send_header('Set-Cookie','ghiro_session='+token+'; HttpOnly; Secure; SameSite=Strict; Path=/; Max-Age=2592000')
   self.send_header('Cache-Control','no-store')
   self.end_headers()
-  self.wfile.write(b'{"ok":true}')
+  self.wfile.write(json.dumps({'ok':True,'session_token':token}).encode('utf-8'))
  def same_origin(self):
   origin=self.headers.get('Origin','')
   host=self.headers.get('Host','')
