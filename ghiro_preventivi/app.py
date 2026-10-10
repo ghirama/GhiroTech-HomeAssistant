@@ -123,6 +123,12 @@ class H(BaseHTTPRequestHandler):
     cookie=SimpleCookie();cookie.load(self.headers.get('Cookie',''));item=cookie.get('ghiro_session')
     if item:c.execute('DELETE FROM auth_sessions WHERE token_hash=?',(token_digest(item.value),));c.commit()
     self.send_response(200);self.send_header('Set-Cookie','ghiro_session=; HttpOnly; Secure; SameSite=Strict; Path=/; Max-Age=0');self.end_headers();return
+   if path=='/api/auth/username':
+    d=self.body();new=str(d.get('new_username','')).strip()
+    if len(new)<3 or len(new)>100:return self.send({'errore':'Nome utente da 3 a 100 caratteri'},400)
+    row=c.execute('SELECT password_hash FROM admin_login WHERE id=1').fetchone()
+    if not row or not verify_password(str(d.get('current_password','')),row['password_hash']):return self.send({'errore':'Password attuale errata'},403)
+    c.execute('UPDATE admin_login SET username=? WHERE id=1',(new,));c.execute('DELETE FROM auth_sessions');c.commit();return self.send({'ok':True})
    if path=='/api/auth/password':
     d=self.body();r=c.execute('SELECT password_hash FROM admin_login WHERE id=1').fetchone()
     if not verify_password(str(d.get('old_password','')),r['password_hash']):return self.send({'errore':'Password attuale errata'},403)
