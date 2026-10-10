@@ -1,4 +1,6 @@
-import sqlite3,json,pathlib,shutil,os,uuid,datetime,html,cgi,io,csv
+import sqlite3,json,pathlib,shutil,os,uuid,datetime,html,cgi,io,csv,secrets,hashlib,hmac,time
+from http.cookies import SimpleCookie
+from auth import password_hash,verify_password
 from http.server import ThreadingHTTPServer,BaseHTTPRequestHandler
 from urllib.parse import urlparse,parse_qs
 BASE=pathlib.Path(__file__).parent
@@ -19,18 +21,55 @@ def init():
  CREATE TABLE IF NOT EXISTS impianti_fv(id INTEGER PRIMARY KEY,cliente_id INTEGER,titolo TEXT,pannelli INTEGER DEFAULT 0,watt_pannello REAL DEFAULT 0,inverter_kw REAL DEFAULT 0,batteria_kwh REAL DEFAULT 0,orientamento TEXT DEFAULT '',inclinazione REAL DEFAULT 0,materiali_json TEXT DEFAULT '[]',note TEXT DEFAULT '',aggiornato TEXT);
  CREATE TABLE IF NOT EXISTS checklist_pratiche(id INTEGER PRIMARY KEY,lavoro_id INTEGER,cliente_id INTEGER,tipo TEXT,titolo TEXT,stato TEXT DEFAULT 'Da preparare',scadenza TEXT DEFAULT '',responsabile TEXT DEFAULT '',note TEXT DEFAULT '',creata TEXT);
  CREATE TABLE IF NOT EXISTS checklist_voci(id INTEGER PRIMARY KEY,pratica_id INTEGER,titolo TEXT,completata INTEGER DEFAULT 0);
+ CREATE TABLE IF NOT EXISTS admin_login(id INTEGER PRIMARY KEY CHECK(id=1),username TEXT NOT NULL,password_hash TEXT NOT NULL);
+ CREATE TABLE IF NOT EXISTS auth_sessions(token_hash TEXT PRIMARY KEY,expires INTEGER NOT NULL);
  ''')
  for tab,col,typ in [('preventivi','cliente_id','INTEGER'),('preventivi','sconto_materiale','REAL DEFAULT 0'),('righe','quota_materiale','REAL DEFAULT 0')]:
   if col not in [x[1] for x in c.execute('PRAGMA table_info('+tab+')')]:c.execute('ALTER TABLE '+tab+' ADD COLUMN '+col+' '+typ)
  c.commit();c.close()
 init()
+def admin_exists(c):
+ return c.execute('SELECT 1 FROM admin_login WHERE id=1').fetchone() is not None
+def token_digest(token):
+ return hashlib.sha256(token.encode('utf-8')).hexdigest()
 class H(BaseHTTPRequestHandler):
+ def authenticated(self,c):
+  raw=self.headers.get('Cookie','')
+  cookie=SimpleCookie()
+  try:cookie.load(raw)
+  except Exception:return False
+  item=cookie.get('ghiro_session')
+  if not item:return False
+  token=item.value
+  if len(token)!=64:return False
+  return c.execute('SELECT 1 FROM auth_sessions WHERE token_hash=? AND expires>?',(token_digest(token),int(time.time()))).fetchone() is not None
+ def set_session(self,c):
+  token=secrets.token_hex(32)
+  c.execute('DELETE FROM auth_sessions WHERE expires<=?',(int(time.time()),))
+  c.execute('INSERT INTO auth_sessions(token_hash,expires) VALUES(?,?)',(token_digest(token),int(time.time())+30*86400))
+  c.commit()
+  self.send_response(200)
+  self.send_header('Content-Type','application/json; charset=utf-8')
+  self.send_header('Set-Cookie','ghiro_session='+token+'; HttpOnly; Secure; SameSite=Strict; Path=/; Max-Age=2592000')
+  self.send_header('Cache-Control','no-store')
+  self.end_headers()
+  self.wfile.write(b'{"ok":true}')
+ def same_origin(self):
+  origin=self.headers.get('Origin','')
+  host=self.headers.get('Host','')
+  if not origin:return True
+  from urllib.parse import urlsplit
+  u=urlsplit(origin)
+  return u.scheme=='https' and u.netloc==host
+
  def send(self,obj,status=200):
   b=json.dumps(obj,ensure_ascii=False).encode();self.send_response(status);self.send_header('Content-Type','application/json; charset=utf-8');self.send_header('Content-Length',str(len(b)));self.end_headers();self.wfile.write(b)
  def body(self):return json.loads(self.rfile.read(int(self.headers.get('Content-Length','0'))))
  def do_GET(self):
   u=urlparse(self.path);path=u.path.rstrip('/');c=conn()
   try:
+   if path=='/api/auth/status':self.send({'configured':admin_exists(c),'authenticated':self.authenticated(c)});return
+   if path not in ('','/','/manifest.webmanifest','/icon.svg') and not self.authenticated(c):return self.send({'errore':'Accesso richiesto'},401)
    if path in ('/manifest.webmanifest','/icon.svg'):
     name='manifest.webmanifest' if path.endswith('webmanifest') else 'icon.svg';b=(BASE/name).read_bytes();self.send_response(200);self.send_header('Content-Type','application/manifest+json' if name.endswith('webmanifest') else 'image/svg+xml');self.send_header('Cache-Control','public, max-age=3600');self.send_header('Content-Length',str(len(b)));self.end_headers();self.wfile.write(b);return
    if path in ('','/'):b=(BASE/'index.html').read_bytes();self.send_response(200);self.send_header('Content-Type','text/html; charset=utf-8');self.end_headers();self.wfile.write(b);return
@@ -57,6 +96,27 @@ class H(BaseHTTPRequestHandler):
  def do_POST(self):
   c=conn();path=urlparse(self.path).path.rstrip('/')
   try:
+   if path=='/api/auth/setup':
+    if admin_exists(c):return self.send({'errore':'Account gia configurato'},403)
+    d=self.body();user=str(d.get('username','')).strip();password=str(d.get('password',''))
+    if len(user)<3 or len(password)<12 or len(password)>256:return self.send({'errore':'Utente minimo 3 caratteri e password minimo 12'},400)
+    c.execute('INSERT INTO admin_login(id,username,password_hash) VALUES(1,?,?)',(user,password_hash(password)));c.commit();return self.set_session(c)
+   if path=='/api/auth/login':
+    d=self.body();r=c.execute('SELECT username,password_hash FROM admin_login WHERE id=1').fetchone()
+    if not r or not hmac.compare_digest(str(d.get('username','')),r['username']) or not verify_password(str(d.get('password','')),r['password_hash']):return self.send({'errore':'Credenziali non valide'},401)
+    return self.set_session(c)
+   if not self.authenticated(c):return self.send({'errore':'Accesso richiesto'},401)
+   if not self.same_origin():return self.send({'errore':'Origine non valida'},403)
+   if path=='/api/auth/logout':
+    cookie=SimpleCookie();cookie.load(self.headers.get('Cookie',''));item=cookie.get('ghiro_session')
+    if item:c.execute('DELETE FROM auth_sessions WHERE token_hash=?',(token_digest(item.value),));c.commit()
+    self.send_response(200);self.send_header('Set-Cookie','ghiro_session=; HttpOnly; Secure; SameSite=Strict; Path=/; Max-Age=0');self.end_headers();return
+   if path=='/api/auth/password':
+    d=self.body();r=c.execute('SELECT password_hash FROM admin_login WHERE id=1').fetchone()
+    if not verify_password(str(d.get('old_password','')),r['password_hash']):return self.send({'errore':'Password attuale errata'},403)
+    new=str(d.get('new_password',''))
+    if len(new)<12 or len(new)>256:return self.send({'errore':'Nuova password minimo 12 caratteri'},400)
+    c.execute('UPDATE admin_login SET password_hash=? WHERE id=1',(password_hash(new),));c.execute('DELETE FROM auth_sessions');c.commit();return self.send({'ok':True})
    if path.startswith('/api/upload/'):
     cid=int(path.split('/')[-1]);length=int(self.headers.get('Content-Length','0'))
     if length>25*1024*1024:return self.send({'errore':'File massimo 25 MB'},413)
