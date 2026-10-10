@@ -1,5 +1,5 @@
 name: "Ghiro Tech Preventivi"
-version: "0.9.3"
+version: "0.9.4"
 slug: "ghiro_preventivi"
 description: "Preventivi elettrici con EPPAT 2026"
 startup: application
