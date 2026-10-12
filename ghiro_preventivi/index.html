@@ -48,4 +48,53 @@ async function loadChecklistItems(id){let items=await api('checklist-voci/'+id);
 
 // Navigazione mobile: evidenzia la sezione attiva senza alterare i dati.
 document.querySelectorAll('main>nav button').forEach(b=>b.addEventListener('click',()=>{document.querySelectorAll('main>nav button').forEach(x=>x.classList.remove('active'));b.classList.add('active')}));document.querySelector('main>nav button')?.classList.add('active');
-refresh();searchItems();render();renderRooms();</script></html>
+refresh();searchItems();render();renderRooms();</script>
+<style>
+.gc-panel{border:1px solid #d6e2e9;border-radius:12px;padding:14px;margin:12px 0;background:#f7fafc}
+.gc-line{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.gc-line label{flex:1;min-width:120px}
+.gc-frame{display:flex;gap:4px;background:#344c5c;padding:9px;border-radius:12px;max-width:480px;margin:10px 0}
+.gc-slot{flex:1;min-width:0;min-height:76px;background:#fff;border:2px solid #e5edf0;border-radius:5px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;color:#163c50;font-size:12px;cursor:pointer}
+.gc-slot.filled{background:#dceff3;border-color:#1688a4}
+.gc-slot:focus{outline:3px solid #f5a623}
+.gc-pill{background:#e7f1f4;border-radius:8px;padding:7px 10px}
+.gc-note{font-size:12px;color:#647c89}
+</style>
+<script>
+/* Compositore scatole: dati nel JSON delle stanze, compatibile con configurazioni precedenti. */
+const gcSeries=['Vimar Plana','Vimar Linea','BTicino Livinglight','BTicino Living Now'];
+const gcTypes={presa:{name:'Presa 10/16 A',m:1,key:'prese10'},schuko:{name:'Presa Schuko',m:2,key:'preseSchuko'},interruttore:{name:'Interruttore',m:1,key:'comandi'},deviatore:{name:'Deviatore',m:1,key:'comandi'},pulsante:{name:'Pulsante',m:1,key:'comandi'},invertitore:{name:'Invertitore',m:1,key:'comandi'},dati:{name:'Presa dati',m:1,key:'dati'},tv:{name:'Presa TV',m:1,key:'tv'},tapparella:{name:'Comando tapparella',m:1,key:'tapparelle'},cieco:{name:'Tappo cieco',m:1,key:null}};
+let gcRoom=0,gcBox=0,gcSelected='presa';
+const gcEscape=s=>esc(String(s??''));
+function gcEnsure(r){if(!Array.isArray(r.scatole))r.scatole=[];if(!gcSeries.includes(r.serie))r.serie=gcSeries[0];return r}
+function gcBoxes(r){return gcEnsure(r).scatole}
+function gcAddBox(i){const r=rooms[i];gcBoxes(r).push({moduli:3,frutti:[],nome:'Scatola '+(r.scatole.length+1)});gcRoom=i;gcBox=r.scatole.length-1;gcDraw()}
+function gcRemoveBox(i,j){if(!confirm('Eliminare questa scatola?'))return;gcBoxes(rooms[i]).splice(j,1);gcBox=Math.max(0,Math.min(gcBox,rooms[i].scatole.length-1));gcDraw()}
+function gcCloneBox(i,j){let r=rooms[i];let b=gcBoxes(r)[j];r.scatole.push(JSON.parse(JSON.stringify(b)));r.scatole[r.scatole.length-1].nome=b.nome+' (copia)';gcRoom=i;gcBox=r.scatole.length-1;gcDraw()}
+function gcUpdateBox(i,j,k,v){let b=gcBoxes(rooms[i])[j];if(k==='moduli'){const n=Number(v);if(b.frutti.reduce((a,x)=>a+(gcTypes[x]?.m||0),0)>n){alert('Rimuovi prima i frutti che superano la capienza.');gcDraw();return}b.moduli=n}else b[k]=v;gcDraw()}
+function gcSetSeries(i,v){rooms[i].serie=v;gcDraw()}
+function gcPut(i,j,pos){let b=gcBoxes(rooms[i])[j],t=gcTypes[gcSelected];if(!t)return;let occupied=b.frutti.reduce((a,x)=>a+gcTypes[x].m,0);if(occupied+t.m>b.moduli){alert('Spazio insufficiente: scegli una scatola più grande o rimuovi un frutto.');return}b.frutti.splice(Math.min(pos,b.frutti.length),0,gcSelected);gcDraw()}
+function gcDeleteFruit(i,j,k){gcBoxes(rooms[i])[j].frutti.splice(k,1);gcDraw()}
+function gcDraw(){
+ const root=document.getElementById('gcComposer');if(!root)return;
+ root.innerHTML=rooms.map((r,i)=>{let boxes=gcBoxes(r);return '<div class="gc-panel"><h3>'+gcEscape(r.nome)+' · Scatole</h3><div class="gc-line"><label>Serie civile<select onchange="gcSetSeries('+i+',this.value)">'+gcSeries.map(s=>'<option '+(s===r.serie?'selected':'')+'>'+gcEscape(s)+'</option>').join('')+'</select></label><button onclick="gcAddBox('+i+')">+ Scatola</button></div>'+boxes.map((b,j)=>{let used=b.frutti.reduce((a,x)=>a+gcTypes[x].m,0);let slots=b.frutti.map((x,k)=>'<button type="button" class="gc-slot filled" style="flex:'+gcTypes[x].m+'" onclick="gcDeleteFruit('+i+','+j+','+k+')" title="Tocca per rimuovere"><b>'+gcEscape(gcTypes[x].name)+'</b><small>'+gcTypes[x].m+'M ×</small></button>').join('');for(let n=used;n<b.moduli;n++)slots+='<button type="button" class="gc-slot" onclick="gcPut('+i+','+j+','+b.frutti.length+')" title="Inserisci frutto">+<small>Libero</small></button>';return '<div class="card"><div class="gc-line"><label>Nome<input value="'+gcEscape(b.nome)+'" onchange="gcUpdateBox('+i+','+j+',\'nome\',this.value)"></label><label>Scatola<select onchange="gcUpdateBox('+i+','+j+',\'moduli\',this.value)">'+[3,4,6,7].map(n=>'<option value="'+n+'" '+(n===b.moduli?'selected':'')+'>'+({3:'503',4:'504',6:'506',7:'507'}[n])+'</option>').join('')+'</select></label></div><div class="gc-frame">'+slots+'</div><div class="gc-line"><span class="gc-pill">'+used+'/'+b.moduli+' moduli</span><button class="secondary" onclick="gcCloneBox('+i+','+j+')">Duplica</button><button class="secondary" onclick="gcRemoveBox('+i+','+j+')">Elimina</button></div></div>'}).join('')+'</div>'}).join('')||'<p class="muted">Aggiungi prima una stanza.</p>';
+ gcSummary();
+}
+function gcSummary(){let total=0,counts={};rooms.forEach(r=>gcBoxes(r).forEach(b=>{total++;b.frutti.forEach(x=>counts[x]=(counts[x]||0)+1)}));document.getElementById('gcSummary').textContent=total+' scatole · '+Object.entries(counts).map(([k,v])=>gcTypes[k].name+': '+v).join(' · ')}
+function gcQuote(){
+ if(!rooms.some(r=>gcBoxes(r).length))return alert('Aggiungi almeno una scatola.');
+ let entries=[];rooms.forEach(r=>gcBoxes(r).forEach(b=>{
+  entries.push({codice:'SCAT-'+b.moduli,descrizione:r.nome+' — '+r.serie+' — Scatola '+b.moduli+' moduli, supporto e placca (da verificare)',unita:'cad',prezzo:0,quantita:1,quota_materiale:100});
+  b.frutti.forEach(x=>entries.push({codice:'FR-'+x,descrizione:r.nome+' — '+r.serie+' — '+gcTypes[x].name+' (codice articolo da associare)',unita:'cad',prezzo:0,quantita:1,quota_materiale:100}));
+ }));
+ let grouped=new Map();entries.forEach(x=>{let k=x.codice+'|'+x.descrizione;let y=grouped.get(k);if(y)y.quantita++;else grouped.set(k,x)});
+ lines=[...lines,...grouped.values()];show('preventivi');$('quoteClient').value=$('cfgClient').value;$('tipo').value='Civile';$('quoteTitle').value=$('cfgTitle').value;render();alert('Distinta scatole aggiunta al preventivo. Prezzi a zero finché non sono associati i listini ufficiali. Verifica supporti, placche e ingombri effettivi.');
+}
+(function gcInit(){
+ const container=document.createElement('div');container.innerHTML='<h3>Compositore grafico scatole</h3><p class="muted">Scegli un frutto, poi tocca uno spazio libero. Tocca un frutto inserito per rimuoverlo. L’ingombro è indicativo: verificare il catalogo del produttore prima dell’ordine.</p><label>Frutto da inserire<select id="gcFruit" onchange="gcSelected=this.value">'+Object.entries(gcTypes).map(([k,v])=>'<option value="'+k+'">'+gcEscape(v.name)+' ('+v.m+' moduli indicativi)</option>').join('')+'</select></label><div id="gcComposer"></div><p id="gcSummary" class="muted"></p><button onclick="gcQuote()">Aggiungi scatole al preventivo</button><p class="gc-note">Listini ufficiali e codici articolo non ancora importati. Non sostituisce la verifica tecnica di compatibilità.</p>';
+ const roomCards=document.getElementById('roomCards');roomCards.insertAdjacentElement('afterend',container);
+ const oldRender=renderRooms;renderRooms=function(){oldRender();gcDraw()};
+ gcDraw();
+})();
+</script>
+</html>
