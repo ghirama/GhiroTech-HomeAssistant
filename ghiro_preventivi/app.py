@@ -116,8 +116,29 @@ class H(BaseHTTPRequestHandler):
      c.execute('UPDATE configurazioni_civili SET cliente_id=?,titolo=?,stanze_json=?,aggiornato=? WHERE id=?',args+(int(cid),));cur=c.execute('SELECT id FROM configurazioni_civili WHERE id=?',(int(cid),))
     else:cur=c.execute('INSERT INTO configurazioni_civili(cliente_id,titolo,stanze_json,aggiornato) VALUES(?,?,?,?)',args)
    elif path=='/api/preventivi':
-    cur=c.execute('INSERT INTO preventivi(cliente,titolo,ricarico,iva,cliente_id,sconto_materiale) VALUES(?,?,?,?,?,?)',(d.get('cliente',''),d.get('titolo',''),float(d.get('ricarico',0)),float(d.get('iva',22)),d.get('cliente_id') or None,float(d.get('sconto_materiale',0))))
-    for r in d.get('righe',[]):c.execute('INSERT INTO righe(preventivo_id,codice,descrizione,unita,quantita,prezzo,quota_materiale) VALUES(?,?,?,?,?,?,?)',(cur.lastrowid,r.get('codice',''),r.get('descrizione',''),r.get('unita',''),float(r.get('quantita',1)),float(r.get('prezzo',0)),float(r.get('quota_materiale',0))))
+    import math
+    def number(v):
+     x=float(v)
+     if not math.isfinite(x) or x<0:raise ValueError('Valore numerico non valido')
+     return x
+    rows=d.get('righe',[])
+    if not isinstance(rows,list) or len(rows)>5000:raise ValueError('Righe non valide')
+    vals=[]
+    for r in rows:
+     material=number(r.get('quota_materiale',0))
+     if material>100:raise ValueError('Quota materiale oltre 100%')
+     vals.append((str(r.get('codice','')),str(r.get('descrizione','')),str(r.get('unita','')),number(r.get('quantita',1)),number(r.get('prezzo',0)),material))
+    discount=number(d.get('sconto_materiale',0))
+    if discount>100:raise ValueError('Sconto oltre 100%')
+    args=(str(d.get('cliente','')),str(d.get('titolo','')),number(d.get('ricarico',0)),number(d.get('iva',22)),d.get('cliente_id') or None,discount)
+    pid=int(d.get('id') or 0)
+    if pid:
+     if not c.execute('SELECT id FROM preventivi WHERE id=?',(pid,)).fetchone():return self.send({'errore':'Preventivo non trovato'},404)
+     c.execute('UPDATE preventivi SET cliente=?,titolo=?,ricarico=?,iva=?,cliente_id=?,sconto_materiale=? WHERE id=?',args+(pid,))
+     c.execute('DELETE FROM righe WHERE preventivo_id=?',(pid,))
+    else:pid=c.execute('INSERT INTO preventivi(cliente,titolo,ricarico,iva,cliente_id,sconto_materiale) VALUES(?,?,?,?,?,?)',args).lastrowid
+    c.executemany('INSERT INTO righe(preventivo_id,codice,descrizione,unita,quantita,prezzo,quota_materiale) VALUES(?,?,?,?,?,?,?)',[(pid,)+r for r in vals])
+    c.commit();return self.send({'id':pid})
    elif path in ('/api/clienti','/api/lavori','/api/pratiche'):
     t=path.split('/')[-1];cols={'clienti':['nome','telefono','email','indirizzo','note'],'lavori':['cliente_id','titolo','tipo','stato','note'],'pratiche':['cliente_id','lavoro_id','titolo','stato','scadenza','note']}[t]
     cur=c.execute('INSERT INTO '+t+'('+','.join(cols)+') VALUES('+','.join('?' for _ in cols)+')',tuple(d.get(k) or None for k in cols))
