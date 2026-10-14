@@ -26,7 +26,15 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
+      - name: Installa il motore PDF per i test
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y poppler-utils
       - name: Verifica JavaScript delle pagine
         run: node tools/check_frontend.mjs
       - name: Verifica Python e salvataggi su dati temporanei
         run: python -m unittest discover -s tests -v
+      - name: Costruisci l’immagine add-on e verifica il supporto PDF
+        run: |
+          docker build -t ghiro-pdf-test ./ghiro_preventivi
+          docker run --rm --entrypoint python3 -v "${{ github.workspace }}/tests/fixtures:/fixtures:ro" ghiro-pdf-test -c "import base64,tempfile,pathlib; from pdf_plan import import_pdf; folder=tempfile.TemporaryDirectory(); result=import_pdf(folder.name,'prova.pdf',base64.b64encode(pathlib.Path('/fixtures/planimetria.pdf').read_bytes()).decode()); assert result['pagine']==2; print('PDF conversion OK'); folder.cleanup()"

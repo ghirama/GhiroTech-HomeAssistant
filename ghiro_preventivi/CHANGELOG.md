@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.9.14
+
+- Planimetrie PDF come sfondo dell’editor, oltre alle immagini già supportate.
+- Selezione della pagina per PDF multipagina; PDF originale conservato e scaricabile.
+- Prese, luci e altri punti salvati separatamente dallo sfondo e ripristinati alla riapertura del progetto.
+- Conversione locale con Poppler, senza inviare il PDF a servizi esterni. File massimo 10 MB e 100 pagine.
+- Nuove anteprime con proporzioni della pagina, per mantenere l’allineamento dei punti. Le planimetrie JPG/PNG esistenti conservano il comportamento precedente.
+
+La pagina scelta vale per tutto il progetto. Cambiando pagina o sfondo, i punti restano presenti e la loro posizione va verificata. I DWG non sono supportati in questa versione.
+
 ## 0.9.13
 
 - Corretto un errore nello script che impediva l’avvio dell’editor e il salvataggio dei progetti.
