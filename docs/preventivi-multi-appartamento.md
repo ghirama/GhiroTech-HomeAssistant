@@ -16,4 +16,4 @@ La stampa cliente riprende logo, intestazione e palette Digital Aqua Blue della 
 - `node tools/check_apartments.mjs`
 - `python3 -m unittest discover -s tests -p test_saving.py`
 
-La versione dell'add-on non è incrementata: modifiche da rilasciare dopo verifica in Home Assistant. Il test JavaScript usa un adattatore DOM; la verifica visiva di stampa e l'interazione su iPad/Ingress restano da eseguire in un browser reale.
+Versione add-on: 0.9.15. Il test JavaScript usa un adattatore DOM; `tools/check_browser.cjs` verifica anche le interazioni in Chromium, la stampa multipagina e il layout tablet, usando un database temporaneo e il server di prova isolato `tools/browser_test_server.py`. Gli artefatti di GitHub Actions permettono di controllare le schermate e i PDF prodotti. L’installazione Home Assistant reale non è accessibile da questa procedura: l’aggiornamento si installa dal negozio add-on.
