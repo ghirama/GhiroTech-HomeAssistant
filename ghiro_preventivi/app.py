@@ -145,7 +145,7 @@ class H(BaseHTTPRequestHandler):
     t=path.split('/')[-1];cols={'clienti':['nome','telefono','email','indirizzo','note'],'lavori':['cliente_id','titolo','tipo','stato','note'],'pratiche':['cliente_id','lavoro_id','titolo','stato','scadenza','note']}[t]
     cur=c.execute('INSERT INTO '+t+'('+','.join(cols)+') VALUES('+','.join('?' for _ in cols)+')',tuple(d.get(k) or None for k in cols))
    else:return self.send({'errore':'non trovato'},404)
-   c.commit();self.send({'id':cur.lastrowid})
+   c.commit();self.send({'id':int(cid) if path=='/api/configurazioni' and cid else cur.lastrowid})
   except Exception as e:self.send({'errore':str(e)},400)
   finally:c.close()
 if __name__=='__main__':ThreadingHTTPServer(('0.0.0.0',8765),H).serve_forever()
