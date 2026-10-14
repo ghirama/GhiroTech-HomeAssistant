@@ -1,0 +1,2 @@
+# Workstation-only Excel extraction; the add-on itself uses the standard library.
+openpyxl>=3.1,<4
