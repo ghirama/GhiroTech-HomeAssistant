@@ -1,4 +1,5 @@
 import sqlite3,json,pathlib,shutil,os,uuid,datetime,html,cgi,io,csv,secrets,hashlib,hmac,time
+from price_import import initialize_catalog, import_catalog
 from http.server import ThreadingHTTPServer,BaseHTTPRequestHandler
 from urllib.parse import urlparse,parse_qs
 BASE=pathlib.Path(__file__).parent
@@ -24,6 +25,7 @@ def init():
  ''')
  for tab,col,typ in [('preventivi','cliente_id','INTEGER'),('preventivi','sconto_materiale','REAL DEFAULT 0'),('righe','quota_materiale','REAL DEFAULT 0')]:
   if col not in [x[1] for x in c.execute('PRAGMA table_info('+tab+')')]:c.execute('ALTER TABLE '+tab+' ADD COLUMN '+col+' '+typ)
+ initialize_catalog(c)
  c.commit();c.close()
 init()
 class H(BaseHTTPRequestHandler):
@@ -87,15 +89,11 @@ class H(BaseHTTPRequestHandler):
     if not parts:return self.send({'errore':'File mancante'},400)
     part=parts[0];name=pathlib.Path(part.get_filename()).name;data=part.get_payload(decode=True);folder=DOCS/str(cid);folder.mkdir(exist_ok=True);stored=uuid.uuid4().hex+'_'+name;(folder/stored).write_bytes(data)
     c.execute('INSERT INTO documenti(cliente_id,nome,path,caricato) VALUES(?,?,?,?)',(cid,name,str(cid)+'/'+stored,datetime.date.today().isoformat()));c.commit();return self.send({'ok':True})
-   if path=='/api/listino/import':
-    # Accept JSON array exported as CSV rows; keeps historic quote prices unchanged.
-    data=self.body();rows=data.get('voci',[])
-    if not rows or len(rows)>100000:return self.send({'errore':'Elenco voci non valido'},400)
-    valid=[]
-    for r in rows:
-     code=str(r.get('codice','')).strip();price=float(str(r.get('prezzo',0)).replace(',','.'))
-     if code and price>=0:valid.append((code,str(r.get('descrizione','')),str(r.get('dettagli','')),str(r.get('unita','')),str(r.get('categoria','')),price,float(r.get('manodopera',0) or 0)))
-    c.executemany('INSERT OR REPLACE INTO voci VALUES(?,?,?,?,?,?,?)',valid);c.execute('INSERT INTO listini(etichetta,caricato,numero_voci) VALUES(?,?,?)',(str(data.get('etichetta','Aggiornamento')),datetime.date.today().isoformat(),len(valid)));c.commit();return self.send({'importate':len(valid)})
+   if path in ('/api/listino/import','/api/listino/preview'):
+    length=int(self.headers.get('Content-Length','0'))
+    if length<=0 or length>20*1024*1024:return self.send({'errore':'File massimo 20 MB'},413)
+    data=self.body()
+    return self.send(import_catalog(c,data,DATA/'backup_listini',preview=path.endswith('/preview')))
    d=self.body()
    if path=='/api/fotovoltaico':
     cid=int(d.get('id') or 0);args=(d.get('cliente_id') or None,str(d.get('titolo','Impianto fotovoltaico')),max(0,int(d.get('pannelli') or 0)),max(0,float(d.get('watt_pannello') or 0)),max(0,float(d.get('inverter_kw') or 0)),max(0,float(d.get('batteria_kwh') or 0)),str(d.get('orientamento','')),float(d.get('inclinazione') or 0),json.dumps(d.get('materiali',[]),ensure_ascii=False),str(d.get('note','')),datetime.date.today().isoformat())
