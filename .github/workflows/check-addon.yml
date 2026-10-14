@@ -1,0 +1,32 @@
+name: Verifica add-on
+on:
+  pull_request:
+    paths:
+      - 'ghiro_preventivi/**'
+      - 'tests/**'
+      - 'tools/**'
+      - '.github/workflows/check-addon.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'ghiro_preventivi/**'
+      - 'tests/**'
+      - 'tools/**'
+      - '.github/workflows/check-addon.yml'
+permissions:
+  contents: read
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Verifica JavaScript delle pagine
+        run: node tools/check_frontend.mjs
+      - name: Verifica Python e salvataggi su dati temporanei
+        run: python -m unittest discover -s tests -v
