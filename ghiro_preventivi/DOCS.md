@@ -1,10 +1,10 @@
-# Ghiro Tech Preventivi 0.9.13
+# Ghiro Tech Preventivi 0.9.14
 
 ## Aggiornamento da Home Assistant
 
 1. Crea un backup completo dell’add-on da Home Assistant.
 2. Nel negozio delle app verifica gli aggiornamenti del repository GhiroTech-HomeAssistant.
-3. Aggiorna Ghiro Tech Preventivi alla versione 0.9.13 e riavvia l’add-on.
+3. Aggiorna Ghiro Tech Preventivi alla versione 0.9.14 e riavvia l’add-on.
 4. Aprilo dalla barra laterale di Home Assistant e controlla un preventivo già salvato.
 
 Il database persistente e i documenti restano in `/data`. Non disinstallare l’add-on per aggiornarlo. Non sostituire manualmente il database operativo con quello incluso nel pacchetto.
@@ -26,3 +26,15 @@ I prezzi dei produttori non comprendono automaticamente gli sconti dei tuoi forn
 Crea un progetto di prova nell’editor, aggiungi una stanza e un punto, premi Salva e verifica il messaggio Progetto salvato. Ricarica la pagina e scegli la stanza: il titolo, le stanze e i punti devono essere presenti. Le configurazioni civili senza planimetria si aprono dal configuratore impianto civile.
 
 Crea un preventivo di prova selezionando un cliente e una voce, premi Salva preventivo, ricarica e aprilo da Preventivi archiviati. Verifica cliente, quantità e prezzo. Un errore viene mostrato nella pagina; se il salvataggio riesce ma l’elenco non si aggiorna, il messaggio distingue i due casi.
+
+## PDF come sfondo della planimetria
+
+Nell’editor scegli un PDF da Planimetria JPG/PNG o PDF e attendi l’anteprima. Il file può avere fino a 100 pagine e pesare al massimo 10 MB. Se contiene più pagine, seleziona quella desiderata e premi Usa pagina scelta. La pagina scelta è lo sfondo di tutto il progetto.
+
+Aggiungi prese, punti luce e altri simboli come sulle immagini, quindi premi Salva. Dopo aver ricaricato la pagina, il progetto mantiene il PDF, la pagina scelta e i punti. Il PDF originale resta disponibile tramite Scarica PDF originale.
+
+Il PDF viene conservato nella cartella persistente `/data/planimetrie`; le anteprime vengono generate localmente con Poppler. Nessun documento viene inviato a servizi esterni. Per conservare anche gli originali PDF usa il backup completo Home Assistant: il solo backup SQLite non contiene questi file.
+
+Cambiare pagina o sfondo conserva i punti già inseriti; verifica che corrispondano alla nuova planimetria. Il gestionale non modifica il PDF originale e non esegue un riconoscimento automatico delle stanze o degli impianti.
+
+PDF danneggiati o protetti da password mostrano un errore senza sostituire lo sfondo precedente. Esporta una copia leggibile dal programma che ha generato il documento. Il formato DWG è escluso da questa versione.

@@ -1,5 +1,6 @@
 import sqlite3,json,pathlib,shutil,os,uuid,datetime,html,cgi,io,csv,secrets,hashlib,hmac,time
 from price_import import initialize_catalog, import_catalog
+from pdf_plan import import_pdf, preview as pdf_preview, directory as pdf_directory
 from http.server import ThreadingHTTPServer,BaseHTTPRequestHandler
 from urllib.parse import urlparse,parse_qs
 BASE=pathlib.Path(__file__).parent
@@ -7,6 +8,7 @@ DATA=pathlib.Path('/data') if pathlib.Path('/data').is_dir() else BASE
 DB=DATA/'prezzario.sqlite'
 if not DB.exists():shutil.copy2(BASE/'prezzario.sqlite',DB)
 DOCS=DATA/'documenti';DOCS.mkdir(exist_ok=True)
+PLANS=DATA/'planimetrie'
 def conn():
  c=sqlite3.connect(DB);c.row_factory=sqlite3.Row;return c
 def init():
@@ -53,6 +55,14 @@ class H(BaseHTTPRequestHandler):
    if path in ('/manifest.webmanifest','/icon.svg'):
     name='manifest.webmanifest' if path.endswith('webmanifest') else 'icon.svg';b=(BASE/name).read_bytes();self.send_response(200);self.send_header('Content-Type','application/manifest+json' if name.endswith('webmanifest') else 'image/svg+xml');self.send_header('Cache-Control','public, max-age=3600');self.send_header('Content-Length',str(len(b)));self.end_headers();self.wfile.write(b);return
    if path in ('','/'):b=(BASE/'index.html').read_bytes();self.send_response(200);self.send_header('Content-Type','text/html; charset=utf-8');self.end_headers();self.wfile.write(b);return
+   if path.startswith('/api/planimetrie/'):
+    parts=path.split('/')
+    if len(parts)==6 and parts[4]=='pagina':
+     meta=pdf_preview(PLANS,parts[3],int(parts[5]));file=pdf_directory(PLANS,parts[3])/('pagina-%d.jpg'%meta['pagina']);content_type='image/jpeg'
+    elif len(parts)==5 and parts[4]=='originale':
+     file=pdf_directory(PLANS,parts[3])/'originale.pdf';content_type='application/pdf'
+    else:return self.send({'errore':'non trovato'},404)
+    b=file.read_bytes();self.send_response(200);self.send_header('Content-Type',content_type);self.send_header('Content-Length',str(len(b)));self.send_header('Cache-Control','private, max-age=86400');self.send_header('X-Content-Type-Options','nosniff');self.end_headers();self.wfile.write(b);return
    if path=='/api/fotovoltaico':self.send([dict(x) for x in c.execute('SELECT * FROM impianti_fv ORDER BY id DESC')]);return
    if path=='/api/checklist':self.send([dict(x) for x in c.execute('SELECT * FROM checklist_pratiche ORDER BY id DESC')]);return
    if path.startswith('/api/checklist-voci/'):
@@ -89,6 +99,13 @@ class H(BaseHTTPRequestHandler):
   try:
    if path.startswith('/api/auth/'):return self.send({'errore':'non trovato'},404)
    if not self.same_origin():return self.send({'errore':'Origine non valida'},403)
+   if path in ('/api/planimetrie/import','/api/planimetrie/pagina'):
+    length=int(self.headers.get('Content-Length','0'))
+    if not 0<length<=15*1024*1024:return self.send({'errore':'PDF massimo 10 MB'},413)
+    payload=self.body()
+    if path.endswith('/import'):
+     return self.send(import_pdf(PLANS,payload.get('nome'),payload.get('contenuto')))
+    return self.send(pdf_preview(PLANS,payload.get('id'),payload.get('pagina')))
    if path.startswith('/api/upload/'):
     cid=int(path.split('/')[-1]);length=int(self.headers.get('Content-Length','0'))
     if length>25*1024*1024:return self.send({'errore':'File massimo 25 MB'},413)
