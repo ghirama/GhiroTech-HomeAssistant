@@ -38,7 +38,7 @@ class H(BaseHTTPRequestHandler):
   if not origin:return True
   from urllib.parse import urlsplit
   u=urlsplit(origin)
-  return u.scheme=='https' and u.netloc==host
+  return u.scheme in ('http','https') and u.netloc.lower()==host.lower() and not u.username and not u.password and not u.path and not u.query and not u.fragment
 
  def send(self,obj,status=200):
   b=json.dumps(obj,ensure_ascii=False).encode();self.send_response(status);self.send_header('Content-Type','application/json; charset=utf-8');self.send_header('Content-Length',str(len(b)));self.end_headers();self.wfile.write(b)
@@ -121,7 +121,12 @@ class H(BaseHTTPRequestHandler):
    elif path=='/api/checklist/voce':
     vid=int(d.get('id') or 0);c.execute('UPDATE checklist_voci SET completata=? WHERE id=?',(1 if d.get('completata') else 0,vid));c.commit();return self.send({'ok':True})
    elif path=='/api/configurazioni':
-    cid=d.get('id'); args=(d.get('cliente_id') or None,str(d.get('titolo','')),json.dumps(d.get('stanze',[]),ensure_ascii=False),datetime.date.today().isoformat())
+    cid=d.get('id');existing=None
+    if cid:
+     existing=c.execute('SELECT cliente_id FROM configurazioni_civili WHERE id=?',(int(cid),)).fetchone()
+     if not existing:return self.send({'errore':'Progetto non trovato: salva come nuovo progetto'},404)
+    client=d.get('cliente_id') if 'cliente_id' in d else (existing['cliente_id'] if existing else None)
+    args=(client or None,str(d.get('titolo','')),json.dumps(d.get('stanze',[]),ensure_ascii=False),datetime.date.today().isoformat())
     if cid:
      c.execute('UPDATE configurazioni_civili SET cliente_id=?,titolo=?,stanze_json=?,aggiornato=? WHERE id=?',args+(int(cid),));cur=c.execute('SELECT id FROM configurazioni_civili WHERE id=?',(int(cid),))
     else:cur=c.execute('INSERT INTO configurazioni_civili(cliente_id,titolo,stanze_json,aggiornato) VALUES(?,?,?,?)',args)

@@ -1,5 +1,16 @@
 # Changelog
 
+## 0.9.13
+
+- Corretto un errore nello script che impediva l’avvio dell’editor e il salvataggio dei progetti.
+- Collegati i pulsanti Nuovo progetto, Stanza, Inserisci punto ed Elimina alle rispettive azioni, indipendentemente dall’ordine nella pagina.
+- Salvataggi consentiti anche quando Home Assistant è aperto in HTTP sullo stesso indirizzo; restano bloccati accessi diretti fuori Ingress e richieste di altre origini.
+- Errori di salvataggio dei preventivi e delle configurazioni mostrati nella pagina, con protezione dai doppi invii.
+- Progetto selezionato correttamente dopo la riapertura; configurazioni civili riconoscibili nel menu senza bloccare l’editor.
+- Aggiornare una planimetria conserva il cliente collegato; un progetto inesistente non viene segnalato come salvato.
+
+Verificati otto test automatici, salvataggio/riapertura da browser in HTTP e persistenza dopo riavvio su dati temporanei. Il database operativo resta in `/data`.
+
 ## 0.9.12
 
 - Importazione listini CSV e JSON con anteprima e conferma.
