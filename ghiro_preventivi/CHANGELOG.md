@@ -1,5 +1,16 @@
 # Changelog
 
+## 0.9.15
+
+- Più appartamenti nello stesso preventivo, con stanze e scatole separate.
+- Parti comuni gestite come un normale appartamento, con le stesse funzioni.
+- Duplicazione indipendente degli appartamenti e note per singola scatola.
+- Planimetrie e punti distinti per appartamento nell’editor grafico.
+- Subtotali per appartamento e parti comuni nella stampa e nel riepilogo generale.
+- Stampa cliente con logo, intestazione e colori Digital Aqua Blue.
+- Appartamenti conservati nel salvataggio e nell’import/export JSON dei preventivi; configurazioni esistenti ricondotte ad Appartamento 1.
+
+
 ## 0.9.14
 
 - Planimetrie PDF come sfondo dell’editor, oltre alle immagini già supportate.

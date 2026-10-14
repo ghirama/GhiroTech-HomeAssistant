@@ -31,9 +31,26 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y poppler-utils
       - name: Verifica JavaScript delle pagine
-        run: node tools/check_frontend.mjs
+        run: |
+          node tools/check_frontend.mjs
+          node tools/check_apartments.mjs
       - name: Verifica Python e salvataggi su dati temporanei
         run: python -m unittest discover -s tests -v
+      - name: Prepara Chromium per le verifiche browser
+        run: |
+          npm install --prefix /tmp/ghiro-browser playwright@1.51.1 --no-audit --no-fund
+          /tmp/ghiro-browser/node_modules/.bin/playwright install --with-deps chromium
+      - name: Verifica configuratore, editor e stampa nel browser
+        env:
+          GHIRO_PLAYWRIGHT: /tmp/ghiro-browser/node_modules/playwright
+        run: node tools/check_browser.cjs
+      - name: Conserva le anteprime della verifica
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: browser-verification
+          path: browser-artifacts/
+          if-no-files-found: ignore
       - name: Costruisci l’immagine add-on e verifica il supporto PDF
         run: |
           docker build -t ghiro-pdf-test ./ghiro_preventivi
