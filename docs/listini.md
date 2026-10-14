@@ -1,6 +1,6 @@
 # Listini: verifica e importazione
 
-La proposta mantiene la versione 0.9.11 e la configurazione Ingress. Non è un aggiornamento già installato su Home Assistant.
+La versione 0.9.12 mantiene la configurazione Ingress. Il rilascio nel repository non aggiorna automaticamente l’installazione Home Assistant.
 
 ## Fonti disponibili al 14 ottobre 2026
 
