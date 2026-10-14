@@ -2,14 +2,11 @@
 
 La proposta mantiene la versione 0.9.11 e la configurazione Ingress. Non è un aggiornamento già installato su Home Assistant.
 
-## Inventario al 14 ottobre 2026
+## Fonti disponibili al 14 ottobre 2026
 
-- Database iniziale: 3.831 voci; il repository le descrive come EPPAT 2026. Non sono presenti file originali o impronte che consentano di verificare completezza ed edizione. Non sovrascrivere questa base senza confronto con l'originale.
-- Trentino: fonte ufficiale https://contrattipubblici.provincia.tn.it/Servizi/Elenco-Prezzi-P.A.T/ e portale https://www.elencoprezzi2026.provincia.tn.it/ . Il portale 2026 non ha risposto durante la verifica. Serve l'Excel originale per verificare copertura e prezzi, inclusi lavori compiuti, materiali e impianti.
-- Vimar / Elvox: listino 28.00, 1 giugno 2026; Excel e Metel richiedono registrazione. https://www.vimar.com/it/it/listino-e-catalogo-26-00-del-01-06-2025-4100122.html
-- BTicino: listino 1 aprile 2026; Excel e Metel da MyBTicino. https://professionisti.bticino.it/novita/listino-prezzi-1-aprile-2026
-- Fotovoltaico: mancano listini verificati di moduli, inverter, accumuli, strutture, protezioni e accessori; chiedere marchi, fornitore, data e prezzi netti o pubblici.
-- Materiali e domotica: richiedere listini dei grossisti e condizioni commerciali. La presenza di Vimar e BTicino non prova la copertura di ogni famiglia.
+Sono disponibili gli Excel originali EPPAT 2026, Vimar 28.00 e BTicino 2126 RR forniti dall'utente. L'inventario verificato e i conteggi sono riportati sotto. Le fonti ufficiali sono https://contrattipubblici.provincia.tn.it/Servizi/Elenco-Prezzi-P.A.T. , https://www.vimar.com/it/it/listino-e-catalogo-26-00-del-01-06-2025-4100122.html e https://professionisti.bticino.it/novita/listino-prezzi-1-aprile-2026 . L'Excel BTicino fornito contiene una variazione successiva, documentata nella TESTATA.
+
+Mancano i listini dei fornitori per fotovoltaico, le condizioni di acquisto e gli sconti effettivi. La presenza di prezzi provinciali e di cataloghi produttori non prova la copertura di tutti i componenti installati dall'azienda.
 
 ## Procedura verificabile
 
@@ -24,3 +21,35 @@ La proposta mantiene la versione 0.9.11 e la configurazione Ingress. Non è un a
 9. Prima delle scritture, SQLite viene copiato con la backup API in `/data/backup_listini`. Importazione articoli e registro sono una transazione unica. Per ripristinare un backup fermare l'add-on e ripristinare il database completo: il ripristino torna indietro anche per eventuali preventivi creati successivamente.
 
 Non è stata verificata l'installazione reale sul Raspberry. Prima del rilascio provare su copia dei dati: apertura tramite Ingress, ricerca, anteprima, importazione, preventivo precedente invariato e riavvio con dati persistenti. Non pubblicare database operativi, originali riservati o backup su GitHub.
+
+## File forniti e verifica completata
+
+Gli originali forniti il 14 ottobre 2026 sono stati letti senza modificarli. Le colonne prezzo contengono valori, non formule con risultati memorizzati.
+
+| Fonte | Righe con prezzo / articoli | Importabili | Separate per verifica |
+| --- | ---: | ---: | ---: |
+| EPPAT Excel 2026 | 17.087, inclusi 120 duplicati identici | 16.581 | 386 |
+| Vimar 28.00, 01/06/2026 | 8.033 | 7.751 | 282 prodotti annullati |
+| BTicino 2126 RR, variazione 01/07/2026 | 24.676 | 24.442 | 234 prodotti annullati |
+
+BTicino ha decorrenza 01/04/2026 e ultima variazione 01/07/2026 nella TESTATA. Sono presenti sigle BTI, LEG, IMS, ZUC, CAB e NTM. La chiave conserva il marchio: `BTICINO_BTI:010`, ad esempio. Nessun prezzo netto negoziato è stato dedotto: nelle righe fornite i prezzi al pubblico e al rivenditore coincidono.
+
+Il prezzo unitario METEL è prezzo esposto diviso moltiplicatore, indipendentemente dalla confezione. Fonte tecnica: manuale METEL 020/021 rev.20, sezioni 4.3.12, 4.3.14 e 4.3.16, https://www.metel.it/assets/fbd46ec847d0420b8a5dfec26dd5078d.pdf . La precisione dei prezzi unitari è conservata (es. CAB 000011: 1643,72 / 100 = 16,4372 €/m). Gli stati 2 e 7 restano visibili come in esaurimento; lo stato 6 è su commessa, non annullato. Lo stato 9 è separato dai pacchetti importabili.
+
+EPPAT: 367 prezzi zero richiedono analisi/verifica, 19 altre righe hanno dati essenziali mancanti. I duplicati identici vengono unificati, i duplicati discordanti bloccano la preparazione. 701 descrizioni sono ricavate dai titoli presenti nella gerarchia originale quando la variante non ha una propria descrizione. I dettagli includono contesto, righe originali e incidenze; nessun prezzo o unità mancante è stato inventato. Nessuna riga separata interessa i capitoli B.62, B.64, A.01.15 o S.50.
+
+Tutti i 3.831 codici e prezzi del database iniziale coincidono con l'Excel originale, e appartengono ai capitoli B.62 e B.64. Il nuovo pacchetto EPPAT include anche gli altri capitoli utilizzabili; la ricerca permette di filtrare per fonte. Le voci iniziali restano nel database, ma i duplicati EPPAT sono nascosti nella ricerca combinata quando è presente la versione con fonte esplicita.
+
+### Preparazione e caricamento
+
+`tools/prepare_catalogs.py` legge EPPAT e i due formati Excel METEL osservati. Richiede `tools/requirements.txt` sul computer di preparazione, non nell'add-on. Esempio:
+
+```
+python tools/prepare_catalogs.py originale.xlsx --source VIMAR --edition "28.00 — 01/06/2026" --output cartella-pacchetti
+```
+
+Produce JSON caricabili dall'interfaccia, CSV alternativi e riepiloghi con SHA-256 degli originali. I file sono divisi in parti inferiori ai limiti di caricamento, per un totale di 26 pacchetti. Caricare i JSON con `voci`, non i file `riepilogo` o `da_verificare`; i metadati fonte/edizione vengono compilati dal pacchetto. Gli originali, gli archivi generati e i dati non vanno pubblicati nel repository.
+
+La prova completa su database temporaneo ha importato 48.774 voci, verificato reimportazione senza duplicati, conservazione delle righe di un preventivo esistente e delle 3.831 voci iniziali, integrità SQLite, ricerca per fonte e blocco HTTP 403 fuori Ingress. Il test non sostituisce la verifica sul Raspberry.
+
+Restano da fornire listini di acquisto e sconti effettivi dei grossisti, e i marchi/listini FV di moduli, inverter, accumuli e strutture specificamente utilizzati. Non sono stati associati automaticamente articoli a punti dell'impianto: la compatibilità di serie, supporti e placche richiede una distinta verificata.

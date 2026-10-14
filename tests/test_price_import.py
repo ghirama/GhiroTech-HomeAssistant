@@ -1,8 +1,24 @@
 import pathlib, sqlite3, sys, tempfile, unittest
 sys.path.insert(0,str(pathlib.Path(__file__).resolve().parents[1]/'ghiro_preventivi'))
-from price_import import initialize_catalog, import_catalog
+from price_import import initialize_catalog, import_catalog, number, validate
 
 class CatalogTest(unittest.TestCase):
+ def test_null_fields_and_subcent_precision(self):
+  self.assertEqual(number(0.00001),0.00001)
+  self.assertEqual(number('16.4372'),16.4372)
+  with self.assertRaises(ValueError):number(True)
+  with self.assertRaises(ValueError):validate({'fonte':'TEST','edizione':'test','voci':[{'codice':None,'descrizione':'Voce','unita':'cad','prezzo':1}]})
+ def test_failed_registration_rolls_back_catalog(self):
+  with tempfile.TemporaryDirectory() as folder:
+   c=sqlite3.connect(pathlib.Path(folder)/'live.sqlite')
+   c.executescript('CREATE TABLE voci(codice TEXT PRIMARY KEY,descrizione,dettagli,unita,categoria,prezzo,manodopera); CREATE TABLE listini(id INTEGER PRIMARY KEY,etichetta,caricato,numero_voci); CREATE TRIGGER reject_history BEFORE INSERT ON listini BEGIN SELECT RAISE(ABORT,"test failure"); END;')
+   initialize_catalog(c);c.commit()
+   d={'fonte':'TEST','edizione':'test','voci':[{'codice':'001','descrizione':'Voce','unita':'cad','prezzo':1}]}
+   with self.assertRaises(sqlite3.IntegrityError):import_catalog(c,d,folder)
+   self.assertEqual(c.execute('select count(*) from voci').fetchone()[0],0)
+   self.assertEqual(c.execute('select count(*) from catalog_imports').fetchone()[0],0)
+   c.close()
+
  def test_transaction_snapshot_and_validation(self):
   with tempfile.TemporaryDirectory() as folder:
    c=sqlite3.connect(pathlib.Path(folder)/'live.sqlite')

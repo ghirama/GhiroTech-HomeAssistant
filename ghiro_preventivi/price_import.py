@@ -8,19 +8,30 @@ import pathlib
 import re
 import sqlite3
 import uuid
+from contextlib import closing
 from decimal import Decimal, InvalidOperation
 
 
 def initialize_catalog(c):
     c.execute('''CREATE TABLE IF NOT EXISTS catalog_imports (
         id INTEGER PRIMARY KEY, source TEXT NOT NULL, edition TEXT NOT NULL,
-        digest TEXT NOT NULL UNIQUE, created TEXT NOT NULL, rows_json TEXT NOT NULL)''')
+        digest TEXT NOT NULL UNIQUE, created TEXT NOT NULL, rows_json TEXT NOT NULL, origine_json TEXT NOT NULL DEFAULT '{}')''')
+    if 'origine_json' not in [r[1] for r in c.execute('PRAGMA table_info(catalog_imports)')]:
+        c.execute("ALTER TABLE catalog_imports ADD COLUMN origine_json TEXT NOT NULL DEFAULT '{}'")
 
 
 def number(value):
     if isinstance(value, bool) or value is None:
         raise ValueError('Prezzo mancante o non valido')
     text = str(value).strip()
+    if isinstance(value, (int, float)):
+        try:
+            n = Decimal(text)
+        except InvalidOperation:
+            raise ValueError('Numero non valido')
+        if not n.is_finite() or n < 0 or n > Decimal('1000000000'):
+            raise ValueError('Numero fuori intervallo')
+        return float(n)
     if ',' in text:
         if not re.fullmatch(r'(?:\d+|\d{1,3}(?:\.\d{3})+),\d+', text):
             raise ValueError('Formato numerico ambiguo: ' + text)
@@ -67,19 +78,23 @@ def validate(data):
         try:
             if not isinstance(row, dict):
                 raise ValueError('Voce non valida')
-            code = str(row.get('codice', '')).strip()
-            description = str(row.get('descrizione', '')).strip()
-            unit = str(row.get('unita', '')).strip()
+            for field in ('codice', 'descrizione', 'unita'):
+                if not isinstance(row.get(field), str):
+                    raise ValueError(field + ' deve essere testo non nullo')
+            code = row['codice'].strip()
+            description = row['descrizione'].strip()
+            unit = row['unita'].strip()
             if not code or ':' in code or len(code) > 100 or not description or not unit:
                 raise ValueError('Codice, descrizione e unità obbligatori; codice senza due punti')
             if code in seen:
                 raise ValueError('Codice duplicato: ' + code)
             seen.add(code)
-            labour = number(row.get('manodopera') or 0)
+            raw_labour = row.get('manodopera')
+            labour = number(0 if raw_labour is None or raw_labour == '' else raw_labour)
             if labour > 100:
                 raise ValueError('Manodopera deve essere una percentuale 0–100')
-            clean.append((source + ':' + code, description, str(row.get('dettagli', '')),
-                          unit, str(row.get('categoria', '')), number(row.get('prezzo')), labour))
+            clean.append((source + ':' + code, description, str(row.get('dettagli') or ''),
+                          unit, str(row.get('categoria') or ''), number(row.get('prezzo')), labour))
         except ValueError as e:
             raise ValueError('Riga %s: %s' % (i, e))
     return source, edition, sorted(clean)
@@ -89,10 +104,13 @@ def import_catalog(c, data, backup_dir, preview=False):
     source, edition, rows = validate(data)
     content = json.dumps([source, edition, rows], ensure_ascii=False, separators=(',', ':'))
     digest = hashlib.sha256(content.encode()).hexdigest()
+    origin = {k: str(data[k]) for k in ('originale', 'sha256_originale') if k in data}
+    if 'sha256_originale' in origin and not re.fullmatch(r'[a-f0-9]{64}', origin['sha256_originale']):
+        raise ValueError('Impronta del file originale non valida')
     existing = c.execute('SELECT id FROM catalog_imports WHERE digest=?', (digest,)).fetchone()
     updates = sum(c.execute('SELECT 1 FROM voci WHERE codice=?', (r[0],)).fetchone() is not None for r in rows)
     report = {'voci': len(rows), 'nuove': len(rows)-updates, 'aggiornate': updates,
-              'gia_importato': bool(existing), 'impronta': digest,
+              'gia_importato': bool(existing), 'impronta': digest, 'fonte': source, 'edizione': edition,
               'campione': [dict(zip(('codice','descrizione','dettagli','unita','categoria','prezzo','manodopera'), r)) for r in rows[:5]]}
     if preview or existing:
         return dict(report, importate=0)
@@ -100,15 +118,15 @@ def import_catalog(c, data, backup_dir, preview=False):
     folder = pathlib.Path(backup_dir)
     folder.mkdir(parents=True, exist_ok=True)
     target = folder / ('pre-import-' + uuid.uuid4().hex + '.sqlite')
-    with sqlite3.connect(target) as backup:
+    with closing(sqlite3.connect(target)) as backup:
         c.backup(backup)
     with c:
         c.executemany('''INSERT INTO voci(codice,descrizione,dettagli,unita,categoria,prezzo,manodopera)
             VALUES(?,?,?,?,?,?,?) ON CONFLICT(codice) DO UPDATE SET
             descrizione=excluded.descrizione,dettagli=excluded.dettagli,unita=excluded.unita,
             categoria=excluded.categoria,prezzo=excluded.prezzo,manodopera=excluded.manodopera''', rows)
-        c.execute('INSERT INTO catalog_imports(source,edition,digest,created,rows_json) VALUES(?,?,?,?,?)',
-                  (source, edition, digest, datetime.datetime.now(datetime.timezone.utc).isoformat(), content))
+        c.execute('INSERT INTO catalog_imports(source,edition,digest,created,rows_json,origine_json) VALUES(?,?,?,?,?,?)',
+                  (source, edition, digest, datetime.datetime.now(datetime.timezone.utc).isoformat(), content, json.dumps(origin, ensure_ascii=False)))
         c.execute('INSERT INTO listini(etichetta,caricato,numero_voci) VALUES(?,?,?)',
                   (source + ' — ' + edition, datetime.date.today().isoformat(), len(rows)))
     return dict(report, importate=len(rows))

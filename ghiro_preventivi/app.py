@@ -58,8 +58,18 @@ class H(BaseHTTPRequestHandler):
    if path.startswith('/api/checklist-voci/'):
     pid=int(path.split('/')[-1]);self.send([dict(x) for x in c.execute('SELECT * FROM checklist_voci WHERE pratica_id=? ORDER BY id',(pid,))]);return
    if path=='/api/configurazioni':self.send([dict(x) for x in c.execute('SELECT * FROM configurazioni_civili ORDER BY id DESC')]);return
+   if path=='/api/listino/fonti':
+    self.send([r[0] for r in c.execute("SELECT DISTINCT CASE WHEN instr(codice,':')>0 THEN substr(codice,1,instr(codice,':')-1) ELSE 'BASE_EPPAT' END FROM voci ORDER BY 1")]);return
    if path=='/api/voci':
-    q=parse_qs(u.query).get('q',[''])[0];self.send([dict(x) for x in c.execute('SELECT * FROM voci WHERE codice LIKE ? OR descrizione LIKE ? OR dettagli LIKE ? LIMIT 100',('%'+q+'%',)*3)]);return
+    query=parse_qs(u.query);q=query.get('q',[''])[0];source=query.get('fonte',[''])[0]
+    sql="SELECT * FROM voci v WHERE (codice LIKE ? OR descrizione LIKE ? OR dettagli LIKE ?)"
+    args=['%'+q+'%']*3
+    if source:
+     sql+=" AND CASE WHEN instr(codice,':')>0 THEN substr(codice,1,instr(codice,':')-1) ELSE 'BASE_EPPAT' END = ?";args.append(source)
+    else:
+     # Keep legacy rows, but hide matching canonical EPPAT rows from combined search.
+     sql+=" AND NOT (instr(v.codice,':')=0 AND EXISTS (SELECT 1 FROM voci n WHERE n.codice='EPPAT:'||v.codice))"
+    self.send([dict(x) for x in c.execute(sql+' ORDER BY codice LIMIT 100',args)]);return
    for t in ('clienti','lavori','pratiche','preventivi','listini'):
     if path=='/api/'+t:self.send([dict(x) for x in c.execute('SELECT * FROM '+t+' ORDER BY id DESC')]);return
    if path.startswith('/api/preventivi/'):
