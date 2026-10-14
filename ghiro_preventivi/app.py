@@ -25,7 +25,7 @@ def init():
  CREATE TABLE IF NOT EXISTS admin_login(id INTEGER PRIMARY KEY CHECK(id=1),username TEXT NOT NULL,password_hash TEXT NOT NULL);
  CREATE TABLE IF NOT EXISTS auth_sessions(token_hash TEXT PRIMARY KEY,expires INTEGER NOT NULL);
  ''')
- for tab,col,typ in [('preventivi','cliente_id','INTEGER'),('preventivi','sconto_materiale','REAL DEFAULT 0'),('righe','quota_materiale','REAL DEFAULT 0')]:
+ for tab,col,typ in [('preventivi','cliente_id','INTEGER'),('preventivi','sconto_materiale','REAL DEFAULT 0'),('righe','quota_materiale','REAL DEFAULT 0'),('righe','appartamento',"TEXT DEFAULT ''"),('configurazioni_civili','appartamenti_json',"TEXT DEFAULT '[]'")]:
   if col not in [x[1] for x in c.execute('PRAGMA table_info('+tab+')')]:c.execute('ALTER TABLE '+tab+' ADD COLUMN '+col+' '+typ)
  initialize_catalog(c)
  c.commit();c.close()
@@ -52,6 +52,8 @@ class H(BaseHTTPRequestHandler):
    if path.startswith('/api/auth/'):return self.send({'errore':'non trovato'},404)
    if path=='/editor':
     b=(BASE/'editor.html').read_bytes();self.send_response(200);self.send_header('Content-Type','text/html; charset=utf-8');self.send_header('Content-Length',str(len(b)));self.end_headers();self.wfile.write(b);return
+   if path=='/logo.jpg':
+    b=(BASE/'logo.jpg').read_bytes();self.send_response(200);self.send_header('Content-Type','image/jpeg');self.send_header('Content-Length',str(len(b)));self.end_headers();self.wfile.write(b);return
    if path in ('/manifest.webmanifest','/icon.svg'):
     name='manifest.webmanifest' if path.endswith('webmanifest') else 'icon.svg';b=(BASE/name).read_bytes();self.send_response(200);self.send_header('Content-Type','application/manifest+json' if name.endswith('webmanifest') else 'image/svg+xml');self.send_header('Cache-Control','public, max-age=3600');self.send_header('Content-Length',str(len(b)));self.end_headers();self.wfile.write(b);return
    if path in ('','/'):b=(BASE/'index.html').read_bytes();self.send_response(200);self.send_header('Content-Type','text/html; charset=utf-8');self.end_headers();self.wfile.write(b);return
@@ -140,13 +142,17 @@ class H(BaseHTTPRequestHandler):
    elif path=='/api/configurazioni':
     cid=d.get('id');existing=None
     if cid:
-     existing=c.execute('SELECT cliente_id FROM configurazioni_civili WHERE id=?',(int(cid),)).fetchone()
+     existing=c.execute('SELECT cliente_id,appartamenti_json FROM configurazioni_civili WHERE id=?',(int(cid),)).fetchone()
      if not existing:return self.send({'errore':'Progetto non trovato: salva come nuovo progetto'},404)
     client=d.get('cliente_id') if 'cliente_id' in d else (existing['cliente_id'] if existing else None)
-    args=(client or None,str(d.get('titolo','')),json.dumps(d.get('stanze',[]),ensure_ascii=False),datetime.date.today().isoformat())
+    apartments=d.get('appartamenti',json.loads(existing['appartamenti_json'] or '[]') if existing else [])
+    if not isinstance(apartments,list) or len(apartments)>200:raise ValueError('Appartamenti non validi')
+    if any(not isinstance(a,dict) or not isinstance(a.get('id'),str) or not isinstance(a.get('nome'),str) or not a['nome'].strip() for a in apartments):raise ValueError('Nome e identificativo appartamento obbligatori')
+    if len({a['id'] for a in apartments})!=len(apartments) or len({a['nome'].strip().casefold() for a in apartments})!=len(apartments):raise ValueError('Appartamenti duplicati')
+    args=(client or None,str(d.get('titolo','')),json.dumps(d.get('stanze',[]),ensure_ascii=False),datetime.date.today().isoformat(),json.dumps(apartments,ensure_ascii=False))
     if cid:
-     c.execute('UPDATE configurazioni_civili SET cliente_id=?,titolo=?,stanze_json=?,aggiornato=? WHERE id=?',args+(int(cid),));cur=c.execute('SELECT id FROM configurazioni_civili WHERE id=?',(int(cid),))
-    else:cur=c.execute('INSERT INTO configurazioni_civili(cliente_id,titolo,stanze_json,aggiornato) VALUES(?,?,?,?)',args)
+     c.execute('UPDATE configurazioni_civili SET cliente_id=?,titolo=?,stanze_json=?,aggiornato=?,appartamenti_json=? WHERE id=?',args+(int(cid),));cur=c.execute('SELECT id FROM configurazioni_civili WHERE id=?',(int(cid),))
+    else:cur=c.execute('INSERT INTO configurazioni_civili(cliente_id,titolo,stanze_json,aggiornato,appartamenti_json) VALUES(?,?,?,?,?)',args)
    elif path=='/api/preventivi':
     import math
     def number(v):
@@ -159,7 +165,7 @@ class H(BaseHTTPRequestHandler):
     for r in rows:
      material=number(r.get('quota_materiale',0))
      if material>100:raise ValueError('Quota materiale oltre 100%')
-     vals.append((str(r.get('codice','')),str(r.get('descrizione','')),str(r.get('unita','')),number(r.get('quantita',1)),number(r.get('prezzo',0)),material))
+     vals.append((str(r.get('codice','')),str(r.get('descrizione','')),str(r.get('unita','')),number(r.get('quantita',1)),number(r.get('prezzo',0)),material,str(r.get('appartamento',''))))
     discount=number(d.get('sconto_materiale',0))
     if discount>100:raise ValueError('Sconto oltre 100%')
     args=(str(d.get('cliente','')),str(d.get('titolo','')),number(d.get('ricarico',0)),number(d.get('iva',22)),d.get('cliente_id') or None,discount)
@@ -169,7 +175,7 @@ class H(BaseHTTPRequestHandler):
      c.execute('UPDATE preventivi SET cliente=?,titolo=?,ricarico=?,iva=?,cliente_id=?,sconto_materiale=? WHERE id=?',args+(pid,))
      c.execute('DELETE FROM righe WHERE preventivo_id=?',(pid,))
     else:pid=c.execute('INSERT INTO preventivi(cliente,titolo,ricarico,iva,cliente_id,sconto_materiale) VALUES(?,?,?,?,?,?)',args).lastrowid
-    c.executemany('INSERT INTO righe(preventivo_id,codice,descrizione,unita,quantita,prezzo,quota_materiale) VALUES(?,?,?,?,?,?,?)',[(pid,)+r for r in vals])
+    c.executemany('INSERT INTO righe(preventivo_id,codice,descrizione,unita,quantita,prezzo,quota_materiale,appartamento) VALUES(?,?,?,?,?,?,?,?)',[(pid,)+r for r in vals])
     c.commit();return self.send({'id':pid})
    elif path in ('/api/clienti','/api/lavori','/api/pratiche'):
     t=path.split('/')[-1];cols={'clienti':['nome','telefono','email','indirizzo','note'],'lavori':['cliente_id','titolo','tipo','stato','note'],'pratiche':['cliente_id','lavoro_id','titolo','stato','scadenza','note']}[t]
