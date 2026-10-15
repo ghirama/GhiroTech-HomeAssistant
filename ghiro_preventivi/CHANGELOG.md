@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.9.16
+
+- Salva configurazione disponibile anche in fondo alla pagina; salvataggio delle bozze senza cliente.
+- Comando Salva configurazione sempre visibile nella barra dell’editor planimetria.
+- I componenti delle scatole aggiornano i totali della stanza e del preventivo anche quando vengono rimossi o duplicati. Una Schuko da due moduli conta come una presa.
+- I punti aggiunti manualmente si conservano; i punti luce restano distinti dai comandi. Le nuove stanze partono da zero.
+- Impostazioni di salvataggio: cartella dati selezionabile in /share o /media, applicata al riavvio tramite copia verificata, senza eliminare l’originale.
+- Destinazioni non vuote non sovrascritte; un archivio esterno non disponibile non viene rimpiazzato da un database vuoto.
+
+
 ## 0.9.15
 
 - Più appartamenti nello stesso preventivo, con stanze e scatole separate.

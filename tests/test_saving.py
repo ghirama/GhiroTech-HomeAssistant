@@ -12,11 +12,15 @@ ROOT=pathlib.Path(__file__).resolve().parents[1]/'ghiro_preventivi'
 sys.path.insert(0,str(ROOT))
 
 
-def load_app(folder):
+def load_app(folder,storage_roots=None):
     tree=ast.parse((ROOT/'app.py').read_text())
     for node in tree.body:
-        if isinstance(node,ast.Assign) and any(isinstance(t,ast.Name) and t.id=='DATA' for t in node.targets):
+        if isinstance(node,ast.Assign) and any(isinstance(t,ast.Name) and t.id in ('DATA','CONTROL') for t in node.targets):
             node.value=ast.Call(func=ast.Attribute(value=ast.Name(id='pathlib',ctx=ast.Load()),attr='Path',ctx=ast.Load()),args=[ast.Constant(str(folder))],keywords=[])
+    if storage_roots is not None:
+        for node in tree.body:
+            if isinstance(node,ast.Assign) and any(isinstance(t,ast.Name) and t.id=='DATA' for t in node.targets):
+                node.value=ast.Call(func=ast.Name(id='activate_storage',ctx=ast.Load()),args=[ast.Name(id='CONTROL',ctx=ast.Load())],keywords=[ast.keyword(arg='allowed_roots',value=ast.List(elts=[ast.Constant(str(p)) for p in storage_roots],ctx=ast.Load()))])
     ast.fix_missing_locations(tree)
     scope={'__file__':str(ROOT/'app.py'),'__name__':'isolated_save_test'}
     exec(compile(tree,str(ROOT/'app.py'),'exec'),scope)
@@ -100,6 +104,28 @@ class SavingTest(unittest.TestCase):
         self.assertEqual(sum(r['quantita']*r['prezzo'] for r in result),75)
         status,_=self.request('/api/configurazioni',{'appartamenti':apartments+[apartments[0]],'stanze':rooms})
         self.assertEqual(status,400)
+
+    def test_data_folder_restart_keeps_live_records_and_document_downloads(self):
+        _,client=self.request('/api/clienti',{'nome':'Cliente archivio'})
+        _,project=self.request('/api/configurazioni',{'cliente_id':client['id'],'titolo':'Archivio','stanze':[{'nome':'Cucina','scatole':[{'note':'Frigorifero'}]}]})
+        doc_folder=self.scope['DOCS']/str(client['id']);doc_folder.mkdir()
+        (doc_folder/'prova.txt').write_text('allegato originale')
+        with self.scope['conn']() as c:
+            doc=c.execute('INSERT INTO documenti(cliente_id,nome,path) VALUES(?,?,?)',(client['id'],'prova.txt',str(client['id'])+'/prova.txt')).lastrowid
+        # Keep the mock mount outside the old data directory, as in production.
+        with tempfile.TemporaryDirectory() as mounted:
+            target=pathlib.Path(mounted)/'archivio'
+            self.scope['configure_storage'](self.folder,self.folder,str(target),(mounted,))
+            self.stop_server();self.scope=load_app(self.folder,(mounted,));self.start_server()
+            self.assertEqual(self.scope['DATA'],target)
+            self.assertEqual(self.request('/api/clienti')[1][0]['nome'],'Cliente archivio')
+            self.assertEqual(self.request('/api/configurazioni')[1][0]['id'],project['id'])
+            self.assertEqual(self.request('/api/impostazioni/archivio')[1]['active'],str(target))
+            connection=http.client.HTTPConnection(self.host);connection.request('GET','/api/download/'+str(doc));response=connection.getresponse()
+            self.assertEqual(response.status,200);self.assertEqual(response.read(),b'allegato originale');connection.close()
+            self.assertEqual(self.request('/api/configurazioni',{'id':project['id'],'titolo':'Dopo trasferimento','stanze':[]})[0],200)
+            self.assertEqual(self.request('/api/configurazioni')[1][0]['titolo'],'Dopo trasferimento')
+            self.assertTrue((self.folder/'prezzario.sqlite').exists())
 
     def test_origin_and_ingress_restrictions(self):
         self.assertEqual(self.request('/api/clienti',{'nome':'HTTP'})[0],200)
