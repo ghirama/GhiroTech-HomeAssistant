@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.9.23
+
+- Scatole preimpostate: icone Rinomina e Cancella, con conferma per la cancellazione.
+- Il nuovo nome viene aggiornato nelle scelte del configuratore; le scatole già inserite rimangono indipendenti.
+- Nomi vuoti o già usati non accettati.
+
 ## 0.9.22
 
 - Inserimento dei componenti nel quadratino selezionato; spazi vuoti conservati anche dopo rimozione, salvataggio, duplicazione e uso delle scatole preimpostate.
