@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.9.26
+
+- Scatole di derivazione integrate nella sezione Scatole di ogni stanza, con pulsante accanto a quello delle scatole portafrutti. Rimossa la sezione separata.
+
 ## 0.9.25
 
 - Quadri elettrici per appartamento e parti comuni, dimensioni in mm e file/moduli configurabili.
