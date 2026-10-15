@@ -155,7 +155,7 @@ class H(BaseHTTPRequestHandler):
     if series not in ['Vimar Plana','Vimar Arké','Vimar Linea','BTicino Livinglight','BTicino Living Now']:raise ValueError('Serie non valida')
     if not isinstance(box,dict) or box.get('moduli') not in [3,4,6,7]:raise ValueError('Scatola non valida')
     fruits=box.get('frutti');note=box.get('note','')
-    if not isinstance(fruits,list) or any(not isinstance(f,str) or f not in sizes for f in fruits) or sum(sizes[f] for f in fruits)>box['moduli']:raise ValueError('Componenti non validi o scatola piena')
+    if not isinstance(fruits,list) or any(f is not None and (not isinstance(f,str) or f not in sizes) for f in fruits) or sum(1 if f is None else sizes[f] for f in fruits)>box['moduli']:raise ValueError('Componenti non validi o scatola piena')
     if not isinstance(note,str) or len(note)>5000:raise ValueError('Note non valide')
     if c.execute('SELECT id FROM scatole_preimpostate WHERE nome=?',(name,)).fetchone():raise ValueError('Nome già presente: scegli un altro nome')
     cur=c.execute('INSERT INTO scatole_preimpostate(nome,serie,scatola_json) VALUES(?,?,?)',(name,series,json.dumps({'moduli':box['moduli'],'frutti':fruits,'note':note},ensure_ascii=False)))
