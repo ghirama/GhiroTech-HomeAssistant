@@ -80,6 +80,27 @@ class SavingTest(unittest.TestCase):
         self.assertEqual(len(self.request('/api/preventivi')[1]),1)
         self.assertEqual(json.loads(self.request('/api/configurazioni')[1][0]['stanze_json']),rooms)
 
+    def test_multiple_apartments_common_areas_and_notes_survive_restart(self):
+        apartments=[{'id':'a1','nome':'Appartamento 1'},{'id':'a2','nome':'Appartamento 2'},{'id':'common','nome':'Parti comuni'}]
+        rooms=[{'nome':'Ingresso','appartamento_id':a['id'],'scatole':[{'note':'Nota '+a['nome'],'moduli':3,'frutti':['presa']}]} for a in apartments]
+        status,project=self.request('/api/configurazioni',{'titolo':'Condominio','stanze':rooms,'appartamenti':apartments})
+        self.assertEqual(status,200)
+        # Older callers omitting the new field must not erase apartment metadata.
+        status,_=self.request('/api/configurazioni',{'id':project['id'],'titolo':'Aggiornato','stanze':rooms})
+        self.assertEqual(status,200)
+        rows=[{'appartamento':a['nome'],'descrizione':'Ingresso - presa','quantita':2,'prezzo':12.50} for a in apartments]
+        status,quote=self.request('/api/preventivi',{'titolo':'Tre zone','righe':rows})
+        self.assertEqual(status,200)
+        self.stop_server();self.scope=load_app(self.folder);self.start_server()
+        project=self.request('/api/configurazioni')[1][0]
+        self.assertEqual(json.loads(project['appartamenti_json']),apartments)
+        self.assertEqual(json.loads(project['stanze_json']),rooms)
+        result=self.request('/api/preventivi/'+str(quote['id']))[1]['righe']
+        self.assertEqual([r['appartamento'] for r in result],[a['nome'] for a in apartments])
+        self.assertEqual(sum(r['quantita']*r['prezzo'] for r in result),75)
+        status,_=self.request('/api/configurazioni',{'appartamenti':apartments+[apartments[0]],'stanze':rooms})
+        self.assertEqual(status,400)
+
     def test_origin_and_ingress_restrictions(self):
         self.assertEqual(self.request('/api/clienti',{'nome':'HTTP'})[0],200)
         self.assertEqual(self.request('/api/clienti',{'nome':'HTTPS'},origin='https://'+self.host)[0],200)

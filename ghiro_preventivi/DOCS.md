@@ -1,10 +1,10 @@
-# Ghiro Tech Preventivi 0.9.14
+# Ghiro Tech Preventivi 0.9.15
 
 ## Aggiornamento da Home Assistant
 
 1. Crea un backup completo dell’add-on da Home Assistant.
 2. Nel negozio delle app verifica gli aggiornamenti del repository GhiroTech-HomeAssistant.
-3. Aggiorna Ghiro Tech Preventivi alla versione 0.9.14 e riavvia l’add-on.
+3. Aggiorna Ghiro Tech Preventivi alla versione 0.9.15 e riavvia l’add-on.
 4. Aprilo dalla barra laterale di Home Assistant e controlla un preventivo già salvato.
 
 Il database persistente e i documenti restano in `/data`. Non disinstallare l’add-on per aggiornarlo. Non sostituire manualmente il database operativo con quello incluso nel pacchetto.
@@ -29,7 +29,7 @@ Crea un preventivo di prova selezionando un cliente e una voce, premi Salva prev
 
 ## PDF come sfondo della planimetria
 
-Nell’editor scegli un PDF da Planimetria JPG/PNG o PDF e attendi l’anteprima. Il file può avere fino a 100 pagine e pesare al massimo 10 MB. Se contiene più pagine, seleziona quella desiderata e premi Usa pagina scelta. La pagina scelta è lo sfondo di tutto il progetto.
+Nell’editor scegli un PDF da Planimetria JPG/PNG o PDF e attendi l’anteprima. Il file può avere fino a 100 pagine e pesare al massimo 10 MB. Se contiene più pagine, seleziona quella desiderata e premi Usa pagina scelta. La pagina scelta è lo sfondo dell’appartamento selezionato; gli altri appartamenti conservano la propria planimetria.
 
 Aggiungi prese, punti luce e altri simboli come sulle immagini, quindi premi Salva. Dopo aver ricaricato la pagina, il progetto mantiene il PDF, la pagina scelta e i punti. Il PDF originale resta disponibile tramite Scarica PDF originale.
 
@@ -38,3 +38,11 @@ Il PDF viene conservato nella cartella persistente `/data/planimetrie`; le antep
 Cambiare pagina o sfondo conserva i punti già inseriti; verifica che corrispondano alla nuova planimetria. Il gestionale non modifica il PDF originale e non esegue un riconoscimento automatico delle stanze o degli impianti.
 
 PDF danneggiati o protetti da password mostrano un errore senza sostituire lo sfondo precedente. Esporta una copia leggibile dal programma che ha generato il documento. Il formato DWG è escluso da questa versione.
+
+## Appartamenti e parti comuni nello stesso preventivo
+
+Nel configuratore usa `+ Appartamento` e assegna un nome a ciascuna unità. `+ Parti comuni` crea un’altra unità identica, chiamata Parti comuni. Seleziona l’unità prima di aggiungere stanze e scatole. `Duplica appartamento` crea una copia indipendente, comprese le note delle scatole. Le configurazioni precedenti si aprono come Appartamento 1.
+
+Il trasferimento al preventivo comprende tutte le unità. Ogni voce conserva l’appartamento; i subtotali sono riepilogati separatamente e confluiscono nel totale generale. Le note delle scatole restano nella configurazione e non vengono stampate automaticamente sul preventivo cliente.
+
+Anche l’editor planimetria gestisce più unità, ciascuna con il proprio sfondo e i propri punti. La stampa cliente usa l’intestazione Ghiro Tech and Light e i colori ispirati al Digital Aqua Blue.
