@@ -107,6 +107,11 @@ class H(BaseHTTPRequestHandler):
   try:
    if path.startswith('/api/auth/'):return self.send({'errore':'non trovato'},404)
    if not self.same_origin():return self.send({'errore':'Origine non valida'},403)
+   if path=='/api/configurazioni/riepilogo-pdf':
+    length=int(self.headers.get('Content-Length','0'))
+    if not 0<length<=5*1024*1024:return self.send({'errore':'Riepilogo troppo grande'},413)
+    from pdf_summary import build_summary
+    b=build_summary(self.body(),BASE/'logo.jpg');self.send_response(200);self.send_header('Content-Type','application/pdf');self.send_header('Content-Disposition','attachment; filename="Riepilogo_impianto.pdf"');self.send_header('Content-Length',str(len(b)));self.end_headers();self.wfile.write(b);return
    if path=='/api/impostazioni/archivio':
     payload=self.body();return self.send(configure_storage(CONTROL,DATA,payload.get('percorso')))
    if path in ('/api/planimetrie/import','/api/planimetrie/pagina'):
