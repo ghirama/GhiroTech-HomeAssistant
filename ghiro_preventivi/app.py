@@ -20,6 +20,7 @@ def init():
  CREATE TABLE IF NOT EXISTS pratiche(id INTEGER PRIMARY KEY,cliente_id INTEGER,lavoro_id INTEGER,titolo TEXT,stato TEXT DEFAULT 'Da preparare',scadenza TEXT DEFAULT '',note TEXT DEFAULT '');
  CREATE TABLE IF NOT EXISTS documenti(id INTEGER PRIMARY KEY,cliente_id INTEGER,nome TEXT,path TEXT,caricato TEXT);
  CREATE TABLE IF NOT EXISTS configurazioni_civili(id INTEGER PRIMARY KEY,cliente_id INTEGER,titolo TEXT,stanze_json TEXT,aggiornato TEXT);
+ CREATE TABLE IF NOT EXISTS scatole_preimpostate(id INTEGER PRIMARY KEY,nome TEXT NOT NULL UNIQUE COLLATE NOCASE,serie TEXT NOT NULL,scatola_json TEXT NOT NULL);
  CREATE TABLE IF NOT EXISTS listini(id INTEGER PRIMARY KEY,etichetta TEXT,caricato TEXT,numero_voci INTEGER);
  CREATE TABLE IF NOT EXISTS impianti_fv(id INTEGER PRIMARY KEY,cliente_id INTEGER,titolo TEXT,pannelli INTEGER DEFAULT 0,watt_pannello REAL DEFAULT 0,inverter_kw REAL DEFAULT 0,batteria_kwh REAL DEFAULT 0,orientamento TEXT DEFAULT '',inclinazione REAL DEFAULT 0,materiali_json TEXT DEFAULT '[]',note TEXT DEFAULT '',aggiornato TEXT);
  CREATE TABLE IF NOT EXISTS checklist_pratiche(id INTEGER PRIMARY KEY,lavoro_id INTEGER,cliente_id INTEGER,tipo TEXT,titolo TEXT,stato TEXT DEFAULT 'Da preparare',scadenza TEXT DEFAULT '',responsabile TEXT DEFAULT '',note TEXT DEFAULT '',creata TEXT);
@@ -72,6 +73,7 @@ class H(BaseHTTPRequestHandler):
    if path.startswith('/api/checklist-voci/'):
     pid=int(path.split('/')[-1]);self.send([dict(x) for x in c.execute('SELECT * FROM checklist_voci WHERE pratica_id=? ORDER BY id',(pid,))]);return
    if path=='/api/impostazioni/archivio':self.send(storage_state(CONTROL));return
+   if path=='/api/scatole-preimpostate':self.send([dict(x) for x in c.execute('SELECT * FROM scatole_preimpostate ORDER BY id DESC')]);return
    if path=='/api/configurazioni':self.send([dict(x) for x in c.execute('SELECT * FROM configurazioni_civili ORDER BY id DESC')]);return
    if path=='/api/listino/fonti':
     self.send([r[0] for r in c.execute("SELECT DISTINCT CASE WHEN instr(codice,':')>0 THEN substr(codice,1,instr(codice,':')-1) ELSE 'BASE_EPPAT' END FROM voci ORDER BY 1")]);return
@@ -144,6 +146,19 @@ class H(BaseHTTPRequestHandler):
     c.execute('UPDATE checklist_pratiche SET '+','.join(k+'=?' for k in fields)+' WHERE id=?',[d[k] for k in fields]+[pid]);c.commit();return self.send({'ok':True})
    elif path=='/api/checklist/voce':
     vid=int(d.get('id') or 0);c.execute('UPDATE checklist_voci SET completata=? WHERE id=?',(1 if d.get('completata') else 0,vid));c.commit();return self.send({'ok':True})
+   elif path=='/api/scatole-preimpostate/elimina':
+    c.execute('DELETE FROM scatole_preimpostate WHERE id=?',(int(d['id']),));c.commit();return self.send({'ok':True})
+   elif path=='/api/scatole-preimpostate':
+    name=str(d.get('nome','')).strip();series=d.get('serie');box=d.get('scatola')
+    sizes={'presa':1,'schuko':2,'interruttore':1,'deviatore':1,'pulsante':1,'invertitore':1,'dati':1,'tv':1,'tapparella':1,'cieco':1,'ronzatore':1,'campanello':3,'presenza1':1,'presenza2':2,'termostato2':2,'termostato3':3}
+    if not name or len(name)>100:raise ValueError('Nome obbligatorio, massimo 100 caratteri')
+    if series not in ['Vimar Plana','Vimar Arké','Vimar Linea','BTicino Livinglight','BTicino Living Now']:raise ValueError('Serie non valida')
+    if not isinstance(box,dict) or box.get('moduli') not in [3,4,6,7]:raise ValueError('Scatola non valida')
+    fruits=box.get('frutti');note=box.get('note','')
+    if not isinstance(fruits,list) or any(not isinstance(f,str) or f not in sizes for f in fruits) or sum(sizes[f] for f in fruits)>box['moduli']:raise ValueError('Componenti non validi o scatola piena')
+    if not isinstance(note,str) or len(note)>5000:raise ValueError('Note non valide')
+    if c.execute('SELECT id FROM scatole_preimpostate WHERE nome=?',(name,)).fetchone():raise ValueError('Nome già presente: scegli un altro nome')
+    cur=c.execute('INSERT INTO scatole_preimpostate(nome,serie,scatola_json) VALUES(?,?,?)',(name,series,json.dumps({'moduli':box['moduli'],'frutti':fruits,'note':note},ensure_ascii=False)))
    elif path=='/api/configurazioni':
     cid=d.get('id');existing=None
     if cid:
