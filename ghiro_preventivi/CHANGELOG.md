@@ -2,6 +2,8 @@
 
 ## 0.9.24
 
+- Selettore Frutto da inserire dentro ogni stanza, con selezione indipendente.
+
 - Composizione richiudibile al solo titolo per stanza e singola scatola.
 
 - Scatole preimpostate senza serie civile, anche per i modelli esistenti. Serie selezionabile per ogni scatola inserita.
