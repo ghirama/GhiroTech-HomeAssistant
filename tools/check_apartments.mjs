@@ -58,10 +58,10 @@ main.run('duplicateApartment()');assert.equal(main.run('apartments[0].id'),main.
 main.run("newConfig();addRoom();gcAddBox(0);gcSelected='presenza2';gcPut(0,0,0);gcPut(0,0,1)");
 assert.equal(main.run('rooms[0].scatole[0].frutti.length'),1);
 assert.equal(main.run('rooms[0].extra'),1);
-main.run("gcSelected='ronzatore';gcPut(0,0,1);gcQuote()");
+main.run("gcSelected='ronzatore';gcPut(0,0,2);gcQuote()");
 assert.equal(main.run('rooms[0].extra'),2);
 assert.equal(main.run("lines.filter(r=>r.codice==='FR-presenza2').length"),1);
-main.run("gcUpdateBox(0,0,'moduli',6);gcDeleteFruit(0,0,0);gcSelected='campanello';gcPut(0,0,1);gcSelected='presenza1';gcPut(0,0,2);rooms=JSON.parse(JSON.stringify(rooms));renderRooms()");
+main.run("gcUpdateBox(0,0,'moduli',6);gcDeleteFruit(0,0,0);gcSelected='campanello';gcPut(0,0,3);gcSelected='presenza1';gcPut(0,0,0);rooms=JSON.parse(JSON.stringify(rooms));renderRooms()");
 assert.equal(main.run('rooms[0].extra'),3);
 main.run("delete rooms[0].punti_extra_scatole.extra;rooms[0].extra=5;renderRooms();gcDeleteFruit(0,0,0)");assert.equal(main.run('rooms[0].extra'),4);
 editor.run("room().items=[{id:'sensor-test',fruits:[]}];selected='sensor-test';$('capacity').value='3';$('fruit').value='Sensore di presenza 2 moduli';fruitAdd();fruitAdd()");
@@ -76,3 +76,11 @@ for(const env of [main,editor]){
 }
 main.run('newConfig();addRoom();gcAddBox(0);gcCloneBox(0,0);gcCloneBox(0,1)');assert.equal(main.run('rooms[0].scatole[0].nome'),'Scatola 3');
 main.run('duplicateApartment();duplicateApartment()');assert.equal(main.run('apartments[0].nome'),'Appartamento 3');
+
+// Absolute click positions, holes, contiguous capacity and independent save round trips.
+main.run("newConfig();addRoom();gcAddBox(0);gcSelected='presa';gcPut(0,0,2)");
+assert.equal(main.run('JSON.stringify(rooms[0].scatole[0].frutti)'),JSON.stringify([null,null,'presa']));
+main.run("gcSelected='schuko';gcPut(0,0,1)");assert.equal(main.run('rooms[0].preseSchuko'),0);
+main.run("gcPut(0,0,0);gcDeleteFruit(0,0,0)");assert.equal(main.run('JSON.stringify(rooms[0].scatole[0].frutti)'),JSON.stringify([null,null,'presa']));
+main.run("rooms=JSON.parse(JSON.stringify(rooms));renderRooms();lines=[];gcQuote()");assert.equal(main.run("lines.filter(r=>r.codice==='FR-presa').length"),1);
+main.run("gcUpdateBox(0,0,'moduli',4);gcSelected='termostato3';gcPut(0,0,0)");assert.equal(main.run('rooms[0].extra'),0);

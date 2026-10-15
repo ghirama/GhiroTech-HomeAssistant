@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.9.22
+
+- Inserimento dei componenti nel quadratino selezionato; spazi vuoti conservati anche dopo rimozione, salvataggio, duplicazione e uso delle scatole preimpostate.
+- Componenti da più moduli inseriti solo se lo spazio dal punto scelto è libero e contiguo.
+- Griglia a moduli di uguale larghezza e conteggi senza includere gli spazi vuoti.
+
 ## 0.9.21
 
 - Elenco configurazioni con nome e descrizione a sinistra e icone Rinomina, Apri e Cancella a destra.

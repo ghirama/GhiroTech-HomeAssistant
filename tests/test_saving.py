@@ -78,7 +78,7 @@ class SavingTest(unittest.TestCase):
         self.assertEqual(self.request('/api/configurazioni',{'id':ident,'titolo':'Non ricreare','stanze':rooms})[0],404)
 
     def test_box_presets_persist_and_validate(self):
-        data={'nome':'Termostato','serie':'Vimar Arké','scatola':{'moduli':3,'frutti':['termostato2','presa'],'note':'A lato letto'}}
+        data={'nome':'Termostato','serie':'Vimar Arké','scatola':{'moduli':3,'frutti':[None,'termostato2'],'note':'A lato letto'}}
         status,saved=self.request('/api/scatole-preimpostate',data);self.assertEqual(status,200)
         self.assertNotEqual(self.request('/api/scatole-preimpostate',data)[0],200)
         bad={**data,'nome':'Troppo piena','scatola':{'moduli':3,'frutti':['termostato3','presa']}}
