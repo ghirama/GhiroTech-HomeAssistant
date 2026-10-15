@@ -2,6 +2,8 @@
 
 ## 0.9.30
 
+- PDF condivisi nel progetto: scelta del documento e assegnazione indipendente della pagina per ogni appartamento, senza ricaricare il file.
+
 - Componenti da posizionare raggruppati per tutte le stanze dell’appartamento selezionato.
 - Trascinamento dall’elenco alla planimetria con mouse o puntatore touch; rilascio fuori dal disegno senza modifiche.
 - Visualizzazione contemporanea dei simboli di tutte le stanze dell’appartamento.

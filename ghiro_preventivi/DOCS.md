@@ -100,3 +100,7 @@ Scegliere appartamento e stanza, caricare il PDF o l’immagine e selezionare gl
 
 ### Trascinamento dei componenti
 L’elenco Da posizionare mostra tutte le stanze dell’appartamento scelto. Trascinare un componente sul disegno per collocarlo: mantiene la stanza di appartenenza. Rilasciarlo fuori dalla planimetria non lo sposta e non lo elimina. I simboli già collocati di tutte le stanze restano visibili. È disponibile anche il posizionamento con selezione e clic. Premere Salva configurazione per conservare le posizioni.
+
+
+### Una pagina PDF per appartamento
+Caricare un PDF multipagina, selezionare l’appartamento, scegliere PDF del progetto e Pagina PDF, quindi Assegna pagina all’appartamento. Cambiando appartamento si può riutilizzare lo stesso documento senza caricarlo nuovamente. Sono riutilizzabili anche più PDF caricati nello stesso progetto. Ogni appartamento conserva la propria pagina e i propri simboli.
