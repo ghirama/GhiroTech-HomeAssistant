@@ -1,10 +1,10 @@
-# Ghiro Tech Preventivi 0.9.15
+# Ghiro Tech Preventivi 0.9.16
 
 ## Aggiornamento da Home Assistant
 
 1. Crea un backup completo dell’add-on da Home Assistant.
 2. Nel negozio delle app verifica gli aggiornamenti del repository GhiroTech-HomeAssistant.
-3. Aggiorna Ghiro Tech Preventivi alla versione 0.9.15 e riavvia l’add-on.
+3. Aggiorna Ghiro Tech Preventivi alla versione 0.9.16 e riavvia l’add-on.
 4. Aprilo dalla barra laterale di Home Assistant e controlla un preventivo già salvato.
 
 Il database persistente e i documenti restano in `/data`. Non disinstallare l’add-on per aggiornarlo. Non sostituire manualmente il database operativo con quello incluso nel pacchetto.
@@ -46,3 +46,19 @@ Nel configuratore usa `+ Appartamento` e assegna un nome a ciascuna unità. `+ P
 Il trasferimento al preventivo comprende tutte le unità. Ogni voce conserva l’appartamento; i subtotali sono riepilogati separatamente e confluiscono nel totale generale. Le note delle scatole restano nella configurazione e non vengono stampate automaticamente sul preventivo cliente.
 
 Anche l’editor planimetria gestisce più unità, ciascuna con il proprio sfondo e i propri punti. La stampa cliente usa l’intestazione Ghiro Tech and Light e i colori ispirati al Digital Aqua Blue.
+
+## Salvataggio e conteggi delle scatole
+
+Usa Salva configurazione in alto o nella barra in fondo al configuratore. Puoi salvare una bozza senza cliente; per salvare il preventivo economico il cliente rimane necessario. Nell’editor planimetria la barra superiore con Salva configurazione rimane visibile durante lo scorrimento.
+
+Le nuove stanze partono da zero. Inserimento, rimozione e duplicazione di frutti o scatole aggiornano i conteggi della stanza. La Schuko occupa due moduli ma conta come un solo punto presa. Puoi aumentare i totali manualmente per includere punti non composti nelle scatole; non puoi scendere sotto i componenti effettivamente inseriti. I punti luce si impostano separatamente: il numero di pulsanti, deviatori e interruttori non determina il numero delle lampade. Alla prima apertura delle configurazioni precedenti, i totali già presenti sono conservati se almeno pari ai componenti; non si sommano due volte i frutti già conteggiati.
+
+## Scelta della cartella dati
+
+Apri Impostazioni → Salvataggio dati. La cartella attuale predefinita è `/data`. Per cambiare, scegli una nuova sottocartella vuota in `/share` o `/media`, per esempio `/share/ghiro-tech`, e premi Verifica e salva percorso. Il percorso riguarda il server Home Assistant, non il PC o iPad. Un archivio di rete deve essere già montato e disponibile a Home Assistant.
+
+Fino al riavvio tutti i salvataggi continuano nella cartella attuale. Riavviando l’add-on vengono copiati il database aggiornato, i documenti, le planimetrie e i backup dei listini. La cartella originale viene conservata. Il database contiene anche clienti, preventivi, configurazioni, lavori e pratiche. I PDF creati dalla stampa del browser continuano a usare la destinazione scelta nella finestra di stampa.
+
+La destinazione deve essere vuota e scrivibile: i dati esistenti non vengono sovrascritti. Se il trasferimento fallisce, il gestionale continua a utilizzare l’originale e mostra il problema nelle impostazioni. Puoi annullare il cambio in attesa. Se un archivio esterno già attivo diventa indisponibile, il gestionale interrompe l’avvio senza crearne uno vuoto: ripristina il montaggio della cartella.
+
+Includi `/share` o `/media` nel backup di Home Assistant quando vi sposti l’archivio: il solo backup dell’add-on non include queste cartelle. Non eliminare la copia originale prima di aver verificato l’archivio nuovo e un backup completo.

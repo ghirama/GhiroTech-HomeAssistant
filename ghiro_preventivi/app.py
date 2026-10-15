@@ -1,16 +1,18 @@
 import sqlite3,json,pathlib,shutil,os,uuid,datetime,html,cgi,io,csv,secrets,hashlib,hmac,time
 from price_import import initialize_catalog, import_catalog
+from storage import activate as activate_storage, configure as configure_storage, read_state as storage_state
 from pdf_plan import import_pdf, preview as pdf_preview, directory as pdf_directory
 from http.server import ThreadingHTTPServer,BaseHTTPRequestHandler
 from urllib.parse import urlparse,parse_qs
 BASE=pathlib.Path(__file__).parent
-DATA=pathlib.Path('/data') if pathlib.Path('/data').is_dir() else BASE
+CONTROL=pathlib.Path('/data') if pathlib.Path('/data').is_dir() else BASE
+DATA=activate_storage(CONTROL)
 DB=DATA/'prezzario.sqlite'
 if not DB.exists():shutil.copy2(BASE/'prezzario.sqlite',DB)
 DOCS=DATA/'documenti';DOCS.mkdir(exist_ok=True)
 PLANS=DATA/'planimetrie'
 def conn():
- c=sqlite3.connect(DB);c.row_factory=sqlite3.Row;return c
+ c=sqlite3.connect(DB.resolve().as_uri()+'?mode=rw',uri=True);c.row_factory=sqlite3.Row;return c
 def init():
  c=conn()
  c.executescript('''CREATE TABLE IF NOT EXISTS clienti(id INTEGER PRIMARY KEY,nome TEXT NOT NULL,telefono TEXT DEFAULT '',email TEXT DEFAULT '',indirizzo TEXT DEFAULT '',note TEXT DEFAULT '');
@@ -69,6 +71,7 @@ class H(BaseHTTPRequestHandler):
    if path=='/api/checklist':self.send([dict(x) for x in c.execute('SELECT * FROM checklist_pratiche ORDER BY id DESC')]);return
    if path.startswith('/api/checklist-voci/'):
     pid=int(path.split('/')[-1]);self.send([dict(x) for x in c.execute('SELECT * FROM checklist_voci WHERE pratica_id=? ORDER BY id',(pid,))]);return
+   if path=='/api/impostazioni/archivio':self.send(storage_state(CONTROL));return
    if path=='/api/configurazioni':self.send([dict(x) for x in c.execute('SELECT * FROM configurazioni_civili ORDER BY id DESC')]);return
    if path=='/api/listino/fonti':
     self.send([r[0] for r in c.execute("SELECT DISTINCT CASE WHEN instr(codice,':')>0 THEN substr(codice,1,instr(codice,':')-1) ELSE 'BASE_EPPAT' END FROM voci ORDER BY 1")]);return
@@ -101,6 +104,8 @@ class H(BaseHTTPRequestHandler):
   try:
    if path.startswith('/api/auth/'):return self.send({'errore':'non trovato'},404)
    if not self.same_origin():return self.send({'errore':'Origine non valida'},403)
+   if path=='/api/impostazioni/archivio':
+    payload=self.body();return self.send(configure_storage(CONTROL,DATA,payload.get('percorso')))
    if path in ('/api/planimetrie/import','/api/planimetrie/pagina'):
     length=int(self.headers.get('Content-Length','0'))
     if not 0<length<=15*1024*1024:return self.send({'errore':'PDF massimo 10 MB'},413)

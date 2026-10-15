@@ -11,7 +11,7 @@ function environment(){
 }
 async function load(name){const env=environment();const html=await readFile(new URL('../ghiro_preventivi/'+name,import.meta.url),'utf8');for(const match of html.matchAll(/<script\b[^>]*>([\s\S]*?)<\/script>/gi))vm.runInContext(match[1],env.context);return {...env,run:code=>vm.runInContext(code,env.context)};}
 const main=await load('index.html');
-main.run("newConfig();addRoom();gcAddBox(0);gcBoxes(rooms[0])[0].note='Nota originale';gcPut(0,0,0);duplicateApartment();rooms[1].scatole[0].note='Nota copia';addApartment('Parti comuni');addRoom()");
+main.run("newConfig();addRoom();gcAddBox(0);gcBoxes(rooms[0])[0].note='Nota originale';gcPut(0,0,0);duplicateApartment();rooms[1].scatole[0].note='Nota copia';addApartment('Parti comuni');addRoom();roomSet(2,'luci',1)");
 assert.equal(main.run('apartments.length'),3);
 assert.equal(main.run("rooms[0].scatole[0].note"),'Nota originale');
 assert.equal(main.run("apartments[2].nome"),'Parti comuni');
@@ -22,6 +22,21 @@ assert.match(main.get('totals').innerHTML,/Parti comuni/);
 main.run('lines=[];gcQuote()');assert.equal(main.run('new Set(lines.map(r=>r.appartamento)).size'),2);
 assert.equal(main.run("lines.filter(r=>r.codice==='FR-presa').length"),2);
 main.run("apartments=[];rooms=[{nome:'Legacy'}];normalizeApartments()");assert.equal(main.run('rooms[0].appartamento_id'), 'app-1');
+// Counts follow fruit operations, not occupied module slots.
+main.run("newConfig();addRoom();gcAddBox(0);gcSelected='schuko';gcPut(0,0,0)");
+assert.equal(main.run('rooms[0].preseSchuko'),1);
+main.run("gcCloneBox(0,0)");assert.equal(main.run('rooms[0].preseSchuko'),2);
+main.run("gcDeleteFruit(0,0,0)");assert.equal(main.run('rooms[0].preseSchuko'),1);
+main.run("gcRemoveBox(0,1)");assert.equal(main.run('rooms[0].preseSchuko'),0);
+main.run("roomSet(0,'comandi',2);roomSet(0,'luci',3);gcSelected='deviatore';gcPut(0,0,0)");
+assert.equal(main.run('rooms[0].comandi'),3);assert.equal(main.run('rooms[0].luci'),3);
+main.run("roomSet(0,'comandi',0)");assert.equal(main.run('rooms[0].comandi'),1);
+main.run("gcDeleteFruit(0,0,0)");assert.equal(main.run('rooms[0].comandi'),0);
+// Legacy totals already including boxes are not counted twice; repeated render is stable.
+main.run("rooms=[{nome:'Legacy',prese10:2,luci:2,scatole:[{moduli:3,frutti:['presa','presa']}]}];normalizeApartments();renderRooms();renderRooms()");
+assert.equal(main.run('rooms[0].prese10'),2);
+main.run("gcSelected='presa';gcPut(0,0,2)");assert.equal(main.run('rooms[0].prese10'),3);
+main.run("rooms=JSON.parse(JSON.stringify(rooms));renderRooms()");assert.equal(main.run('rooms[0].prese10'),3);
 const editor=await load('editor.html');
 editor.run("room().items.push({id:'point',type:'comando',fruits:['Presa'],note:'Originale'});applyPDF({id:'pdf-a',url:'first.png',width:100,height:100,pagine:2,pagina:1});addApartment('Appartamento 2',true);room().items[0].note='Copia';applyPDF({id:'pdf-b',url:'second.png',width:100,height:100,pagine:2,pagina:2});addApartment('Parti comuni')");
 assert.equal(editor.run('apartments.length'),3);

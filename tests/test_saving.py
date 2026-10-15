@@ -15,7 +15,7 @@ sys.path.insert(0,str(ROOT))
 def load_app(folder):
     tree=ast.parse((ROOT/'app.py').read_text())
     for node in tree.body:
-        if isinstance(node,ast.Assign) and any(isinstance(t,ast.Name) and t.id=='DATA' for t in node.targets):
+        if isinstance(node,ast.Assign) and any(isinstance(t,ast.Name) and t.id in ('DATA','CONTROL') for t in node.targets):
             node.value=ast.Call(func=ast.Attribute(value=ast.Name(id='pathlib',ctx=ast.Load()),attr='Path',ctx=ast.Load()),args=[ast.Constant(str(folder))],keywords=[])
     ast.fix_missing_locations(tree)
     scope={'__file__':str(ROOT/'app.py'),'__name__':'isolated_save_test'}
