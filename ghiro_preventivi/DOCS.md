@@ -96,3 +96,7 @@ Aprire Riepilogo stanze, scatole e quadri e premere Scarica riepilogo PDF. Il do
 ### Dalla configurazione alla planimetria
 Premere Apri nella planimetria nel configuratore civile: la configurazione viene salvata e importata nell’editor. In alternativa selezionare una configurazione civile dall’elenco dell’editor. La planimetria sarà un progetto separato: non viene sovrascritta la configurazione originale e le modifiche successive non vengono sincronizzate tra i due progetti.
 Scegliere appartamento e stanza, caricare il PDF o l’immagine e selezionare gli elementi nell’elenco Da posizionare. Ogni clic sulla planimetria colloca l’elemento selezionato. Gli elementi non ancora posizionati vengono conservati al salvataggio. I frutti mantengono il riferimento alla scatola e la sua composizione nei dati importati; i punti già conteggiati dalle scatole non vengono duplicati. La legenda distingue tipi con colori e simboli.
+
+
+### Trascinamento dei componenti
+L’elenco Da posizionare mostra tutte le stanze dell’appartamento scelto. Trascinare un componente sul disegno per collocarlo: mantiene la stanza di appartenenza. Rilasciarlo fuori dalla planimetria non lo sposta e non lo elimina. I simboli già collocati di tutte le stanze restano visibili. È disponibile anche il posizionamento con selezione e clic. Premere Salva configurazione per conservare le posizioni.

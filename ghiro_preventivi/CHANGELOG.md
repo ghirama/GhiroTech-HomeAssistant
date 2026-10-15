@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.9.30
+
+- Componenti da posizionare raggruppati per tutte le stanze dell’appartamento selezionato.
+- Trascinamento dall’elenco alla planimetria con mouse o puntatore touch; rilascio fuori dal disegno senza modifiche.
+- Visualizzazione contemporanea dei simboli di tutte le stanze dell’appartamento.
+
 ## 0.9.29
 
 - Importazione dal configuratore civile alla planimetria come progetto separato, con appartamenti, stanze ed elementi da posizionare.
