@@ -11,10 +11,10 @@ function environment(){
 }
 async function load(name){const env=environment();const html=await readFile(new URL('../ghiro_preventivi/'+name,import.meta.url),'utf8');for(const match of html.matchAll(/<script\b[^>]*>([\s\S]*?)<\/script>/gi))vm.runInContext(match[1],env.context);return {...env,run:code=>vm.runInContext(code,env.context)};}
 const main=await load('index.html');
-main.run("newConfig();addRoom();gcAddBox(0);gcBoxes(rooms[0])[0].note='Nota originale';gcPut(0,0,0);duplicateApartment();rooms[1].scatole[0].note='Nota copia';addApartment('Parti comuni');addRoom();roomSet(2,'luci',1)");
+main.run("newConfig();addRoom();gcAddBox(0);gcBoxes(rooms[0])[0].note='Nota originale';gcPut(0,0,0);duplicateApartment();rooms[0].scatole[0].note='Nota copia';addApartment('Parti comuni');addRoom();roomSet(0,'luci',1)");
 assert.equal(main.run('apartments.length'),3);
-assert.equal(main.run("rooms[0].scatole[0].note"),'Nota originale');
-assert.equal(main.run("apartments[2].nome"),'Parti comuni');
+assert.equal(main.run("rooms[2].scatole[0].note"),'Nota originale');
+assert.equal(main.run("apartments[0].nome"),'Parti comuni');
 main.run('toQuote();lines.forEach(r=>r.prezzo=10);render()');
 assert.equal(main.run('new Set(lines.map(r=>r.appartamento)).size'),3);
 const total=main.run('calc().subtotal');assert.ok(total>0);
@@ -40,8 +40,16 @@ main.run("rooms=JSON.parse(JSON.stringify(rooms));renderRooms()");assert.equal(m
 const editor=await load('editor.html');
 editor.run("room().items.push({id:'point',type:'comando',fruits:['Presa'],note:'Originale'});applyPDF({id:'pdf-a',url:'first.png',width:100,height:100,pagine:2,pagina:1});addApartment('Appartamento 2',true);room().items[0].note='Copia';applyPDF({id:'pdf-b',url:'second.png',width:100,height:100,pagine:2,pagina:2});addApartment('Parti comuni')");
 assert.equal(editor.run('apartments.length'),3);
-assert.equal(editor.run('rooms[0].items[0].note'),'Originale');
-assert.notEqual(editor.run('rooms[0].items[0].id'),editor.run('rooms[1].items[0].id'));
-assert.equal(editor.run('rooms[0].planDoc.id'),'pdf-a');assert.equal(editor.run('rooms[1].planDoc.id'),'pdf-b');
-assert.equal(editor.run('rooms[2].planDoc'),undefined);
+assert.equal(editor.run('rooms[2].items[0].note'),'Originale');
+assert.notEqual(editor.run('rooms[2].items[0].id'),editor.run('rooms[1].items[0].id'));
+assert.equal(editor.run('rooms[2].planDoc.id'),'pdf-a');assert.equal(editor.run('rooms[1].planDoc.id'),'pdf-b');
+assert.equal(editor.run('rooms[0].planDoc'),undefined);
 console.log('Apartment transitions, independent copies, common areas, quote grouping and per-apartment PDF: OK');
+
+// Prepending keeps existing room/box order and targets the new box.
+main.run("newConfig();addRoom();roomSet(0,'nome','Cucina');gcAddBox(0);gcUpdateBox(0,0,'nome','Originale');gcAddBox(0)");
+assert.equal(main.run('rooms[0].scatole[0].nome'),'Scatola 2');
+assert.equal(main.run('gcBox'),0);
+main.run('gcCloneBox(0,1)');assert.equal(main.run('rooms[0].scatole[0].nome'),'Originale (copia)');
+main.run('addRoom()');assert.equal(main.run('rooms[0].nome'),'Ingresso');assert.equal(main.run('rooms[1].nome'),'Cucina');
+main.run('duplicateApartment()');assert.equal(main.run('apartments[0].id'),main.run('activeApartment'));assert.equal(main.run('rooms[0].nome'),'Ingresso');assert.equal(main.run('rooms[1].nome'),'Cucina');
