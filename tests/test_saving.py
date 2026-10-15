@@ -61,6 +61,18 @@ class SavingTest(unittest.TestCase):
         response=connection.getresponse();status=response.status;value=json.loads(response.read());connection.close()
         return status,value
 
+    def test_box_presets_persist_and_validate(self):
+        data={'nome':'Termostato','serie':'Vimar Arké','scatola':{'moduli':3,'frutti':['termostato2','presa'],'note':'A lato letto'}}
+        status,saved=self.request('/api/scatole-preimpostate',data);self.assertEqual(status,200)
+        self.assertNotEqual(self.request('/api/scatole-preimpostate',data)[0],200)
+        bad={**data,'nome':'Troppo piena','scatola':{'moduli':3,'frutti':['termostato3','presa']}}
+        self.assertNotEqual(self.request('/api/scatole-preimpostate',bad)[0],200)
+        self.stop_server();self.scope=load_app(self.folder);self.start_server()
+        rows=self.request('/api/scatole-preimpostate')[1]
+        self.assertEqual(rows[0]['serie'],'Vimar Arké');self.assertEqual(json.loads(rows[0]['scatola_json']),data['scatola'])
+        self.assertEqual(self.request('/api/scatole-preimpostate/elimina',{'id':saved['id']})[0],200)
+        self.assertEqual(self.request('/api/scatole-preimpostate')[1],[])
+
     def test_projects_and_quotes_survive_restart_and_edits(self):
         status,client=self.request('/api/clienti',{'nome':'Cliente prova'})
         self.assertEqual(status,200)

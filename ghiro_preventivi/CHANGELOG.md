@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.9.20
+
+- Riepilogo per appartamento e stanza con nomi scatole, serie, capienza, moduli occupati, componenti e note.
+
+- Termostati da 2 e 3 moduli nel configuratore e nell’editor planimetria.
+
+- Scatole preimpostate: salva nome, serie, moduli, componenti e note per riutilizzarli in tutti i preventivi e da tutti i dispositivi.
+- Inserimento indipendente in cima alla stanza e aggiornamento dei conteggi.
+- Eliminazione dei modelli senza alterare le scatole inserite; controllo della serie civile e della capienza.
+
 ## 0.9.19
 
 - Duplicazione con numero progressivo al posto di “copia” per appartamenti, scatole, stanze nell’editor e preventivi fotovoltaici.
