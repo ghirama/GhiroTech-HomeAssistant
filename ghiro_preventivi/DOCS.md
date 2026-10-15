@@ -91,3 +91,8 @@ Le modifiche nel configuratore civile vengono salvate dopo circa 1,5 secondi di 
 
 ### PDF del riepilogo
 Aprire Riepilogo stanze, scatole e quadri e premere Scarica riepilogo PDF. Il documento A4 include logo e intestazione aziendale, cliente, panoramica, tutte le stanze e i punti, scatole con serie e posizioni, derivazioni e quadri con componenti e note. Viene generato con i dati presenti a schermo anche prima del salvataggio. Aprire il file scaricato per stamparlo.
+
+
+### Dalla configurazione alla planimetria
+Premere Apri nella planimetria nel configuratore civile: la configurazione viene salvata e importata nell’editor. In alternativa selezionare una configurazione civile dall’elenco dell’editor. La planimetria sarà un progetto separato: non viene sovrascritta la configurazione originale e le modifiche successive non vengono sincronizzate tra i due progetti.
+Scegliere appartamento e stanza, caricare il PDF o l’immagine e selezionare gli elementi nell’elenco Da posizionare. Ogni clic sulla planimetria colloca l’elemento selezionato. Gli elementi non ancora posizionati vengono conservati al salvataggio. I frutti mantengono il riferimento alla scatola e la sua composizione nei dati importati; i punti già conteggiati dalle scatole non vengono duplicati. La legenda distingue tipi con colori e simboli.
