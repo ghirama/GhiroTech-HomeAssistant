@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.9.18
+
+- Ronzatore da 1 modulo, campanello da 3 moduli e sensore di presenza da 1 o 2 moduli nelle scatole e nell’editor planimetria.
+- Conteggio automatico in Altri punti: ogni dispositivo conta un punto, indipendentemente dai moduli occupati.
+- Controllo della capienza anche per i sensori da 2 moduli nell’editor planimetria.
+
 ## 0.9.17
 
 - Nuovi appartamenti, parti comuni, stanze e scatole inseriti in cima alla rispettiva lista, incluse le copie.

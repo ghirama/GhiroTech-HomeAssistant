@@ -53,3 +53,18 @@ assert.equal(main.run('gcBox'),0);
 main.run('gcCloneBox(0,1)');assert.equal(main.run('rooms[0].scatole[0].nome'),'Originale (copia)');
 main.run('addRoom()');assert.equal(main.run('rooms[0].nome'),'Ingresso');assert.equal(main.run('rooms[1].nome'),'Cucina');
 main.run('duplicateApartment()');assert.equal(main.run('apartments[0].id'),main.run('activeApartment'));assert.equal(main.run('rooms[0].nome'),'Ingresso');assert.equal(main.run('rooms[1].nome'),'Cucina');
+
+// New devices count as one point each, with capacity based on occupied modules.
+main.run("newConfig();addRoom();gcAddBox(0);gcSelected='presenza2';gcPut(0,0,0);gcPut(0,0,1)");
+assert.equal(main.run('rooms[0].scatole[0].frutti.length'),1);
+assert.equal(main.run('rooms[0].extra'),1);
+main.run("gcSelected='ronzatore';gcPut(0,0,1);gcQuote()");
+assert.equal(main.run('rooms[0].extra'),2);
+assert.equal(main.run("lines.filter(r=>r.codice==='FR-presenza2').length"),1);
+main.run("gcUpdateBox(0,0,'moduli',6);gcDeleteFruit(0,0,0);gcSelected='campanello';gcPut(0,0,1);gcSelected='presenza1';gcPut(0,0,2);rooms=JSON.parse(JSON.stringify(rooms));renderRooms()");
+assert.equal(main.run('rooms[0].extra'),3);
+main.run("delete rooms[0].punti_extra_scatole.extra;rooms[0].extra=5;renderRooms();gcDeleteFruit(0,0,0)");assert.equal(main.run('rooms[0].extra'),4);
+editor.run("room().items=[{id:'sensor-test',fruits:[]}];selected='sensor-test';$('capacity').value='3';$('fruit').value='Sensore di presenza 2 moduli';fruitAdd();fruitAdd()");
+assert.equal(editor.run('item().fruits.length'),1);
+editor.run("$('fruit').value='Ronzatore';fruitAdd()");assert.equal(editor.run('usedFruitModules(item())'),3);
+editor.run("item().fruits=[];$('fruit').value='Campanello';fruitAdd();fruitAdd()");assert.equal(editor.run('item().fruits.length'),1);assert.equal(editor.run('usedFruitModules(item())'),3);

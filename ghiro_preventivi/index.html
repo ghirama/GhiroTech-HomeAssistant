@@ -85,12 +85,12 @@ refresh();searchItems();render();renderRooms();</script>
 <script>
 /* Compositore scatole: dati nel JSON delle stanze, compatibile con configurazioni precedenti. */
 const gcSeries=['Vimar Plana','Vimar Arké','Vimar Linea','BTicino Livinglight','BTicino Living Now'];
-const gcTypes={presa:{name:'Presa 10/16 A',m:1,key:'prese10'},schuko:{name:'Presa Schuko',m:2,key:'preseSchuko'},interruttore:{name:'Interruttore',m:1,key:'comandi'},deviatore:{name:'Deviatore',m:1,key:'comandi'},pulsante:{name:'Pulsante',m:1,key:'comandi'},invertitore:{name:'Invertitore',m:1,key:'comandi'},dati:{name:'Presa dati',m:1,key:'dati'},tv:{name:'Presa TV',m:1,key:'tv'},tapparella:{name:'Comando tapparella',m:1,key:'tapparelle'},cieco:{name:'Tappo cieco',m:1,key:null}};
+const gcTypes={presa:{name:'Presa 10/16 A',m:1,key:'prese10'},schuko:{name:'Presa Schuko',m:2,key:'preseSchuko'},interruttore:{name:'Interruttore',m:1,key:'comandi'},deviatore:{name:'Deviatore',m:1,key:'comandi'},pulsante:{name:'Pulsante',m:1,key:'comandi'},invertitore:{name:'Invertitore',m:1,key:'comandi'},dati:{name:'Presa dati',m:1,key:'dati'},tv:{name:'Presa TV',m:1,key:'tv'},tapparella:{name:'Comando tapparella',m:1,key:'tapparelle'},ronzatore:{name:'Ronzatore',m:1,key:'extra'},campanello:{name:'Campanello',m:3,key:'extra'},presenza1:{name:'Sensore di presenza 1 modulo',m:1,key:'extra'},presenza2:{name:'Sensore di presenza 2 moduli',m:2,key:'extra'},cieco:{name:'Tappo cieco',m:1,key:null}};
 let gcRoom=0,gcBox=0,gcSelected='presa';
 const gcEscape=s=>esc(String(s??''));
-const gcCountKeys=['comandi','prese10','preseSchuko','dati','tv','tapparelle'];
+const gcCountKeys=['comandi','prese10','preseSchuko','dati','tv','tapparelle','extra'];
 function gcCount(r){const counts=Object.fromEntries(gcCountKeys.map(k=>[k,0]));(r.scatole||[]).forEach(b=>(b.frutti||[]).forEach(type=>{const key=gcTypes[type]?.key;if(key)counts[key]++}));return counts}
-function gcSyncRoom(r){gcEnsure(r);const counts=gcCount(r);if(!r.punti_extra_scatole)r.punti_extra_scatole=Object.fromEntries(gcCountKeys.map(k=>[k,Math.max(0,(Number(r[k])||0)-counts[k])]));gcCountKeys.forEach(k=>{r.punti_extra_scatole[k]=Math.max(0,Number(r.punti_extra_scatole[k])||0);r[k]=counts[k]+r.punti_extra_scatole[k]});return r}
+function gcSyncRoom(r){gcEnsure(r);const counts=gcCount(r);if(!r.punti_extra_scatole)r.punti_extra_scatole=Object.fromEntries(gcCountKeys.map(k=>[k,Math.max(0,(Number(r[k])||0)-counts[k])]));gcCountKeys.forEach(k=>{if(!(k in r.punti_extra_scatole))r.punti_extra_scatole[k]=Math.max(0,(Number(r[k])||0)-counts[k]);r.punti_extra_scatole[k]=Math.max(0,Number(r.punti_extra_scatole[k])||0);r[k]=counts[k]+r.punti_extra_scatole[k]});return r}
 function gcEnsure(r){if(!Array.isArray(r.scatole))r.scatole=[];if(!gcSeries.includes(r.serie))r.serie=gcSeries[0];return r}
 function gcBoxes(r){return gcEnsure(r).scatole}
 function gcAddBox(i){gcSyncRoom(rooms[i]);const r=rooms[i];gcBoxes(r).unshift({moduli:3,frutti:[],nome:'Scatola '+(r.scatole.length+1)});gcRoom=i;gcBox=0;renderRooms()}
