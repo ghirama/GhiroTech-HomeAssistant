@@ -62,3 +62,19 @@ Fino al riavvio tutti i salvataggi continuano nella cartella attuale. Riavviando
 La destinazione deve essere vuota e scrivibile: i dati esistenti non vengono sovrascritti. Se il trasferimento fallisce, il gestionale continua a utilizzare l’originale e mostra il problema nelle impostazioni. Puoi annullare il cambio in attesa. Se un archivio esterno già attivo diventa indisponibile, il gestionale interrompe l’avvio senza crearne uno vuoto: ripristina il montaggio della cartella.
 
 Includi `/share` o `/media` nel backup di Home Assistant quando vi sposti l’archivio: il solo backup dell’add-on non include queste cartelle. Non eliminare la copia originale prima di aver verificato l’archivio nuovo e un backup completo.
+
+
+### Scatole e derivazioni (0.9.24)
+Le preimpostazioni conservano componenti, posizioni e note senza serie civile. La serie predefinita della stanza vale per le nuove scatole; ogni scatola può avere una serie diversa. Cliccare il titolo per richiudere una scatola o la composizione della stanza.
+
+Derivazioni: 28 formati iniziali da catalogo (11 GEWISS da incasso, 9 BTicino da incasso, 8 GEWISS da parete), più dimensioni personalizzate. Le dimensioni sono L × H × P in mm: esterne per GEWISS incasso, interne per GEWISS parete, dimensioni dichiarate dal catalogo per BTicino. Non sono misure universali intercambiabili. Quantità e note sono incluse nella distinta; i prezzi restano da associare.
+
+Fonti dei formati, consultate il 15 ottobre 2026:
+- https://www.gewiss.com/it/it/series/serie.1000000.1000057.48-range-flush-mounting-junction-and-modular-boxes-range
+- https://www.gewiss.com/it/it/prodotti/product.1000000.1000057.GW48011
+- https://www.gewiss.com/it/it/prodotti/product.1000002.1000088.GW44008
+- https://www.bticino.com/products/switches-sockets-and-wiring-devices/installation-boxes-and-protected-enclosures/junction-boxes-and-accessories
+- https://catalogo.bticino.it/prodotto/soluzioni-per-edifici-residenziali-e-nel-terziario/scatole-idrobox-e-multibox/scatole-di-derivazione-multibox-ed-accessori/BTI-16204-IT
+- https://catalogo.bticino.it/prodotto/soluzioni-per-edifici-residenziali-e-nel-terziario/scatole-idrobox-e-multibox/scatole-di-derivazione-multibox-ed-accessori/BTI-16205-IT
+- https://catalogo.bticino.it/prodotto/soluzioni-per-edifici-residenziali-e-nel-terziario/scatole-idrobox-e-multibox/scatole-di-derivazione-multibox-ed-accessori/BTI-16206-IT
+- https://catalogo.bticino.it/prodotto/soluzioni-per-edifici-residenziali-e-nel-terziario/scatole-idrobox-e-multibox/scatole-di-derivazione-multibox-ed-accessori/BTI-16207-IT

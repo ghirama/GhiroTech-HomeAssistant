@@ -30,6 +30,7 @@ def init():
  ''')
  for tab,col,typ in [('preventivi','cliente_id','INTEGER'),('preventivi','sconto_materiale','REAL DEFAULT 0'),('righe','quota_materiale','REAL DEFAULT 0'),('righe','appartamento',"TEXT DEFAULT ''"),('configurazioni_civili','descrizione',"TEXT DEFAULT ''"),('configurazioni_civili','appartamenti_json',"TEXT DEFAULT '[]'")]:
   if col not in [x[1] for x in c.execute('PRAGMA table_info('+tab+')')]:c.execute('ALTER TABLE '+tab+' ADD COLUMN '+col+' '+typ)
+ c.execute("UPDATE scatole_preimpostate SET serie='' WHERE serie<>''")
  initialize_catalog(c)
  c.commit();c.close()
 init()
@@ -73,7 +74,7 @@ class H(BaseHTTPRequestHandler):
    if path.startswith('/api/checklist-voci/'):
     pid=int(path.split('/')[-1]);self.send([dict(x) for x in c.execute('SELECT * FROM checklist_voci WHERE pratica_id=? ORDER BY id',(pid,))]);return
    if path=='/api/impostazioni/archivio':self.send(storage_state(CONTROL));return
-   if path=='/api/scatole-preimpostate':self.send([dict(x) for x in c.execute('SELECT * FROM scatole_preimpostate ORDER BY id DESC')]);return
+   if path=='/api/scatole-preimpostate':self.send([dict(x) for x in c.execute('SELECT id,nome,scatola_json FROM scatole_preimpostate ORDER BY id DESC')]);return
    if path=='/api/configurazioni':self.send([dict(x) for x in c.execute('SELECT * FROM configurazioni_civili ORDER BY id DESC')]);return
    if path=='/api/listino/fonti':
     self.send([r[0] for r in c.execute("SELECT DISTINCT CASE WHEN instr(codice,':')>0 THEN substr(codice,1,instr(codice,':')-1) ELSE 'BASE_EPPAT' END FROM voci ORDER BY 1")]);return
@@ -155,10 +156,9 @@ class H(BaseHTTPRequestHandler):
    elif path=='/api/scatole-preimpostate/elimina':
     c.execute('DELETE FROM scatole_preimpostate WHERE id=?',(int(d['id']),));c.commit();return self.send({'ok':True})
    elif path=='/api/scatole-preimpostate':
-    name=str(d.get('nome','')).strip();series=d.get('serie');box=d.get('scatola')
+    name=str(d.get('nome','')).strip();series='';box=d.get('scatola')
     sizes={'presa':1,'schuko':2,'interruttore':1,'deviatore':1,'pulsante':1,'invertitore':1,'dati':1,'tv':1,'tapparella':1,'cieco':1,'ronzatore':1,'campanello':3,'presenza1':1,'presenza2':2,'termostato2':2,'termostato3':3}
     if not name or len(name)>100:raise ValueError('Nome obbligatorio, massimo 100 caratteri')
-    if series not in ['Vimar Plana','Vimar Arké','Vimar Linea','BTicino Livinglight','BTicino Living Now']:raise ValueError('Serie non valida')
     if not isinstance(box,dict) or box.get('moduli') not in [3,4,6,7]:raise ValueError('Scatola non valida')
     fruits=box.get('frutti');note=box.get('note','')
     if not isinstance(fruits,list) or any(f is not None and (not isinstance(f,str) or f not in sizes) for f in fruits) or sum(1 if f is None else sizes[f] for f in fruits)>box['moduli']:raise ValueError('Componenti non validi o scatola piena')

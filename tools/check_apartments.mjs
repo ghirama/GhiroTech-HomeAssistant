@@ -84,3 +84,12 @@ main.run("gcSelected='schuko';gcPut(0,0,1)");assert.equal(main.run('rooms[0].pre
 main.run("gcPut(0,0,0);gcDeleteFruit(0,0,0)");assert.equal(main.run('JSON.stringify(rooms[0].scatole[0].frutti)'),JSON.stringify([null,null,'presa']));
 main.run("rooms=JSON.parse(JSON.stringify(rooms));renderRooms();lines=[];gcQuote()");assert.equal(main.run("lines.filter(r=>r.codice==='FR-presa').length"),1);
 main.run("gcUpdateBox(0,0,'moduli',4);gcSelected='termostato3';gcPut(0,0,0)");assert.equal(main.run('rooms[0].extra'),0);
+
+main.run("newConfig();addRoom();gcAddBox(0);gcSelected='presa';gcPut(0,0,2);gcPresets=[{id:1,nome:'Modello',serie:'Vimar Plana',scatola_json:JSON.stringify(rooms[0].scatole[0])}];gcSetSeries(0,'BTicino Living Now');gcInsertPreset(0,1)");
+assert.equal(main.run('rooms[0].scatole[0].serie'),'BTicino Living Now');assert.equal(main.run('rooms[0].scatole[1].serie'),'Vimar Plana');
+main.run("jdAdd(0);jdSet(0,0,'quantita',2);jdClone(0,0);jdSet(0,0,'formato','custom');jdSet(0,0,'larghezza',222);jdSet(0,0,'note','Dati');rooms=JSON.parse(JSON.stringify(rooms));renderRooms();lines=[];gcQuote()");
+assert.equal(main.run("lines.filter(r=>r.codice.startsWith('DER-')).reduce((n,r)=>n+r.quantita,0)"),4);
+assert.ok(main.run("lines.some(r=>r.descrizione.includes('BTicino Living Now'))"));
+assert.ok(main.get('gcDetails').innerHTML.includes('222 ×'));
+main.run('duplicateApartment()');assert.equal(main.run('rooms[0].derivazioni[0].larghezza'),222);
+main.run("jdSet(0,0,'larghezza',333)");assert.equal(main.run('rooms[1].derivazioni[0].larghezza'),222);
