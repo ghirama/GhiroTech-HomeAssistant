@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.9.29
+
+- Importazione dal configuratore civile alla planimetria come progetto separato, con appartamenti, stanze ed elementi da posizionare.
+- Colori, simboli e legenda per luci, pulsanti, prese, TV, termostati e altri componenti.
+
 ## 0.9.28
 
 - PDF del riepilogo completo con logo, colori aziendali, cliente e intestazione.
