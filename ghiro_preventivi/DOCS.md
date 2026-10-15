@@ -87,3 +87,7 @@ I quadri si possono richiudere, duplicare ed eliminare. Salva configurazione con
 
 ### Salvataggio automatico del configuratore
 Le modifiche nel configuratore civile vengono salvate dopo circa 1,5 secondi di pausa. I campi applicati all’uscita dal campo vengono salvati dopo la conferma del valore. Lo stato compare accanto a Salva configurazione; il pulsante manuale resta utilizzabile. Prima di aprire un’altra configurazione o crearne una nuova, le modifiche in attesa vengono salvate. In caso di errore il cambio viene fermato e si può riprovare con Salva configurazione; il ritorno della connessione attiva un nuovo tentativo. La chiusura della pagina con modifiche in attesa richiede conferma del browser. La funzione riguarda il configuratore civile, non l’editor planimetria né la redazione dei preventivi.
+
+
+### PDF del riepilogo
+Aprire Riepilogo stanze, scatole e quadri e premere Scarica riepilogo PDF. Il documento A4 include logo e intestazione aziendale, cliente, panoramica, tutte le stanze e i punti, scatole con serie e posizioni, derivazioni e quadri con componenti e note. Viene generato con i dati presenti a schermo anche prima del salvataggio. Aprire il file scaricato per stamparlo.

@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.9.28
+
+- PDF del riepilogo completo con logo, colori aziendali, cliente e intestazione.
+- Panoramica e dettagli per appartamento: punti, scatole, posizioni dei frutti, derivazioni, quadri e componenti, caratteristiche e note.
+
 ## 0.9.27
 
 - Pulsante Aggiungi stanza spostato dentro Appartamenti del preventivo.

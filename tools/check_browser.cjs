@@ -172,6 +172,13 @@ const {execFileSync}=require('node:child_process');
   assert.equal(await page.getByLabel('Larghezza (mm)',{exact:true}).inputValue(),'400');
   assert.equal(await page.getByLabel('Circuito e caratteristiche').inputValue(),'Cucina · 2 poli · 16 A');
   await page.locator('#qeComposer').screenshot({path:'browser-artifacts/quadri.png'});
+  await page.getByText('Riepilogo stanze, scatole e quadri',{exact:true}).click();
+  const summaryDownload=page.waitForEvent('download');
+  await page.getByRole('button',{name:'Scarica riepilogo PDF',exact:true}).click();
+  await (await summaryDownload).saveAs('browser-artifacts/riepilogo-impianto.pdf');
+  const summaryText=execFileSync('pdftotext',['browser-artifacts/riepilogo-impianto.pdf','-'],{encoding:'utf8'});
+  assert.ok(summaryText.includes('TEST-QE'));assert.ok(summaryText.includes('Cucina'));assert.ok(summaryText.includes('RIEPILOGO IMPIANTO'));
+
   await page.evaluate(()=>{lines=[];gcQuote();if(lines.length!==2||!lines.some(l=>l.codice==='TEST-QE'))throw Error('Quadro non trasferito')});
   await page.evaluate(async()=>{await newConfig();show('configuratore')});
   await page.getByRole('button',{name:'+ Aggiungi stanza',exact:true}).click();
