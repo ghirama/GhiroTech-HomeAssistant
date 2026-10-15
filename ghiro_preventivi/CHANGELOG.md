@@ -2,6 +2,8 @@
 
 ## 0.9.27
 
+- Pulsante Aggiungi stanza spostato dentro Appartamenti del preventivo.
+
 - Salvataggio automatico del configuratore dopo le modifiche, con stato visibile e salvataggio manuale disponibile.
 - Salvataggi serializzati, protezione del cambio configurazione e avviso di uscita in caso di modifiche non salvate.
 
