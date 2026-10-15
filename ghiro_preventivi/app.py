@@ -28,7 +28,7 @@ def init():
  CREATE TABLE IF NOT EXISTS admin_login(id INTEGER PRIMARY KEY CHECK(id=1),username TEXT NOT NULL,password_hash TEXT NOT NULL);
  CREATE TABLE IF NOT EXISTS auth_sessions(token_hash TEXT PRIMARY KEY,expires INTEGER NOT NULL);
  ''')
- for tab,col,typ in [('preventivi','cliente_id','INTEGER'),('preventivi','sconto_materiale','REAL DEFAULT 0'),('righe','quota_materiale','REAL DEFAULT 0'),('righe','appartamento',"TEXT DEFAULT ''"),('configurazioni_civili','appartamenti_json',"TEXT DEFAULT '[]'")]:
+ for tab,col,typ in [('preventivi','cliente_id','INTEGER'),('preventivi','sconto_materiale','REAL DEFAULT 0'),('righe','quota_materiale','REAL DEFAULT 0'),('righe','appartamento',"TEXT DEFAULT ''"),('configurazioni_civili','descrizione',"TEXT DEFAULT ''"),('configurazioni_civili','appartamenti_json',"TEXT DEFAULT '[]'")]:
   if col not in [x[1] for x in c.execute('PRAGMA table_info('+tab+')')]:c.execute('ALTER TABLE '+tab+' ADD COLUMN '+col+' '+typ)
  initialize_catalog(c)
  c.commit();c.close()
@@ -159,20 +159,31 @@ class H(BaseHTTPRequestHandler):
     if not isinstance(note,str) or len(note)>5000:raise ValueError('Note non valide')
     if c.execute('SELECT id FROM scatole_preimpostate WHERE nome=?',(name,)).fetchone():raise ValueError('Nome già presente: scegli un altro nome')
     cur=c.execute('INSERT INTO scatole_preimpostate(nome,serie,scatola_json) VALUES(?,?,?)',(name,series,json.dumps({'moduli':box['moduli'],'frutti':fruits,'note':note},ensure_ascii=False)))
+   elif path in ('/api/configurazioni/rinomina','/api/configurazioni/elimina'):
+    ident=int(d.get('id') or 0)
+    if not c.execute('SELECT id FROM configurazioni_civili WHERE id=?',(ident,)).fetchone():return self.send({'errore':'Configurazione non trovata'},404)
+    if path.endswith('/rinomina'):
+     title=str(d.get('titolo','')).strip()
+     if not title or len(title)>200:raise ValueError('Nome obbligatorio, massimo 200 caratteri')
+     c.execute('UPDATE configurazioni_civili SET titolo=?,aggiornato=? WHERE id=?',(title,datetime.date.today().isoformat(),ident))
+    else:c.execute('DELETE FROM configurazioni_civili WHERE id=?',(ident,))
+    c.commit();return self.send({'ok':True})
    elif path=='/api/configurazioni':
     cid=d.get('id');existing=None
     if cid:
-     existing=c.execute('SELECT cliente_id,appartamenti_json FROM configurazioni_civili WHERE id=?',(int(cid),)).fetchone()
+     existing=c.execute('SELECT cliente_id,appartamenti_json,descrizione FROM configurazioni_civili WHERE id=?',(int(cid),)).fetchone()
      if not existing:return self.send({'errore':'Progetto non trovato: salva come nuovo progetto'},404)
     client=d.get('cliente_id') if 'cliente_id' in d else (existing['cliente_id'] if existing else None)
     apartments=d.get('appartamenti',json.loads(existing['appartamenti_json'] or '[]') if existing else [])
     if not isinstance(apartments,list) or len(apartments)>200:raise ValueError('Appartamenti non validi')
     if any(not isinstance(a,dict) or not isinstance(a.get('id'),str) or not isinstance(a.get('nome'),str) or not a['nome'].strip() for a in apartments):raise ValueError('Nome e identificativo appartamento obbligatori')
     if len({a['id'] for a in apartments})!=len(apartments) or len({a['nome'].strip().casefold() for a in apartments})!=len(apartments):raise ValueError('Appartamenti duplicati')
-    args=(client or None,str(d.get('titolo','')),json.dumps(d.get('stanze',[]),ensure_ascii=False),datetime.date.today().isoformat(),json.dumps(apartments,ensure_ascii=False))
+    description=d.get('descrizione',existing['descrizione'] if existing else '')
+    if not isinstance(description,str) or len(description)>5000:raise ValueError('Descrizione troppo lunga (massimo 5000 caratteri)')
+    args=(client or None,str(d.get('titolo','')),json.dumps(d.get('stanze',[]),ensure_ascii=False),datetime.date.today().isoformat(),json.dumps(apartments,ensure_ascii=False),description)
     if cid:
-     c.execute('UPDATE configurazioni_civili SET cliente_id=?,titolo=?,stanze_json=?,aggiornato=?,appartamenti_json=? WHERE id=?',args+(int(cid),));cur=c.execute('SELECT id FROM configurazioni_civili WHERE id=?',(int(cid),))
-    else:cur=c.execute('INSERT INTO configurazioni_civili(cliente_id,titolo,stanze_json,aggiornato,appartamenti_json) VALUES(?,?,?,?,?)',args)
+     c.execute('UPDATE configurazioni_civili SET cliente_id=?,titolo=?,stanze_json=?,aggiornato=?,appartamenti_json=?,descrizione=? WHERE id=?',args+(int(cid),));cur=c.execute('SELECT id FROM configurazioni_civili WHERE id=?',(int(cid),))
+    else:cur=c.execute('INSERT INTO configurazioni_civili(cliente_id,titolo,stanze_json,aggiornato,appartamenti_json,descrizione) VALUES(?,?,?,?,?,?)',args)
    elif path=='/api/preventivi':
     import math
     def number(v):

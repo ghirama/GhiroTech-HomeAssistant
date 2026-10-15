@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.9.21
+
+- Elenco configurazioni con nome e descrizione a sinistra e icone Rinomina, Apri e Cancella a destra.
+- Descrizione modificabile in cima al configuratore e all’editor planimetria.
+- Cancellazione con conferma, senza eliminare i preventivi già creati.
+- Apertura diretta delle configurazioni su planimetria nell’editor.
+
 ## 0.9.20
 
 - Riepilogo per appartamento e stanza con nomi scatole, serie, capienza, moduli occupati, componenti e note.
