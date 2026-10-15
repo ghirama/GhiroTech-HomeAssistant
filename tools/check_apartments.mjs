@@ -6,7 +6,7 @@ function environment(){
  const nodes=new Map();
  const node=()=>({value:'',innerHTML:'',textContent:'',style:{},classList:{add(){},remove(){},toggle(){}},addEventListener(){},insertAdjacentElement(){},replaceChildren(){},append(){},add(){},focus(){},removeAttribute(){},showModal(){},close(){},querySelectorAll(){return [node(),node(),node()]}});
  const get=id=>{if(!nodes.has(id))nodes.set(id,node());return nodes.get(id)};
- const context=vm.createContext({console,structuredClone,crypto:globalThis.crypto,alert(){},confirm:()=>true,Option:function(text,value){return {text,value}},document:{getElementById:get,createElement:node,querySelectorAll:()=>[],querySelector:()=>null},fetch:async()=>({ok:true,json:async()=>[]}),setTimeout,URL,Blob});
+ const context=vm.createContext({console,structuredClone,crypto:globalThis.crypto,alert(){},confirm:()=>true,Option:function(text,value){return {text,value}},document:{getElementById:get,createElement:node,querySelectorAll:()=>[],querySelector:()=>null},fetch:async()=>({ok:true,json:async()=>[]}),setTimeout,clearTimeout,queueMicrotask,addEventListener(){},URL,Blob});
  context.window=context;return {context,get};
 }
 async function load(name){const env=environment();const html=await readFile(new URL('../ghiro_preventivi/'+name,import.meta.url),'utf8');for(const match of html.matchAll(/<script\b[^>]*>([\s\S]*?)<\/script>/gi))vm.runInContext(match[1],env.context);return {...env,run:code=>vm.runInContext(code,env.context)};}
