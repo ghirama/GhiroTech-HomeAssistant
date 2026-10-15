@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.9.19
+
+- Duplicazione con numero progressivo al posto di “copia” per appartamenti, scatole, stanze nell’editor e preventivi fotovoltaici.
+- Il numero segue il più alto già presente per lo stesso nome; le copie continuano a comparire in cima.
+
 ## 0.9.18
 
 - Ronzatore da 1 modulo, campanello da 3 moduli e sensore di presenza da 1 o 2 moduli nelle scatole e nell’editor planimetria.

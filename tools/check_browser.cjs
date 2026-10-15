@@ -32,6 +32,7 @@ const {execFileSync}=require('node:child_process');
   assert.equal(await page.locator('#gcComposer .gc-panel').nth(1).locator('.card').count(),1);
   await page.getByRole('button',{name:'Elimina stanza',exact:true}).first().click();
   await page.getByRole('button',{name:'Duplica appartamento',exact:true}).click();
+  assert.equal(await page.locator('#cfgApartmentName').inputValue(),'Appartamento 2');
   await page.locator('#cfgApartmentName').fill('Appartamento 2');await page.locator('#cfgApartmentName').blur();
   await page.getByRole('button',{name:'+ Parti comuni',exact:true}).click();
   await page.getByRole('button',{name:'+ Aggiungi stanza',exact:true}).click();
