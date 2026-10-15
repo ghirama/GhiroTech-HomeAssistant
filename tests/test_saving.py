@@ -61,6 +61,22 @@ class SavingTest(unittest.TestCase):
         response=connection.getresponse();status=response.status;value=json.loads(response.read());connection.close()
         return status,value
 
+    def test_config_description_rename_and_delete(self):
+        rooms=[{'nome':'Cucina','scatole':[{'moduli':3,'frutti':['presa']}]}]
+        status,saved=self.request('/api/configurazioni',{'titolo':'Impianto','descrizione':'Primo piano','stanze':rooms});self.assertEqual(status,200)
+        ident=saved['id']
+        status,client=self.request('/api/clienti',{'nome':'Cliente'})
+        status,quote=self.request('/api/preventivi',{'cliente_id':client['id'],'cliente':'Cliente','titolo':'Preventivo indipendente','righe':[]});self.assertEqual(status,200)
+        self.assertEqual(self.request('/api/configurazioni/rinomina',{'id':ident,'titolo':'Nuovo nome'})[0],200)
+        rows=self.request('/api/configurazioni')[1];self.assertEqual(rows[0]['descrizione'],'Primo piano');self.assertEqual(json.loads(rows[0]['stanze_json']),rooms)
+        self.assertEqual(self.request('/api/configurazioni',{'id':ident,'titolo':'Nuovo nome','stanze':rooms})[0],200)
+        self.stop_server();self.scope=load_app(self.folder);self.start_server()
+        self.assertEqual(self.request('/api/configurazioni')[1][0]['descrizione'],'Primo piano')
+        self.assertEqual(self.request('/api/configurazioni/elimina',{'id':ident})[0],200)
+        self.assertEqual(self.request('/api/configurazioni')[1],[])
+        self.assertEqual(self.request('/api/preventivi/'+str(quote['id']))[0],200)
+        self.assertEqual(self.request('/api/configurazioni',{'id':ident,'titolo':'Non ricreare','stanze':rooms})[0],404)
+
     def test_box_presets_persist_and_validate(self):
         data={'nome':'Termostato','serie':'Vimar Arké','scatola':{'moduli':3,'frutti':['termostato2','presa'],'note':'A lato letto'}}
         status,saved=self.request('/api/scatole-preimpostate',data);self.assertEqual(status,200)
