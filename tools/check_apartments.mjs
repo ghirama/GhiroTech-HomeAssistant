@@ -50,7 +50,7 @@ console.log('Apartment transitions, independent copies, common areas, quote grou
 main.run("newConfig();addRoom();roomSet(0,'nome','Cucina');gcAddBox(0);gcUpdateBox(0,0,'nome','Originale');gcAddBox(0)");
 assert.equal(main.run('rooms[0].scatole[0].nome'),'Scatola 2');
 assert.equal(main.run('gcBox'),0);
-main.run('gcCloneBox(0,1)');assert.equal(main.run('rooms[0].scatole[0].nome'),'Originale (copia)');
+main.run('gcCloneBox(0,1)');assert.equal(main.run('rooms[0].scatole[0].nome'),'Originale 2');
 main.run('addRoom()');assert.equal(main.run('rooms[0].nome'),'Ingresso');assert.equal(main.run('rooms[1].nome'),'Cucina');
 main.run('duplicateApartment()');assert.equal(main.run('apartments[0].id'),main.run('activeApartment'));assert.equal(main.run('rooms[0].nome'),'Ingresso');assert.equal(main.run('rooms[1].nome'),'Cucina');
 
@@ -68,3 +68,11 @@ editor.run("room().items=[{id:'sensor-test',fruits:[]}];selected='sensor-test';$
 assert.equal(editor.run('item().fruits.length'),1);
 editor.run("$('fruit').value='Ronzatore';fruitAdd()");assert.equal(editor.run('usedFruitModules(item())'),3);
 editor.run("item().fruits=[];$('fruit').value='Campanello';fruitAdd();fruitAdd()");assert.equal(editor.run('item().fruits.length'),1);assert.equal(editor.run('usedFruitModules(item())'),3);
+
+for(const env of [main,editor]){
+ assert.equal(env.run("nextCopyName('Scatola 1',['Scatola 1','Scatola 3'])"),'Scatola 4');
+ assert.equal(env.run("nextCopyName('Camera',['Camera','Camera 2'])"),'Camera 3');
+ assert.equal(env.run("nextCopyName('Scatola 1 (copia)',['Scatola 1','Scatola 2'])"),'Scatola 3');
+}
+main.run('newConfig();addRoom();gcAddBox(0);gcCloneBox(0,0);gcCloneBox(0,1)');assert.equal(main.run('rooms[0].scatole[0].nome'),'Scatola 3');
+main.run('duplicateApartment();duplicateApartment()');assert.equal(main.run('apartments[0].nome'),'Appartamento 3');
