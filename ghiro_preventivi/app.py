@@ -146,6 +146,12 @@ class H(BaseHTTPRequestHandler):
     c.execute('UPDATE checklist_pratiche SET '+','.join(k+'=?' for k in fields)+' WHERE id=?',[d[k] for k in fields]+[pid]);c.commit();return self.send({'ok':True})
    elif path=='/api/checklist/voce':
     vid=int(d.get('id') or 0);c.execute('UPDATE checklist_voci SET completata=? WHERE id=?',(1 if d.get('completata') else 0,vid));c.commit();return self.send({'ok':True})
+   elif path=='/api/scatole-preimpostate/rinomina':
+    ident=int(d.get('id') or 0);name=str(d.get('nome','')).strip()
+    if not name or len(name)>100:raise ValueError('Nome obbligatorio, massimo 100 caratteri')
+    if not c.execute('SELECT id FROM scatole_preimpostate WHERE id=?',(ident,)).fetchone():return self.send({'errore':'Scatola preimpostata non trovata'},404)
+    if c.execute('SELECT id FROM scatole_preimpostate WHERE nome=? AND id<>?',(name,ident)).fetchone():raise ValueError('Nome già presente: scegli un altro nome')
+    c.execute('UPDATE scatole_preimpostate SET nome=? WHERE id=?',(name,ident));c.commit();return self.send({'ok':True})
    elif path=='/api/scatole-preimpostate/elimina':
     c.execute('DELETE FROM scatole_preimpostate WHERE id=?',(int(d['id']),));c.commit();return self.send({'ok':True})
    elif path=='/api/scatole-preimpostate':
