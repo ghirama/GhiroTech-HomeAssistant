@@ -1,5 +1,5 @@
 name: "Ghiro Tech Preventivi"
-version: "0.9.24"
+version: "0.9.25"
 slug: "ghiro_preventivi"
 description: "Preventivi elettrici e importazione listini EPPAT, Vimar e BTicino"
 startup: application

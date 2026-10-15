@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.9.25
+
+- Quadri elettrici per appartamento e parti comuni, dimensioni in mm e file/moduli configurabili.
+- Inserimento componenti nella posizione scelta, controllo ingombri e conteggio moduli liberi.
+- Caratteristiche e codici articolo, note, duplicazione, cancellazione, salvataggio e distinta nel preventivo.
+
 ## 0.9.24
 
 - Selettore Frutto da inserire dentro ogni stanza, con selezione indipendente.

@@ -78,3 +78,8 @@ Fonti dei formati, consultate il 15 ottobre 2026:
 - https://catalogo.bticino.it/prodotto/soluzioni-per-edifici-residenziali-e-nel-terziario/scatole-idrobox-e-multibox/scatole-di-derivazione-multibox-ed-accessori/BTI-16205-IT
 - https://catalogo.bticino.it/prodotto/soluzioni-per-edifici-residenziali-e-nel-terziario/scatole-idrobox-e-multibox/scatole-di-derivazione-multibox-ed-accessori/BTI-16206-IT
 - https://catalogo.bticino.it/prodotto/soluzioni-per-edifici-residenziali-e-nel-terziario/scatole-idrobox-e-multibox/scatole-di-derivazione-multibox-ed-accessori/BTI-16207-IT
+
+
+### Quadri elettrici
+Nella configurazione civile, ogni appartamento e le parti comuni possono contenere più quadri. Impostare le dimensioni L × H × P in mm, numero di file e moduli per fila. Scegliere il componente e il suo ingombro, poi cliccare sullo spazio di partenza: il componente deve entrare interamente nella fila senza sovrapposizioni. Le caratteristiche e il codice articolo sono compilabili per ciascun componente. La riduzione della capienza non può tagliare componenti presenti.
+I quadri si possono richiudere, duplicare ed eliminare. Salva configurazione conserva tutto il progetto. Il riepilogo e i pulsanti di trasferimento al preventivo includono contenitori e componenti, con prezzi da compilare. Dimensioni e ingombri vanno inseriti secondo il prodotto scelto; non vengono calcolate automaticamente le protezioni.

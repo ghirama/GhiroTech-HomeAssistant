@@ -93,3 +93,14 @@ assert.ok(main.run("lines.some(r=>r.descrizione.includes('BTicino Living Now'))"
 assert.ok(main.get('gcDetails').innerHTML.includes('222 ×'));
 main.run('duplicateApartment()');assert.equal(main.run('rooms[0].derivazioni[0].larghezza'),222);
 main.run("jdSet(0,0,'larghezza',333)");assert.equal(main.run('rooms[1].derivazioni[0].larghezza'),222);
+// Electrical panels: exact slots, row limits, resizing, copies and quote paths.
+main.run("newConfig();qeAdd();qeSet(0,'larghezza',400);qePut(0,2,5);qePut(0,2,6);qePut(0,1,12)");
+assert.equal(main.run('qePanels()[0].componenti.length'),1);
+main.run("qeSet(0,'file',1);qeSet(0,'perFila',5)");
+assert.equal(main.run('qePanels()[0].file'),2);assert.equal(main.run('qePanels()[0].perFila'),12);
+main.run("qeComponent(0,0,'descrizione','Circuito cucina');apartments=JSON.parse(JSON.stringify(apartments));duplicateApartment();qeComponent(0,0,'descrizione','Copia')");
+assert.equal(main.run('apartments[1].quadri[0].componenti[0].descrizione'),'Circuito cucina');
+main.run('toQuote()');assert.equal(main.run("lines.filter(l=>l.codice==='QE').length"),2);
+main.run('lines=[];gcQuote()');assert.equal(main.run('lines.length'),4);
+main.run('qeClone(0);qeRemoveComponent(0,0)');assert.equal(main.run('qePanels()[1].componenti.length'),1);
+main.run('qeDelete(0)');assert.equal(main.run('qePanels().length'),1);
