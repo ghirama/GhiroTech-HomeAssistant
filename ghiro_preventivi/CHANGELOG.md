@@ -2,6 +2,8 @@
 
 ## 0.9.20
 
+- Riepilogo per appartamento e stanza con nomi scatole, serie, capienza, moduli occupati, componenti e note.
+
 - Termostati da 2 e 3 moduli nel configuratore e nell’editor planimetria.
 
 - Scatole preimpostate: salva nome, serie, moduli, componenti e note per riutilizzarli in tutti i preventivi e da tutti i dispositivi.
