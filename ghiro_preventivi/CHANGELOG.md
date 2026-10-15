@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.9.17
+
+- Nuovi appartamenti, parti comuni, stanze e scatole inseriti in cima alla rispettiva lista, incluse le copie.
+- Stesso ordine nell’editor planimetria e per i materiali aggiuntivi del fotovoltaico.
+- Ordine conservato al salvataggio e alla riapertura; posizione dei frutti nelle scatole invariata.
+
 ## 0.9.16
 
 - Salva configurazione disponibile anche in fondo alla pagina; salvataggio delle bozze senza cliente.
