@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.9.24
+
+- Selettore Frutto da inserire dentro ogni stanza, con selezione indipendente.
+
+- Composizione richiudibile al solo titolo per stanza e singola scatola.
+
+- Scatole preimpostate senza serie civile, anche per i modelli esistenti. Serie selezionabile per ogni scatola inserita.
+- Sezione Scatole di derivazione per stanza: formati da incasso e parete, misure personalizzate, quantità, note, duplicazione e cancellazione.
+- Derivazioni conservate nel progetto e incluse nel riepilogo e nella distinta del preventivo.
+
 ## 0.9.23
 
 - Scatole preimpostate: icone Rinomina e Cancella, con conferma per la cancellazione.
