@@ -54,7 +54,7 @@ const {execFileSync}=require('node:child_process');
   await page.getByRole('button',{name:'Esporta Excel',exact:true}).click();
   const excel=await excelDownload;assert.ok(excel.suggestedFilename().endsWith('.xlsx'));
   await excel.saveAs('browser-artifacts/preventivo.xlsx');
-  execFileSync('python3',['-c',"import zipfile,xml.etree.ElementTree as E; z=zipfile.ZipFile('browser-artifacts/preventivo.xlsx'); p=z.read('xl/worksheets/sheet1.xml').decode(); assert 'Modifica non salvata Excel' in p; assert 'Calcolo interno' in p; assert z.testzip() is None"]);
+  execFileSync('python3',['-c',"import zipfile,xml.etree.ElementTree as E; z=zipfile.ZipFile('browser-artifacts/preventivo.xlsx'); p=z.read('xl/worksheets/sheet1.xml').decode(); assert 'Modifica non salvata Excel' in p; assert 'TOTALE GENERALE' in p; assert 'Appartamento 1' in z.read('xl/workbook.xml').decode(); assert z.testzip() is None"]);
   await page.evaluate(()=>{$('discount').value='0';$('markup').value='0';render()});
   await page.emulateMedia({media:'print'});
   await page.pdf({path:'browser-artifacts/quote.pdf',format:'A4',printBackground:true});

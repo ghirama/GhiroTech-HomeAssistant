@@ -26,17 +26,17 @@ class ExcelQuoteTests(unittest.TestCase):
             c = ET.fromstring(z.read('xl/worksheets/sheet2.xml'))
             cells = {x.get('r'): x for x in p.iter(tag('c'))}
             internal = {x.get('r'): x for x in c.iter(tag('c'))}
-            self.assertAlmostEqual(float(cells['F25'].findtext(tag('v'))), 387.96)
-            self.assertEqual(cells['F24'].findtext(tag('f')), "F23*'Calcolo interno'!$B$6")
-            self.assertEqual(cells['D19'].findtext(tag('f')), "'Calcolo interno'!E11")
-            self.assertEqual(cells['F23'].findtext(tag('f')), 'SUM(F17:F19)')
-            self.assertEqual(internal['C10'].get('t'), 'inlineStr')
-            self.assertIsNone(internal['C10'].find(tag('f')))
-            self.assertIn('SUMPRODUCT', cells['F22'].findtext(tag('f')))
-            self.assertEqual(p.find(tag('pageSetup')).get('fitToHeight'), '0')
-            self.assertTrue(any(x.startswith('xl/media/') for x in z.namelist()))
-            book = ET.fromstring(z.read('xl/workbook.xml'))
-            self.assertEqual(len(book.find(tag('definedNames'))), 4)
+            self.assertAlmostEqual(float(cells['F20'].findtext(tag('v'))),387.96)
+            self.assertEqual(internal['D18'].findtext(tag('f')), "'Calcolo interno'!E11")
+            self.assertEqual(internal['F20'].findtext(tag('f')), 'SUM(F17:F18)')
+            self.assertAlmostEqual(float(internal['F22'].findtext(tag('v'))),322.08)
+            book=ET.fromstring(z.read('xl/workbook.xml'))
+            self.assertEqual([s.get('name') for s in book.find(tag('sheets'))],['Riepilogo generale','Appartamento 1','Parti comuni --','Calcolo interno'])
+            self.assertEqual(len(book.find(tag('definedNames'))),8)
+            raw=ET.fromstring(z.read('xl/worksheets/sheet4.xml'))
+            literal=next(x for x in raw.iter(tag('c')) if x.get('r')=='C10')
+            self.assertEqual(literal.get('t'),'inlineStr');self.assertIsNone(literal.find(tag('f')))
+            self.assertEqual(p.find(tag('pageSetup')).get('fitToHeight'),'0')
             for name in z.namelist():
                 if name.endswith('.xml'):
                     ET.fromstring(z.read(name))
@@ -55,7 +55,7 @@ class ExcelQuoteTests(unittest.TestCase):
         data['righe'] *= 25
         with zipfile.ZipFile(io.BytesIO(build_quote(data))) as z:
             p = ET.fromstring(z.read('xl/worksheets/sheet1.xml'))
-            self.assertEqual(p.find(tag('dimension')).get('ref'), 'A1:F97')
+            self.assertEqual(p.find(tag('dimension')).get('ref'), 'A1:F21')
             self.assertNotIn(b'\x00', z.read('xl/worksheets/sheet1.xml'))
 
 

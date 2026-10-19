@@ -15,7 +15,7 @@ In Home Assistant apri **Impostazioni → Componenti aggiuntivi → Negozio → 
 Aggiorna il negozio e verifica la presenza dell'add-on. Prima di sostituire un'installazione locale già in uso, esegui un backup e verifica la migrazione dei dati.
 
 ## Nuove versioni
-Nel preventivo aperto, **Esporta Excel** scarica le voci correnti (anche non ancora salvate) in un file `.xlsx` con logo e colori aziendali. Il foglio **Preventivo** è impostato per la stampa cliente A4; **Calcolo interno** contiene costi, quantità, quota materiale, sconto, ricarico e IVA modificabili. Le formule aggiornano i prezzi e i totali. Le modifiche nel file Excel non vengono sincronizzate con il gestionale.
+Nel preventivo aperto, **Esporta Excel** scarica le voci correnti (anche non salvate) in un unico file `.xlsx` con logo e colori aziendali. Il file contiene **Riepilogo generale**, un foglio per ogni appartamento e **Parti comuni** se presenti. Le colonne e i calcoli restano quelli del preventivo. Il foglio **Calcolo interno** mantiene quantità, costi, quote materiale, sconto, ricarico e IVA modificabili: le formule aggiornano tutti i fogli cliente e il riepilogo. I fogli cliente sono impostati per stampa A4. Le modifiche in Excel non vengono sincronizzate con il gestionale.
 
 Carica nella cartella principale un file `GhiroTech_HA_Addon_vX.Y.zip` contenente `ghiro_preventivi/`: GitHub Actions lo estrarrà nella cartella corretta. Una volta importato, il file ZIP può essere eliminato per mantenere pulito il repository.
 

@@ -101,7 +101,7 @@ def configure_print(root, last, width, landscape=False):
         root.insert(pos + offset, item)
 
 
-def build_quote(data):
+def _build_combined(data):
     if not isinstance(data, dict):
         raise ValueError('Preventivo non valido')
     lines = data.get('righe', [])
@@ -195,6 +195,156 @@ def build_quote(data):
     files['xl/workbook.xml'] = ET.tostring(book, encoding='utf-8', xml_declaration=True)
     for i, root in enumerate((p, c), 1):
         files[f'xl/worksheets/sheet{i}.xml'] = ET.tostring(root, encoding='utf-8', xml_declaration=True)
+    output = io.BytesIO()
+    with zipfile.ZipFile(output, 'w', zipfile.ZIP_DEFLATED) as z:
+        for name, content in files.items():
+            z.writestr(name, content)
+    return output.getvalue()
+
+REL = 'http://schemas.openxmlformats.org/package/2006/relationships'
+DOCREL = 'http://schemas.openxmlformats.org/officeDocument/2006/relationships'
+CT = 'http://schemas.openxmlformats.org/package/2006/content-types'
+
+
+def xml_bytes(root):
+    # OPC parsers expect default namespaces on package metadata. Avoid changing
+    # ElementTree's global namespace registry in a threaded HTTP handler.
+    namespace = root.tag.split('}')[0].lstrip('{')
+    if namespace in (REL, CT):
+        root = copy.deepcopy(root)
+        for node in root.iter():
+            node.tag = node.tag.split('}')[-1]
+        root.set('xmlns', namespace)
+    return ET.tostring(root, encoding='utf-8', xml_declaration=True)
+
+
+def sheet_name(value, used):
+    name = re.sub(r'[\\/*?:\[\]]', '-', value).strip().strip("'")[:31].rstrip("'") or 'Generale'
+    base, suffix = name, 2
+    while name.casefold() in used:
+        tail = f' ({suffix})'; name = base[:31-len(tail)] + tail; suffix += 1
+    used.add(name.casefold())
+    return name
+
+
+def quoted(name):
+    return "'" + name.replace("'", "''") + "'"
+
+
+
+def build_quote(data):
+    # Preserve the existing costs, formulas and columns; split only the client
+    # view into apartment sheets. All views refer to the same internal inputs.
+    combined = _build_combined(data)
+    with zipfile.ZipFile(io.BytesIO(combined)) as z:
+        original = {name: z.read(name) for name in z.namelist()}
+    template = ET.fromstring(original['xl/worksheets/sheet1.xml'])
+    internal = ET.fromstring(original['xl/worksheets/sheet2.xml'])
+    template_rows = {int(r.get('r')): r for r in template.find(tag('sheetData'))}
+    lines = data['righe']; groups = {}
+    for i, line in enumerate(lines):
+        groups.setdefault(label(line.get('appartamento')) or 'Generale', []).append(i)
+    def clean_sheet():
+        root = copy.deepcopy(template); rows = root.find(tag('sheetData'))
+        for row in list(rows):
+            if int(row.get('r')) >= 17:
+                rows.remove(row)
+        return root, rows
+    # Reuse the established subtotal and total formatting from the template.
+    subtotal_style = template_rows[18 + len(lines)]
+    total_style = template_rows[max(template_rows)]
+    summary, summary_rows = clean_sheet()
+    sh = {int(r.get('r')): r for r in summary_rows}
+    cell(sh[2], 'A', 'RIEPILOGO PREVENTIVO')
+    for col, value in zip('ABCDEF', ['Appartamento / zona', '', '', 'Voci', 'Imponibile', 'Totale IVA inclusa']):
+        cell(sh[16], col, value)
+    used = {'riepilogo generale', 'calcolo interno', 'history'}
+    sheets = [('Riepilogo generale', summary, 1, 'F')]
+    grand = 0; vat = number(data.get('iva')) / 100
+    def natural(name):
+        return (name.casefold() == 'parti comuni', [(1, int(x)) if x.isdigit() else (0, x.casefold()) for x in re.split(r'(\d+)', name)])
+    for apartment in sorted(groups, key=natural):
+        name = sheet_name(apartment, used)
+        root, rows = clean_sheet()
+        header = next(r for r in rows if r.get('r') == '11')
+        cell(header, 'A', apartment + ' — ' + label(data.get('titolo') or 'Preventivo'))
+        net = 0
+        for j, source_index in enumerate(groups[apartment], 17):
+            # Preserve formulas pointing to the original internal row, not the
+            # new apartment row number. Cell addresses alone move here.
+            row = copy.deepcopy(template_rows[17 + source_index]); row.set('r', str(j))
+            for c in row.findall(tag('c')):
+                c.set('r', re.sub(r'\d+$', str(j), c.get('r')))
+            rows.append(row)
+            net += float(next(c for c in row if c.get('r') == f'F{j}').findtext(tag('v')))
+        last = 16 + len(groups[apartment]); total_row = last + 4
+        for r, title, value, formula, style in (
+            (last+2, 'Imponibile', net, f'SUM(F17:F{last})', subtotal_style),
+            (last+3, 'IVA', net*vat, f"F{last+2}*'Calcolo interno'!$B$6", subtotal_style),
+            (total_row, 'TOTALE PREVENTIVO', net*(1+vat), f'F{last+2}+F{last+3}', total_style),
+        ):
+            row = clone(style, r); cell(row, 'B', title); cell(row, 'F', value, formula); rows.append(row)
+        r = 16 + len(sheets); row = clone(template_rows[17], r)
+        cell(row, 'A', apartment); cell(row, 'D', len(groups[apartment]))
+        cell(row, 'E', net, f'{quoted(name)}!F{last+2}')
+        cell(row, 'F', net*(1+vat), f'{quoted(name)}!F{total_row}')
+        summary_rows.append(row); sheets.append((name, root, 1, 'F')); grand += net
+    last = 16 + len(groups)
+    row = clone(total_style, last+2); cell(row, 'B', 'TOTALE GENERALE')
+    cell(row, 'D', len(lines), f'SUM(D17:D{last})')
+    cell(row, 'E', grand, f'SUM(E17:E{last})'); cell(row, 'F', grand*(1+vat), f'SUM(F17:F{last})')
+    summary_rows.append(row)
+    row = clone(subtotal_style, last+3); cell(row, 'B', 'IVA complessiva')
+    cell(row, 'F', grand*vat, f'F{last+2}-E{last+2}'); summary_rows.append(row)
+    sheets.append(('Calcolo interno', internal, 2, 'J'))
+    return package_workbook(original, sheets)
+
+
+def package_workbook(original, sheets):
+    # Clone both worksheet and drawing parts, so each apartment has its own
+    # print area, header, logo relationship and independently editable cells.
+    files = {k: v for k, v in original.items() if not k.startswith(('xl/worksheets/', 'xl/drawings/'))}
+    book = ET.fromstring(files['xl/workbook.xml']); sheet_list = book.find(tag('sheets')); sheet_list.clear()
+    names = book.find(tag('definedNames'))
+    if names is not None:
+        book.remove(names)
+    names = ET.Element(tag('definedNames')); book.insert(list(book).index(sheet_list) + 1, names)
+    calc = book.find(tag('calcPr'))
+    if calc is None:
+        calc = ET.SubElement(book, tag('calcPr'))
+    calc.attrib.update(calcMode='auto', fullCalcOnLoad='1', forceFullCalc='1')
+    relations = ET.fromstring(files['xl/_rels/workbook.xml.rels'])
+    for rel in list(relations):
+        if rel.get('Type', '').endswith('/worksheet'):
+            relations.remove(rel)
+    types = ET.fromstring(files['[Content_Types].xml'])
+    for t in list(types):
+        if t.get('PartName', '').startswith(('/xl/worksheets/', '/xl/drawings/')):
+            types.remove(t)
+    for i, (name, root, template, width) in enumerate(sheets, 1):
+        last = max(int(r.get('r')) for r in root.find(tag('sheetData')))
+        configure_print(root, last, width, width == 'J')
+        ref = f'groupSheet{i}'
+        ET.SubElement(sheet_list, tag('sheet'), {'name': name, 'sheetId': str(i), '{'+DOCREL+'}id': ref})
+        ET.SubElement(relations, '{'+REL+'}Relationship', {'Id': ref, 'Type': DOCREL+'/worksheet', 'Target': f'/xl/worksheets/sheet{i}.xml'})
+        for key, area in (('_xlnm.Print_Area', f'$A$1:${width}${last}'), ('_xlnm.Print_Titles', '$8:$8' if template == 2 else '$16:$16')):
+            ET.SubElement(names, tag('definedName'), {'name': key, 'localSheetId': str(i-1)}).text = quoted(name) + '!' + area
+        files[f'xl/worksheets/sheet{i}.xml'] = xml_bytes(root)
+        parts = [(f'worksheets/sheet{i}.xml', 'spreadsheetml.worksheet')]
+        rel_path = f'xl/worksheets/_rels/sheet{template}.xml.rels'
+        if rel_path in original:
+            rel = ET.fromstring(original[rel_path])
+            for item in rel:
+                if item.get('Type', '').endswith('/drawing'):
+                    item.set('Target', f'/xl/drawings/drawing{i}.xml')
+            files[f'xl/worksheets/_rels/sheet{i}.xml.rels'] = xml_bytes(rel)
+            files[f'xl/drawings/drawing{i}.xml'] = original[f'xl/drawings/drawing{template}.xml']
+            files[f'xl/drawings/_rels/drawing{i}.xml.rels'] = original[f'xl/drawings/_rels/drawing{template}.xml.rels']
+            parts.append((f'drawings/drawing{i}.xml', 'drawing'))
+        for path, content_type in parts:
+            ET.SubElement(types, '{'+CT+'}Override', {'PartName': '/xl/'+path, 'ContentType': 'application/vnd.openxmlformats-officedocument.'+content_type+'+xml'})
+    for path, root in (('xl/workbook.xml', book), ('xl/_rels/workbook.xml.rels', relations), ('[Content_Types].xml', types)):
+        files[path] = xml_bytes(root)
     output = io.BytesIO()
     with zipfile.ZipFile(output, 'w', zipfile.ZIP_DEFLATED) as z:
         for name, content in files.items():
