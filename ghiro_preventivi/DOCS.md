@@ -108,3 +108,15 @@ Caricare un PDF multipagina, selezionare l’appartamento, scegliere PDF del pro
 
 ### Importazione della configurazione nel preventivo
 Porta nel preventivo e Importa scatole e quadri nel preventivo importano la stessa distinta completa: portafrutti, componenti, derivazioni, contenitori dei quadri e componenti dei quadri. I conteggi del riepilogo punti e il relè suggerito dal conteggio comandi non generano ulteriori voci. Una nuova importazione sostituisce la distinta a schermo, previa conferma se contiene già righe, senza accodare duplicati. Prezzi da compilare; preventivi già archiviati invariati.
+
+
+## Listini e associazioni (0.9.34)
+
+1. In **Listini prezzi**, scegli fonte e indica edizione. Carica `.xlsx` Vimar METEL (primo foglio), CSV/Excel con intestazioni `codice,descrizione,unita,prezzo`, oppure un pacchetto JSON. Codici come testo, valuta EUR e prezzi IVA esclusa. Il METEL usa Prezzo al Pubblico diviso per Moltiplic. prezzo; gli articoli stato 9 non sono selezionabili. Stati in esaurimento restano segnalati nella categoria. Gli Excel con formule vanno prima esportati come valori.
+2. Verifica anteprima e conferma. Seleziona **Listino completo** solo se il file comprende tutta la fonte: i codici assenti saranno disattivati. Per integrazioni parziali lascia deselezionato. Viene creato un backup SQLite prima di ogni importazione.
+3. Nelle **Associazioni componenti e codici**, indica serie e una variante che descriva colore dei frutti, modello e colore placca. Cerca articoli nella fonte corretta, aggiungi i codici e salva. Per ogni capienza associa i codici di scatola, supporto e placca (o kit completo); per ogni frutto salva la funzione corretta. La compatibilità e l'ingombro vanno verificati sul catalogo del produttore: il software non deduce codici da descrizioni simili e non importa automaticamente cataloghi PDF.
+4. Nel configuratore scegli la **Finitura / placca** della scatola. Le scatole preimpostate continuano a salvare solo composizione, capienza, posizioni e note. Serie e finitura si scelgono all'inserimento. Nuove serie possono essere definite scrivendone il nome nelle associazioni.
+5. Importa nel preventivo: ogni articolo associato genera una riga con codice e prezzo attuale. Le voci senza associazione restano a zero, con avviso; quelle già esistenti non risolte conservano il prezzo precedente. Quadri/componenti con codice completo di fonte (es. VIMAR:codice) possono essere valorizzati direttamente; le altre voci vanno completate tramite il prezzario.
+6. I listini successivi aggiornano i prezzi per codice, mantenendo gli abbinamenti. I preventivi archiviati non cambiano. Per aggiornare quello aperto premi **Aggiorna prezzi da listino**, controlla gli avvisi e salva. L'operazione sostituisce anche gli eventuali prezzi manuali delle righe riconosciute.
+
+Le associazioni sono nel database dell'archivio e seguono il percorso di salvataggio impostato. Le varianti non vengono scelte automaticamente: un colore o un modello diverso deve avere il proprio abbinamento verificato.
