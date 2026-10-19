@@ -83,7 +83,7 @@ def analyse(c, data):
  if not selected:raise ValueError('Scegli una placca presente nel listino attivo della serie')
  spec=SERIES[series];prefix=spec['prefix'];suffix=spec['colours'][colour]
  variant='Auto · '+colour+' · '+selected['nome']+' ('+plate.replace('{m}','3')+') · '+mount
- existing={r[0] for r in c.execute('SELECT component FROM catalog_associations WHERE series=? AND variant=?',(series,variant))}
+ existing=set() if data.get('progetto') is True else {r[0] for r in c.execute('SELECT component FROM catalog_associations WHERE series=? AND variant=?',(series,variant))}
  rows=[]
  def row(component,name,choices,note=''):
   choices=[o for o in choices if o]
@@ -151,3 +151,20 @@ def save(c,data):
   if not inserts:raise ValueError('Nessuna nuova associazione da salvare')
   c.executemany('INSERT INTO catalog_associations VALUES(?,?,?,?)',inserts)
  return {'salvate':len(inserts),'variante':report['variante']}
+
+
+def project_parts(c, association, cache):
+ """Resolve saved project choices against the current active catalogue, never global defaults."""
+ profile=association.get('profilo')
+ if not isinstance(profile,dict):raise ValueError('Materiali della configurazione non validi')
+ if profile.get('serie')!=association.get('serie'):raise ValueError('Serie della scatola modificata: scegli nuovamente i materiali')
+ signature=json.dumps({k:profile.get(k) for k in ('serie','colore','placca','posa')},sort_keys=True)
+ if signature not in cache:cache[signature]=analyse(c,{**profile,'progetto':True})
+ component=association.get('componente')
+ row=next((r for r in cache[signature]['righe'] if r['componente']==component),None)
+ choices=profile.get('scelte',{})
+ if not row or not isinstance(choices,dict):raise ValueError('Componente non riconosciuto')
+ pick=choices.get(component,'')
+ found=next((o for o in row['opzioni'] if o['id']==pick),None)
+ if not found:raise ValueError('Articolo da scegliere o non più disponibile: '+row['nome'])
+ return [{'codice':p['codice'],'quantita':p['quantita']} for p in found['articoli']]

@@ -126,12 +126,16 @@ def resolve(c, data):
     if not isinstance(rows,list) or len(rows)>5000:
         raise ValueError('Massimo 5.000 righe')
     result = []
+    project_cache = {}
     for line in rows:
         try:
             association = line.get('associazione')
             if isinstance(association,str):
                 association = json.loads(association or 'null')
-            if association:
+            if association and association.get('profilo'):
+                from catalog_auto import project_parts
+                parts = project_parts(c,association,project_cache)
+            elif association:
                 ident = key(association)
                 found = c.execute('SELECT products FROM catalog_associations WHERE series=? AND variant=? AND component=?',ident).fetchone()
                 if not found:

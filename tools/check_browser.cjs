@@ -308,6 +308,7 @@ const {execFileSync}=require('node:child_process');
    ['14653.01','Placca 3M bianco'],['14613','Supporto 3M + viti'],['V71303','Scatola incasso rettang. 3M azzurro'],
    ['14203','Presa 2P+T 16A P17/11 bianco'],['14000','Interruttore 1P 10AX bianco'],['14001','Interruttore 1P 16AX bianco']
   ].map(([codice,descrizione])=>({codice,descrizione,unita:'cad',prezzo:10}))});});
+  await page.evaluate(()=>show('configuratore'));
   await page.getByRole('button',{name:'Carica scelte dal listino',exact:true}).click();
   await page.locator('#autoPlate').selectOption('1465{m}.01');
   await page.getByRole('button',{name:'Analizza abbinamenti',exact:true}).click();
@@ -317,11 +318,17 @@ const {execFileSync}=require('node:child_process');
   await page.getByLabel('Interruttore',{exact:true}).selectOption('14001');
   await page.screenshot({path:'browser-artifacts/associazioni-automatiche.png',fullPage:true});
   const autoVariant=await page.evaluate(()=>autoCatalogReport.variante);
-  await page.getByRole('button',{name:'Salva tutte le associazioni disponibili',exact:true}).click();
-  await page.waitForFunction(()=>$('autoMsg').textContent.startsWith('3 associazioni salvate'));
-  await page.reload();await page.waitForFunction(()=>catalogMappings.length===5);
-  await page.evaluate(async()=>{await newConfig();show('configuratore');addRoom();gcAddBox(0);gcSelected='presa';gcPut(0,0,0)});
-  await page.getByLabel('Finitura / placca',{exact:true}).selectOption(autoVariant);
+  await page.getByRole('button',{name:'Applica all’appartamento',exact:true}).click();
+  assert.equal(await page.evaluate(()=>rooms[0].scatole[0].catalogo.scelte['FR-interruttore']),'14001');
+  const materialConfig=await page.evaluate(async()=>{await saveConfig();return cfgId});
+  await page.reload();await page.waitForFunction(()=>catalogMappings.length===2&&autoCatalogData!==null);
+  await page.evaluate(async id=>{await loadConfigs();await openConfig(id);show('configuratore')},materialConfig);
+  assert.equal(await page.locator('#autoColour').inputValue(),'Bianco');
+  assert.equal(await page.locator('#autoPlate').inputValue(),'1465{m}.01');
+  assert.equal(await page.evaluate(()=>rooms[0].scatole[0].variante_catalogo),autoVariant);
+  await page.evaluate(()=>{gcAddBox(0);if(rooms[0].scatole[0].catalogo.scelte['FR-interruttore']!=='14001')throw Error('New box lost materials');rooms[0].scatole.shift();renderRooms()});
+  // Independent apartment defaults, including duplication, must survive switching.
+  await page.evaluate(()=>{const original=activeApartment;duplicateApartment();configCatalogApartment().catalogo.scelte['FR-interruttore']='14000';if(apartments.find(a=>a.id===original).catalogo.scelte['FR-interruttore']!=='14001')throw Error('Shared materials');rooms=rooms.filter(r=>r.appartamento_id===original);apartments=apartments.filter(a=>a.id===original);activeApartment=original;renderRooms()});
   await page.evaluate(async()=>{await gcQuote()});
   assert.equal(await page.evaluate(()=>lines.length),4);
   assert.equal(await page.evaluate(()=>lines.reduce((n,r)=>n+r.prezzo*r.quantita,0)),40);

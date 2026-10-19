@@ -55,4 +55,16 @@ class AutomaticCatalogTest(unittest.TestCase):
   row=next(x for x in self.report()['righe'] if x['componente']=='FR-interruttore')
   self.assertEqual([o['id'] for o in row['opzioni']],['30000.B'])
 
+ def test_project_choices_ignore_global_associations_and_survive_price_changes(self):
+  r=self.report();auto.save(self.c,{**self.data,'impronta':r['impronta'],'scelte':{'FR-interruttore':'19000.B'}})
+  profile={**self.data,'scelte':{'FR-interruttore':'19001.B','SCAT-3':'V71303+19613+19653.71'}}
+  assoc={'serie':self.data['serie'],'variante':r['variante'],'componente':'FR-interruttore','profilo':profile}
+  request={'righe':[{'associazione':assoc},{'associazione':{**assoc,'componente':'SCAT-3'}}]}
+  result=resolve(self.c,request)['righe'];self.assertEqual(result[0]['articoli'][0]['codice'],'VIMAR:19001.B');self.assertEqual(len(result[1]['articoli']),3)
+  self.c.execute("UPDATE voci SET prezzo=33 WHERE codice='VIMAR:19001.B'");self.c.commit()
+  self.assertEqual(resolve(self.c,request)['righe'][0]['articoli'][0]['prezzo'],33)
+  profile['scelte']['FR-interruttore']='';self.assertIn('errore',resolve(self.c,request)['righe'][0])
+  profile['scelte']['FR-interruttore']='19203.B';self.assertIn('errore',resolve(self.c,request)['righe'][0])
+  profile['scelte']['FR-interruttore']='19001.B';self.c.execute("INSERT INTO catalog_status VALUES('VIMAR:19001.B','next',0)");self.c.commit();self.assertIn('errore',resolve(self.c,request)['righe'][0])
+
 if __name__=='__main__':unittest.main()

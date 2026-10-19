@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.9.37
+
+- Scelta materiali spostata in Configurazione impianto, per appartamento: marca, serie, colore frutti, placca e posa.
+- Le scelte tecniche sono salvate nella configurazione, applicate alle scatole esistenti e alle nuove, comprese quelle inserite da preimpostata. Copie degli appartamenti indipendenti.
+- Importazione nel preventivo con codici e prezzi del listino usando le scelte del progetto, senza dover creare associazioni globali. Alternative mancanti o annullate restano segnalate.
+
 ## 0.9.36
 
 - Associazioni guidate in blocco per Vimar Plana, Arké e Linea: serie, colore frutti, modello/finitura placca e posa. Codici esatti e prezzi dal listino attivo.

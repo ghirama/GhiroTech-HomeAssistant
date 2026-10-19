@@ -1,14 +1,16 @@
-# Associazioni automatiche Vimar (0.9.36)
+# Associazioni automatiche Vimar (0.9.37)
 
 ## Utilizzo
 
-In Listini prezzi caricare il listino, poi aprire Associazioni automatiche:
-1. Carica scelte dal listino.
-2. Scegli serie, colore dei frutti, modello/finitura della placca e posa.
-3. Analizza abbinamenti: i codici univoci sono preselezionati; scegliere le alternative tecniche richieste.
-4. Salva tutte le associazioni disponibili. Nelle scatole del configuratore scegliere la finitura Auto appena salvata.
+Caricare il file in Listini prezzi. In Configura impianto civile, scegliere l’appartamento e usare Materiali dell’appartamento:
+1. Scegliere marca, serie, colore frutti, modello/finitura placca e posa.
+2. Analizza abbinamenti, completare le scelte tecniche richieste.
+3. Applica all’appartamento: le scatole esistenti ricevono i materiali scelti, anche le nuove li ereditano. Le impostazioni si salvano con la configurazione.
+4. Porta nel preventivo: codici e prezzi vengono risolti dal listino corrente secondo le scelte del progetto.
 
-Ripetere per le finiture utilizzate. Le associazioni manuali restano modificabili nel pannello dedicato. Il salvataggio automatico non sostituisce associazioni già presenti. I prezzi provengono esclusivamente dal listino importato: nuove edizioni dello stesso listino non richiedono aggiornamenti software per codici già associati. I preventivi archiviati non vengono ricalcolati.
+Ogni appartamento mantiene le proprie impostazioni, comprese le parti comuni. Duplicare crea copie indipendenti. Le scatole preimpostate continuano a salvare solo composizione e note: ereditano i materiali dell’appartamento in cui vengono inserite. Le associazioni manuali precedenti restano compatibili. Un cambio manuale della serie/finitura della singola scatola disattiva il suo profilo automatico. Applica all’appartamento sostituisce queste eccezioni.
+
+Prezzi e codici sono verificati nuovamente all’importazione nel preventivo; scelte non più disponibili vengono segnalate senza sostituzioni. I preventivi archiviati mantengono i prezzi salvati. Le scelte del progetto non modificano le associazioni globali né altri progetti.
 
 ## Perimetro e limiti
 
