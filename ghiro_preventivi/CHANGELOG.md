@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.9.34
+
+- Caricamento diretto Excel Vimar METEL e Excel normalizzati, con anteprima, prezzo unitario e articoli annullati esclusi dalle scelte.
+- Associazioni persistenti per serie, variante/finitura e componente; distinta scatola, supporto e placca con più codici.
+- Scelta finitura nella scatola e valorizzazione automatica della distinta tramite le associazioni salvate.
+- Aggiornamento esplicito dei prezzi nel preventivo aperto, senza modificare quelli archiviati; segnalazione delle voci mancanti.
+- Importazione completa opzionale per disattivare i codici non più presenti. Backup automatico prima degli aggiornamenti.
+
 ## 0.9.33
 
 - Esportazione Excel divisa in Riepilogo generale, un foglio per appartamento e Parti comuni se presenti.

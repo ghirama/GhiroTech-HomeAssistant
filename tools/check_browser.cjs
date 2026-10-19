@@ -272,6 +272,35 @@ const {execFileSync}=require('node:child_process');
   await page.waitForFunction(()=>document.querySelectorAll('#symbols button').length===2);
   assert.equal(await page.evaluate(()=>rooms.find(r=>r.name==='Camera').items[0].pending),false);
   await page.screenshot({path:'browser-artifacts/importazione-planimetria.png',fullPage:true});
+  // Price-list upload, persistent mapping, finish selection and repricing.
+  await page.goto('http://127.0.0.1:8866/');
+  await page.evaluate(()=>show('listino'));
+  await page.locator('#listSource').selectOption('VIMAR');await page.locator('#listEdition').fill('Browser fixture 1');
+  await page.locator('#listFile').setInputFiles({name:'catalogo.csv',mimeType:'text/csv',buffer:Buffer.from('codice;descrizione;unita;prezzo\nTEST001;Presa prova;cad;10\nTEST002;Supporto prova;cad;2\nTEST003;Placca prova;cad;3\nTEST004;Scatola prova;cad;4\n')});
+  await page.getByRole('button',{name:'Verifica anteprima',exact:true}).click();
+  await page.getByRole('button',{name:'Conferma importazione verificata',exact:true}).click();
+  await page.waitForFunction(()=>$('listMsg').textContent.startsWith('Importate 4'));
+  await page.locator('#mapSeries').fill('Vimar Plana');await page.locator('#mapVariant').fill('Bianco / placca prova');
+  await page.locator('#mapComponent').selectOption('FR-presa');await page.locator('#mapSearch').fill('TEST001');
+  await page.getByRole('button',{name:'Cerca articoli',exact:true}).click();await page.locator('#mapResults').getByRole('button',{name:'Associa',exact:true}).click();
+  await page.getByRole('button',{name:'Salva associazione',exact:true}).click();await page.waitForFunction(()=>$('mapMsg').textContent.startsWith('Associazione salvata'));
+  await page.getByRole('button',{name:'Nuova associazione',exact:true}).click();await page.locator('#mapComponent').selectOption('SCAT-3');
+  for(const code of ['TEST002','TEST003','TEST004']){await page.locator('#mapSearch').fill(code);await page.getByRole('button',{name:'Cerca articoli',exact:true}).click();await page.locator('#mapResults').getByRole('button',{name:'Associa',exact:true}).click()}
+  await page.getByRole('button',{name:'Salva associazione',exact:true}).click();await page.waitForFunction(()=>catalogMappings.length===2);
+  await page.reload();await page.waitForFunction(()=>catalogMappings.length===2);
+  await page.evaluate(async()=>{await newConfig();show('configuratore');addRoom();gcAddBox(0);gcSelected='presa';gcPut(0,0,0)});
+  await page.getByLabel('Finitura / placca',{exact:true}).selectOption('Bianco / placca prova');
+  await page.evaluate(async()=>{await gcQuote()});
+  assert.equal(await page.evaluate(()=>lines.length),4);
+  assert.equal(await page.evaluate(()=>lines.reduce((n,r)=>n+r.prezzo*r.quantita,0)),19);
+  assert.equal(await page.evaluate(()=>lines.every(r=>r.codice.startsWith('VIMAR:TEST'))),true);
+  await page.evaluate(async()=>{await refresh();$('quoteClient').value=clients[0].id;await saveQuote();await api('listino/import',{fonte:'VIMAR',edizione:'Browser fixture 2',voci:[{codice:'TEST001',descrizione:'Presa prova',unita:'cad',prezzo:20}]})});
+  const archivedPrice=await page.evaluate(async()=>(await api('preventivi/'+editingQuoteId)).righe.find(r=>r.codice==='VIMAR:TEST001').prezzo);assert.equal(archivedPrice,10);
+  await page.getByRole('button',{name:'Aggiorna prezzi da listino',exact:true}).click();await page.waitForFunction(()=>lines.some(r=>r.codice==='VIMAR:TEST001'&&r.prezzo===20));
+  assert.equal(await page.evaluate(()=>lines.reduce((n,r)=>n+r.prezzo*r.quantita,0)),29);
+  // A delayed price response must not overwrite intervening manual changes.
+  await page.evaluate(async()=>{const old=api;let release;api=(p,b)=>p==='listino/risolvi'?new Promise(r=>release=r):old(p,b);const task=catalogPriceQuote(false);lines[0].prezzo=123;release({righe:lines.map(()=>({articoli:[{codice:'VIMAR:TEST001',prezzo:1,quantita:1,unita:'cad'}]}))});await task;api=old;if(lines[0].prezzo!==123)throw Error('Modifica manuale sovrascritta')});
+  await page.evaluate(()=>show('listino'));await page.screenshot({path:'browser-artifacts/associazioni-listino.png',fullPage:true});
   assert.deepEqual(errors,[]);
   console.log('PASS: browser interactions, apartment/common-area persistence, independent copies, box notes, quote totals, tablet layout, multipage print and per-apartment PDFs');
  }finally{if(browser)await browser.close();server.kill()}

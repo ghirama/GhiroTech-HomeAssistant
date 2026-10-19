@@ -13,6 +13,7 @@ from decimal import Decimal, InvalidOperation
 
 
 def initialize_catalog(c):
+    c.execute("CREATE TABLE IF NOT EXISTS catalog_status (code TEXT PRIMARY KEY, edition TEXT NOT NULL, active INTEGER NOT NULL)")
     c.execute('''CREATE TABLE IF NOT EXISTS catalog_imports (
         id INTEGER PRIMARY KEY, source TEXT NOT NULL, edition TEXT NOT NULL,
         digest TEXT NOT NULL UNIQUE, created TEXT NOT NULL, rows_json TEXT NOT NULL, origine_json TEXT NOT NULL DEFAULT '{}')''')
@@ -101,8 +102,16 @@ def validate(data):
 
 
 def import_catalog(c, data, backup_dir, preview=False):
+    if 'xlsx' in data:
+        from catalog_config import read_excel
+        data = read_excel(data)
     source, edition, rows = validate(data)
-    content = json.dumps([source, edition, rows], ensure_ascii=False, separators=(',', ':'))
+    inactive = data.get('inattivi', [])
+    if not isinstance(inactive,list) or any(not isinstance(x,str) for x in inactive):
+        raise ValueError('Elenco articoli inattivi non valido')
+    inactive = set(source+':'+x for x in inactive)
+    complete = data.get('completo') is True
+    content = json.dumps([source, edition, rows, sorted(inactive), complete], ensure_ascii=False, separators=(',', ':'))
     digest = hashlib.sha256(content.encode()).hexdigest()
     origin = {k: str(data[k]) for k in ('originale', 'sha256_originale') if k in data}
     if 'sha256_originale' in origin and not re.fullmatch(r'[a-f0-9]{64}', origin['sha256_originale']):
@@ -111,6 +120,7 @@ def import_catalog(c, data, backup_dir, preview=False):
     updates = sum(c.execute('SELECT 1 FROM voci WHERE codice=?', (r[0],)).fetchone() is not None for r in rows)
     report = {'voci': len(rows), 'nuove': len(rows)-updates, 'aggiornate': updates,
               'gia_importato': bool(existing), 'impronta': digest, 'fonte': source, 'edizione': edition,
+              'inattive': len(inactive), 'completo': complete,
               'campione': [dict(zip(('codice','descrizione','dettagli','unita','categoria','prezzo','manodopera'), r)) for r in rows[:5]]}
     if preview or existing:
         return dict(report, importate=0)
@@ -121,6 +131,9 @@ def import_catalog(c, data, backup_dir, preview=False):
     with closing(sqlite3.connect(target)) as backup:
         c.backup(backup)
     with c:
+        if complete:
+            c.execute("INSERT INTO catalog_status SELECT codice,?,0 FROM voci WHERE substr(codice,1,instr(codice,':')-1)=? ON CONFLICT(code) DO UPDATE SET active=0,edition=excluded.edition", (edition,source))
+        c.executemany('INSERT INTO catalog_status VALUES(?,?,?) ON CONFLICT(code) DO UPDATE SET edition=excluded.edition,active=excluded.active', [(r[0],edition,int(r[0] not in inactive)) for r in rows])
         c.executemany('''INSERT INTO voci(codice,descrizione,dettagli,unita,categoria,prezzo,manodopera)
             VALUES(?,?,?,?,?,?,?) ON CONFLICT(codice) DO UPDATE SET
             descrizione=excluded.descrizione,dettagli=excluded.dettagli,unita=excluded.unita,

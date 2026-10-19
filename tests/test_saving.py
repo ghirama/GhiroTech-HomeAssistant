@@ -77,6 +77,22 @@ class SavingTest(unittest.TestCase):
         self.assertEqual(self.request('/api/preventivi/'+str(quote['id']))[0],200)
         self.assertEqual(self.request('/api/configurazioni',{'id':ident,'titolo':'Non ricreare','stanze':rooms})[0],404)
 
+    def test_association_quote_persistence_and_origin(self):
+        mapping={'serie':'Vimar Plana','variante':'Bianco','componente':'FR-presa'}
+        payload={'fonte':'VIMAR','edizione':'test','voci':[{'codice':'TEST001','descrizione':'Presa','unita':'cad','prezzo':8}]}
+        self.assertEqual(self.request('/api/listino/import',payload)[0],200)
+        association={**mapping,'articoli':[{'codice':'VIMAR:TEST001','quantita':1}]}
+        self.assertEqual(self.request('/api/listino/associazioni',association,origin='https://example.invalid')[0],403)
+        self.assertEqual(self.request('/api/listino/associazioni',association)[0],200)
+        rows=[{'codice':'FR-presa','prezzo':0,'quantita':2,'associazione':mapping}]
+        status,saved=self.request('/api/preventivi',{'titolo':'Da valorizzare','righe':rows});self.assertEqual(status,200)
+        self.stop_server();self.scope=load_app(self.folder);self.start_server()
+        self.assertEqual(len(self.request('/api/listino/associazioni')[1]),1)
+        saved_rows=self.request('/api/preventivi/'+str(saved['id']))[1]['righe']
+        result=self.request('/api/listino/risolvi',{'righe':saved_rows})
+        self.assertEqual(result[0],200);self.assertEqual(result[1]['righe'][0]['articoli'][0]['prezzo'],8)
+        self.assertEqual(saved_rows[0]['prezzo'],0)
+
     def test_excel_download_does_not_save_quote(self):
         import zipfile
         import io
