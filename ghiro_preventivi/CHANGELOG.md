@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.9.35
+
+- Corretto il conflitto `catalog_imports.digest` quando arrivano due importazioni contemporanee dello stesso listino. Il controllo duplicati è ora eseguito anche dentro la transazione di scrittura.
+- Pulsanti Verifica/Conferma disabilitati durante la richiesta, con indicazione di avanzamento. Un listino già presente viene segnalato senza errori né modifiche ai preventivi.
+
 ## 0.9.34
 
 - Caricamento diretto Excel Vimar METEL e Excel normalizzati, con anteprima, prezzo unitario e articoli annullati esclusi dalle scelte.

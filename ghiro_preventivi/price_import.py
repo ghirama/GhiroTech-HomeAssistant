@@ -131,6 +131,11 @@ def import_catalog(c, data, backup_dir, preview=False):
     with closing(sqlite3.connect(target)) as backup:
         c.backup(backup)
     with c:
+        # Another request can finish while this one prepares its backup.
+        # Acquire the writer lock before rechecking the digest or changing prices.
+        c.execute('BEGIN IMMEDIATE')
+        if c.execute('SELECT 1 FROM catalog_imports WHERE digest=?', (digest,)).fetchone():
+            return dict(report, gia_importato=True, importate=0)
         if complete:
             c.execute("INSERT INTO catalog_status SELECT codice,?,0 FROM voci WHERE substr(codice,1,instr(codice,':')-1)=? ON CONFLICT(code) DO UPDATE SET active=0,edition=excluded.edition", (edition,source))
         c.executemany('INSERT INTO catalog_status VALUES(?,?,?) ON CONFLICT(code) DO UPDATE SET edition=excluded.edition,active=excluded.active', [(r[0],edition,int(r[0] not in inactive)) for r in rows])
