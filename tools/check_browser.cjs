@@ -400,6 +400,50 @@ const {execFileSync}=require('node:child_process');
   await page.getByRole('button',{name:'Conferma importazione verificata',exact:true}).click();
   await page.waitForFunction(()=>$('listMsg').textContent.startsWith('Importate 1'));
   assert.equal(await page.evaluate(async()=>(await api('listino/risolvi',{righe:[{codice:'GEWISS:000TEST'}]})).righe[0].articoli[0].prezzo),1.25);
+  // Gewiss selection, persistent panel models and independent cross-project copies.
+  await page.evaluate(async()=>{await api('listino/import',{fonte:'GEWISS',edizione:'Panel fixture',voci:[
+   {codice:'TESTBOX',descrizione:'CENTRALINO PROVA 24M.(12X2)',unita:'cad',prezzo:100},
+   {codice:'TESTMCB',descrizione:'INT.MAGNET. PROVA C16 1P 1M',unita:'cad',prezzo:12},
+   {codice:'TESTHALF',descrizione:'CONTATTO AUX PROVA 0,5M',unita:'cad',prezzo:5}
+  ]});await newConfig();show('configuratore');qeAdd()});
+  await page.getByRole('button',{name:'Scegli contenitore Gewiss',exact:true}).click();
+  await page.getByLabel('Cerca articolo Gewiss',{exact:true}).fill('TESTBOX');
+  await page.getByRole('button',{name:'Scegli GEWISS:TESTBOX',exact:true}).click();
+  assert.equal(await page.evaluate(()=>qePanels()[0].codice),'GEWISS:TESTBOX');
+  await page.getByRole('button',{name:'Scegli componente Gewiss',exact:true}).click();
+  await page.getByLabel('Cerca articolo Gewiss',{exact:true}).fill('C16 1P');
+  await page.getByRole('button',{name:'Scegli GEWISS:TESTMCB',exact:true}).click();
+  await page.getByRole('button',{name:'Inserisci fila 2 posizione 4',exact:true}).click();
+  assert.deepEqual(await page.evaluate(()=>{const c=qePanels()[0].componenti[0];return [c.codice,c.moduli,c.fila,c.posizione]}),['GEWISS:TESTMCB',1,2,4]);
+  await page.getByRole('button',{name:'Scegli componente Gewiss',exact:true}).click();
+  await page.getByLabel('Cerca articolo Gewiss',{exact:true}).fill('TESTHALF');
+  await page.getByRole('button',{name:'Scegli GEWISS:TESTHALF',exact:true}).click();
+  assert.equal(await page.evaluate(()=>qePanels()[0].ingombro),1);
+  await page.getByRole('button',{name:'Chiudi',exact:true}).click();
+  assert.equal(await page.getByRole('button',{name:'Salva come modello',exact:true}).isVisible(),true);
+  await page.evaluate(async()=>await qeSaveModel(0,'Standard quadro'));
+  await page.waitForFunction(()=>qeModels.length===1);
+  const panelConfig=await page.evaluate(async()=>{await saveConfig();return cfgId});
+  await page.reload();await page.evaluate(async id=>{await loadConfigs();await openConfig(id);show('configuratore');await qeLoadModels()},panelConfig);
+  assert.equal(await page.evaluate(()=>qePanels()[0].componenti[0].codice),'GEWISS:TESTMCB');
+  await page.evaluate(async()=>{await newConfig();show('configuratore')});
+  await page.getByText('Modelli di quadro',{exact:true}).click();
+  await page.getByRole('button',{name:'Inserisci nel progetto',exact:true}).click();
+  assert.equal(await page.evaluate(()=>qePanels()[0].componenti[0].posizione),4);
+  await page.getByRole('button',{name:'Inserisci nel progetto',exact:true}).click();
+  assert.notEqual(await page.evaluate(()=>qePanels()[0].nome),await page.evaluate(()=>qePanels()[1].nome));
+  await page.evaluate(()=>{qePanels()[0].componenti[0].descrizione='Copia modificata'});
+  assert.equal(await page.evaluate(()=>qePanels()[1].componenti[0].descrizione),'');
+  assert.equal(await page.evaluate(()=>JSON.parse(qeModels[0].quadro_json).componenti[0].descrizione),'');
+  await page.getByRole('button',{name:'Elimina modello',exact:true}).click();
+  await page.waitForFunction(()=>qeModels.length===0);
+  assert.equal(await page.evaluate(()=>qePanels().length),2);
+  await page.evaluate(async()=>{await api('listino/import',{fonte:'GEWISS',edizione:'Panel fixture 2',voci:[{codice:'TESTMCB',descrizione:'INT.MAGNET. PROVA C16 1P 1M',unita:'cad',prezzo:15}]});await gcQuote()});
+  assert.equal(await page.evaluate(()=>lines.filter(x=>x.codice==='GEWISS:TESTMCB').every(x=>x.prezzo===15)),true);
+  assert.equal(await page.evaluate(()=>lines.filter(x=>x.codice==='GEWISS:TESTBOX').every(x=>x.prezzo===100)),true);
+  assert.equal(await page.evaluate(()=>lines.length),4);
+  await page.evaluate(()=>show('configuratore'));
+  await page.locator('#qeSection').screenshot({path:'browser-artifacts/quadri-modelli.png'});
   assert.deepEqual(errors,[]);
   console.log('PASS: browser interactions, apartment/common-area persistence, independent copies, box notes, quote totals, tablet layout, multipage print and per-apartment PDFs');
  }finally{if(browser)await browser.close();server.kill()}
