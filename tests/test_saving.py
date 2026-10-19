@@ -61,6 +61,20 @@ class SavingTest(unittest.TestCase):
         response=connection.getresponse();status=response.status;value=json.loads(response.read());connection.close()
         return status,value
 
+    def test_panel_models_persist_and_do_not_modify_project_copies(self):
+        panel={'nome':'Quadro','file':2,'perFila':12,'componenti':[{'tipo':'Magnetotermico','moduli':2,'fila':1,'posizione':3,'codice':'GEWISS:TEST'}]}
+        status,saved=self.request('/api/modelli-quadro',{'nome':'Standard','quadro':panel});self.assertEqual(status,200)
+        self.assertEqual(self.request('/api/modelli-quadro',{'nome':'standard','quadro':panel})[0],400)
+        self.assertEqual(self.request('/api/modelli-quadro',{'nome':'Altro','quadro':panel},origin='https://foreign.test')[0],403)
+        status,project=self.request('/api/configurazioni',{'titolo':'Progetto','stanze':[],'appartamenti':[{'id':'a','nome':'Casa','quadri':[panel]}]});self.assertEqual(status,200)
+        self.stop_server();self.scope=load_app(self.folder);self.start_server()
+        status,models=self.request('/api/modelli-quadro');self.assertEqual(status,200);self.assertEqual(json.loads(models[0]['quadro_json'])['componenti'][0]['posizione'],3)
+        self.assertEqual(self.request('/api/modelli-quadro/rinomina',{'id':saved['id'],'nome':'Rinominato'})[0],200)
+        self.assertEqual(self.request('/api/modelli-quadro/elimina',{'id':saved['id']})[0],200)
+        self.assertEqual(self.request('/api/modelli-quadro')[1],[])
+        config=next(c for c in self.request('/api/configurazioni')[1] if c['id']==project['id'])
+        self.assertEqual(json.loads(config['appartamenti_json'])[0]['quadri'][0],panel)
+
     def test_whole_system_materials_persist_and_legacy_updates_preserve_them(self):
         profile={'serie':'Vimar Plana','colore':'Bianco','scelte':{'FR-presa':'14203'}}
         status,saved=self.request('/api/configurazioni',{'titolo':'Intero impianto','stanze':[],'materiali':profile});self.assertEqual(status,200)

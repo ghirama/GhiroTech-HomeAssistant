@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.9.41
+
+- Modelli di quadro: salvataggio persistente, rinomina, eliminazione e inserimento indipendente in qualsiasi progetto, conservando dimensioni, componenti, posizioni, codici e note.
+- Scelta di contenitori e componenti dal listino Gewiss importato, con ricerca per codice e caratteristiche e prezzi aggiornati al trasferimento nel preventivo.
+- Controlli di capienza e sovrapposizione; ingombro letto solo quando indicato nel listino. Gli ingombri frazionari non sono supportati dalla griglia.
+
 ## 0.9.40
 
 - Lettore Excel METEL con riconoscimento delle intestazioni abbreviate/estese e delle colonne anche riordinate. Verificato sui listini Vimar e Gewiss forniti.

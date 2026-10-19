@@ -2,6 +2,7 @@ import sqlite3,json,pathlib,shutil,os,uuid,datetime,html,cgi,io,csv,secrets,hash
 from price_import import initialize_catalog, import_catalog
 import catalog_config
 import catalog_auto
+import panel_catalog
 from storage import activate as activate_storage, configure as configure_storage, read_state as storage_state
 from pdf_plan import import_pdf, preview as pdf_preview, directory as pdf_directory
 from http.server import ThreadingHTTPServer,BaseHTTPRequestHandler
@@ -35,6 +36,7 @@ def init():
  c.execute("UPDATE scatole_preimpostate SET serie='' WHERE serie<>''")
  initialize_catalog(c)
  catalog_config.initialize(c)
+ panel_catalog.initialize(c)
  c.commit();c.close()
 init()
 class H(BaseHTTPRequestHandler):
@@ -77,6 +79,8 @@ class H(BaseHTTPRequestHandler):
    if path.startswith('/api/checklist-voci/'):
     pid=int(path.split('/')[-1]);self.send([dict(x) for x in c.execute('SELECT * FROM checklist_voci WHERE pratica_id=? ORDER BY id',(pid,))]);return
    if path=='/api/impostazioni/archivio':self.send(storage_state(CONTROL));return
+   if path=='/api/modelli-quadro':return self.send(panel_catalog.models(c))
+   if path=='/api/listino/quadri':return self.send(panel_catalog.search(c,parse_qs(u.query)))
    if path=='/api/scatole-preimpostate':self.send([dict(x) for x in c.execute('SELECT id,nome,scatola_json FROM scatole_preimpostate ORDER BY id DESC')]);return
    if path=='/api/configurazioni':self.send([dict(x) for x in c.execute('SELECT * FROM configurazioni_civili ORDER BY id DESC')]);return
    if path=='/api/listino/automatico':return self.send(catalog_auto.options(c))
@@ -156,6 +160,10 @@ class H(BaseHTTPRequestHandler):
     if not 0<length<=5*1024*1024:return self.send({'errore':'Richiesta troppo grande'},413)
     payload=self.body()
     return self.send(catalog_config.resolve(c,payload) if path.endswith('/risolvi') else catalog_config.save_association(c,payload))
+   if path in ('/api/modelli-quadro','/api/modelli-quadro/rinomina','/api/modelli-quadro/elimina'):
+    length=int(self.headers.get('Content-Length','0'))
+    if not 0<length<=1024*1024:return self.send({'errore':'Richiesta troppo grande'},413)
+    return self.send(panel_catalog.mutate(c,'salva' if path=='/api/modelli-quadro' else path.rsplit('/',1)[1],self.body()))
    d=self.body()
    if path=='/api/fotovoltaico':
     cid=int(d.get('id') or 0);args=(d.get('cliente_id') or None,str(d.get('titolo','Impianto fotovoltaico')),max(0,int(d.get('pannelli') or 0)),max(0,float(d.get('watt_pannello') or 0)),max(0,float(d.get('inverter_kw') or 0)),max(0,float(d.get('batteria_kwh') or 0)),str(d.get('orientamento','')),float(d.get('inclinazione') or 0),json.dumps(d.get('materiali',[]),ensure_ascii=False),str(d.get('note','')),datetime.date.today().isoformat())

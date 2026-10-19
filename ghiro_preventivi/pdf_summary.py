@@ -61,7 +61,7 @@ def build_summary(data, logo):
                 story.extend([p('Scatole di derivazione','SubG'),table(['Nome / quantità','Formato e dimensioni','Note'],[[b['nome']+'\nQuantità: '+str(b['quantita']),b['dettagli'],b.get('note','')] for b in r['derivazioni']],[43,85,48])])
         for q in a['quadri']:
             story.extend([p(q['nome']+' | Quadro elettrico','HeadG'),p(q['dettagli'])])
-            story.append(table(['Fila / posizione','Componente','Moduli','Circuito e caratteristiche / codice'],[[str(c['fila'])+' / '+str(c['posizione']),c['tipo'],c['moduli'],'\n'.join(filter(None,[c.get('descrizione'),c.get('codice')]))] for c in q['componenti']] or [['-','Nessun componente','-','']],[27,51,20,78]))
+            story.append(table(['Fila / posizione','Componente','Moduli','Circuito e caratteristiche / codice'],[[str(c['fila'])+' / '+str(c['posizione']),c['tipo'],c['moduli'],'\n'.join(filter(None,[c.get('descrizione'),c.get('codice'),c.get('articolo')]))] for c in q['componenti']] or [['-','Nessun componente','-','']],[27,51,20,78]))
             if q.get('note'):story.append(p('Note: '+q['note']))
         if not a['stanze'] and not a['quadri']:story.append(p('Nessuna stanza o quadro inserito.'))
     doc=SimpleDocTemplate(out,pagesize=A4,rightMargin=17*mm,leftMargin=17*mm,topMargin=16*mm,bottomMargin=24*mm,title=str(data.get('titolo') or 'Riepilogo impianto'),author='Ghiro Tech & Light')
