@@ -104,3 +104,7 @@ L’elenco Da posizionare mostra tutte le stanze dell’appartamento scelto. Tra
 
 ### Una pagina PDF per appartamento
 Caricare un PDF multipagina, selezionare l’appartamento, scegliere PDF del progetto e Pagina PDF, quindi Assegna pagina all’appartamento. Cambiando appartamento si può riutilizzare lo stesso documento senza caricarlo nuovamente. Sono riutilizzabili anche più PDF caricati nello stesso progetto. Ogni appartamento conserva la propria pagina e i propri simboli.
+
+
+### Importazione della configurazione nel preventivo
+Porta nel preventivo e Importa scatole e quadri nel preventivo importano la stessa distinta completa: portafrutti, componenti, derivazioni, contenitori dei quadri e componenti dei quadri. I conteggi del riepilogo punti e il relè suggerito dal conteggio comandi non generano ulteriori voci. Una nuova importazione sostituisce la distinta a schermo, previa conferma se contiene già righe, senza accodare duplicati. Prezzi da compilare; preventivi già archiviati invariati.
