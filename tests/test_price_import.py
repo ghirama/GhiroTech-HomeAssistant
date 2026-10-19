@@ -1,8 +1,36 @@
 import pathlib, sqlite3, sys, tempfile, unittest
+import threading
+from concurrent.futures import ThreadPoolExecutor
 sys.path.insert(0,str(pathlib.Path(__file__).resolve().parents[1]/'ghiro_preventivi'))
 from price_import import initialize_catalog, import_catalog, number, validate
 
 class CatalogTest(unittest.TestCase):
+ def test_simultaneous_identical_import_is_idempotent(self):
+  with tempfile.TemporaryDirectory() as folder:
+   db=pathlib.Path(folder)/'live.sqlite'
+   with sqlite3.connect(db) as c:
+    c.executescript('CREATE TABLE voci(codice TEXT PRIMARY KEY,descrizione,dettagli,unita,categoria,prezzo,manodopera); CREATE TABLE listini(id INTEGER PRIMARY KEY,etichetta,caricato,numero_voci); CREATE TABLE righe(prezzo); INSERT INTO righe VALUES(42);')
+    initialize_catalog(c)
+   barrier=threading.Barrier(2)
+   class SynchronizedConnection(sqlite3.Connection):
+    def backup(self,*args,**kwargs):
+     super().backup(*args,**kwargs)
+     barrier.wait(timeout=10)
+   payload={'fonte':'VIMAR','edizione':'test','completo':True,'voci':[{'codice':'001','descrizione':'Presa','unita':'cad','prezzo':12}]}
+   def run():
+    c=sqlite3.connect(db,timeout=10,factory=SynchronizedConnection)
+    try:return import_catalog(c,payload,pathlib.Path(folder)/'backup')
+    finally:c.close()
+   with ThreadPoolExecutor(max_workers=2) as pool:
+    results=list(pool.map(lambda _:run(),range(2)))
+   self.assertEqual(sorted(r['importate'] for r in results),[0,1])
+   self.assertEqual(sum(r['gia_importato'] for r in results),1)
+   with sqlite3.connect(db) as c:
+    self.assertEqual(c.execute('SELECT COUNT(*) FROM catalog_imports').fetchone()[0],1)
+    self.assertEqual(c.execute('SELECT COUNT(*) FROM listini').fetchone()[0],1)
+    self.assertEqual(c.execute('SELECT prezzo FROM voci').fetchone()[0],12)
+    self.assertEqual(c.execute('SELECT prezzo FROM righe').fetchone()[0],42)
+
  def test_null_fields_and_subcent_precision(self):
   self.assertEqual(number(0.00001),0.00001)
   self.assertEqual(number('16.4372'),16.4372)
