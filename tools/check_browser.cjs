@@ -281,6 +281,7 @@ const {execFileSync}=require('node:child_process');
   await page.getByRole('button',{name:'Verifica anteprima',exact:true}).click();
   await page.getByRole('button',{name:'Conferma importazione verificata',exact:true}).click();
   await page.waitForFunction(()=>$('listMsg').textContent.startsWith('Importate 4'));
+  await page.getByText('Associazioni manuali e modifiche',{exact:true}).click();
   await page.locator('#mapSeries').fill('Vimar Plana');await page.locator('#mapVariant').fill('Bianco / placca prova');
   await page.locator('#mapComponent').selectOption('FR-presa');await page.locator('#mapSearch').fill('TEST001');
   await page.getByRole('button',{name:'Cerca articoli',exact:true}).click();await page.locator('#mapResults').getByRole('button',{name:'Associa',exact:true}).click();
@@ -302,6 +303,29 @@ const {execFileSync}=require('node:child_process');
   // A delayed price response must not overwrite intervening manual changes.
   await page.evaluate(async()=>{const old=api;let release;api=(p,b)=>p==='listino/risolvi'?new Promise(r=>release=r):old(p,b);const task=catalogPriceQuote(false);lines[0].prezzo=123;release({righe:lines.map(()=>({articoli:[{codice:'VIMAR:TEST001',prezzo:1,quantita:1,unita:'cad'}]}))});await task;api=old;if(lines[0].prezzo!==123)throw Error('Modifica manuale sovrascritta')});
   await page.evaluate(()=>show('listino'));await page.screenshot({path:'browser-artifacts/associazioni-listino.png',fullPage:true});
+  // Automatic technical matching: explicit alternatives, bulk save and priced quote.
+  await page.evaluate(async()=>{await api('listino/import',{fonte:'VIMAR',edizione:'Auto fixture',voci:[
+   ['14653.01','Placca 3M bianco'],['14613','Supporto 3M + viti'],['V71303','Scatola incasso rettang. 3M azzurro'],
+   ['14203','Presa 2P+T 16A P17/11 bianco'],['14000','Interruttore 1P 10AX bianco'],['14001','Interruttore 1P 16AX bianco']
+  ].map(([codice,descrizione])=>({codice,descrizione,unita:'cad',prezzo:10}))});});
+  await page.getByRole('button',{name:'Carica scelte dal listino',exact:true}).click();
+  await page.locator('#autoPlate').selectOption('1465{m}.01');
+  await page.getByRole('button',{name:'Analizza abbinamenti',exact:true}).click();
+  await page.waitForFunction(()=>autoCatalogReport!==null);
+  assert.equal(await page.getByLabel('Presa 10/16 A',{exact:true}).inputValue(),'14203');
+  assert.equal(await page.getByLabel('Interruttore',{exact:true}).inputValue(),'');
+  await page.getByLabel('Interruttore',{exact:true}).selectOption('14001');
+  await page.screenshot({path:'browser-artifacts/associazioni-automatiche.png',fullPage:true});
+  const autoVariant=await page.evaluate(()=>autoCatalogReport.variante);
+  await page.getByRole('button',{name:'Salva tutte le associazioni disponibili',exact:true}).click();
+  await page.waitForFunction(()=>$('autoMsg').textContent.startsWith('3 associazioni salvate'));
+  await page.reload();await page.waitForFunction(()=>catalogMappings.length===5);
+  await page.evaluate(async()=>{await newConfig();show('configuratore');addRoom();gcAddBox(0);gcSelected='presa';gcPut(0,0,0)});
+  await page.getByLabel('Finitura / placca',{exact:true}).selectOption(autoVariant);
+  await page.evaluate(async()=>{await gcQuote()});
+  assert.equal(await page.evaluate(()=>lines.length),4);
+  assert.equal(await page.evaluate(()=>lines.reduce((n,r)=>n+r.prezzo*r.quantita,0)),40);
+  assert.deepEqual(await page.evaluate(()=>lines.map(r=>r.codice).sort()),['VIMAR:14203','VIMAR:14613','VIMAR:14653.01','VIMAR:V71303'].sort());
   assert.deepEqual(errors,[]);
   console.log('PASS: browser interactions, apartment/common-area persistence, independent copies, box notes, quote totals, tablet layout, multipage print and per-apartment PDFs');
  }finally{if(browser)await browser.close();server.kill()}

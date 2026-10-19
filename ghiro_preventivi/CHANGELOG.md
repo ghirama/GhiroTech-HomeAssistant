@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.9.36
+
+- Associazioni guidate in blocco per Vimar Plana, Arké e Linea: serie, colore frutti, modello/finitura placca e posa. Codici esatti e prezzi dal listino attivo.
+- Distinte scatola + supporto + placca da 3/4/7 moduli, inclusi supporti dedicati Arké Fit e placche Plana Up. Scelte esplicite per alternative tecniche.
+- Le associazioni esistenti sono conservate; analisi obsolete vengono rifiutate. Le successive importazioni aggiornano i prezzi degli stessi codici, senza modificare preventivi archiviati.
+- Aggiunta suoneria elettronica da 2 moduli; nessuna sostituzione automatica di campanelli da 3 moduli, sensori/termostati con ingombro diverso o scatole da 6 moduli.
+
 ## 0.9.35
 
 - Corretto il conflitto `catalog_imports.digest` quando arrivano due importazioni contemporanee dello stesso listino. Il controllo duplicati è ora eseguito anche dentro la transazione di scrittura.
