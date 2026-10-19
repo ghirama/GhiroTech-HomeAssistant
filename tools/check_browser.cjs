@@ -387,6 +387,19 @@ const {execFileSync}=require('node:child_process');
   await page.evaluate(()=>{show('configuratore');addApartment('Altro appartamento');renderRooms()});
   assert.equal(await page.locator('#qeSection .jd-entry').count(),0);
   assert.equal(await page.locator('#qeSection').getByRole('button',{name:'+ Scatola di derivazione',exact:true}).isDisabled(),true);
+  // Extended METEL workbook: report the actual brand before allowing import.
+  await page.evaluate(()=>show('listino'));
+  await page.locator('#listSourceId').fill('');await page.locator('#listSource').selectOption('BTICINO');await page.locator('#listEdition').fill('METEL test');
+  const gewMetel=execFileSync('python3',['-c',"import openpyxl,io,sys; w=openpyxl.Workbook(); s=w.active; s.append(['Sigla Marchio','Codice Prodotto Azienda','Descrizione prodotto','Prezzo al Pubblico','Moltiplicatore prezzo','Codice Valuta','Unità di misura','Stato del prodotto']); s.append(['GEW','000TEST','Scatola prova',125,'100','EUR','PCE','3']); b=io.BytesIO(); w.save(b); sys.stdout.buffer.write(b.getvalue())"]);
+  await page.locator('#listFile').setInputFiles({name:'METEL.XLSX',mimeType:'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',buffer:gewMetel});
+  await page.getByRole('button',{name:'Verifica anteprima',exact:true}).click();
+  await page.waitForFunction(()=>$('listMsg').textContent.includes('Seleziona GEWISS'));
+  assert.equal(await page.locator('#listConfirm').isVisible(),false);
+  await page.locator('#listSource').selectOption('GEWISS');
+  await page.getByRole('button',{name:'Verifica anteprima',exact:true}).click();
+  await page.getByRole('button',{name:'Conferma importazione verificata',exact:true}).click();
+  await page.waitForFunction(()=>$('listMsg').textContent.startsWith('Importate 1'));
+  assert.equal(await page.evaluate(async()=>(await api('listino/risolvi',{righe:[{codice:'GEWISS:000TEST'}]})).righe[0].articoli[0].prezzo),1.25);
   assert.deepEqual(errors,[]);
   console.log('PASS: browser interactions, apartment/common-area persistence, independent copies, box notes, quote totals, tablet layout, multipage print and per-apartment PDFs');
  }finally{if(browser)await browser.close();server.kill()}
