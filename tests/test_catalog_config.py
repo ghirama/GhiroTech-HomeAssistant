@@ -60,4 +60,19 @@ class AssociationsTest(unittest.TestCase):
   self.assertEqual(read_excel(data)['voci'][0]['codice'],'001')
   with self.assertRaises(ValueError):read_excel(self.excel([['codice','descrizione','unita','prezzo'],['001','Supporto','cad','=1+2']]))
 
+ def test_metel_extended_headers_reordered_text_numbers_and_source_guard(self):
+  headers=['Stato del prodotto','Unità di misura','Codice Valuta','Moltiplicatore prezzo','Prezzo al Pubblico','Descrizione prodotto','Codice Prodotto Azienda','Sigla Marchio','Prezzo al rivenditore']
+  rows=[headers,['3','PCE','EUR','100',125,'Scatola','0001','GEW',90],['9','LM','EUR',1,2,'Tubo','0002','GEW',1]]
+  data=self.excel(rows)
+  with self.assertRaisesRegex(ValueError,'Seleziona GEWISS'):self.put(data)
+  self.assertEqual(self.c.execute('SELECT COUNT(*) FROM voci').fetchone()[0],0)
+  data['fonte']='GEWISS';report=read_excel(data)
+  self.assertEqual(report['voci'][0]['codice'],'0001');self.assertEqual(report['voci'][0]['prezzo'],'1.25');self.assertEqual(report['inattivi'],['0002'])
+  self.put(data);self.assertEqual(self.c.execute("SELECT prezzo FROM voci WHERE codice='GEWISS:0001'").fetchone()[0],1.25)
+  self.assertIn('errore',resolve(self.c,{'righe':[{'codice':'GEWISS:0002'}]})['righe'][0])
+  with self.assertRaisesRegex(ValueError,'duplicata'):read_excel({**self.excel([headers+['SP'],rows[1]+['3']]),'fonte':'GEWISS'})
+  for field,value in [(0,'3.5'),(3,'0'),(1,'UNKNOWN'),(7,'BTI'),(6,1)]:
+   invalid=list(rows[1]);invalid[field]=value
+   with self.assertRaises(ValueError):read_excel({**self.excel([headers,invalid]),'fonte':'GEWISS'})
+
 if __name__=='__main__':unittest.main()

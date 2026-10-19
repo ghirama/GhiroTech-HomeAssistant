@@ -17,7 +17,7 @@ def initialize(c):
 
 
 def read_excel(data):
-    """Vimar METEL or a worksheet using the same headers as normalized CSV."""
+    """Known METEL Excel layouts or normalized CSV-style worksheets."""
     import openpyxl
     try:
         raw = base64.b64decode(data['xlsx'], validate=True)
@@ -34,15 +34,24 @@ def read_excel(data):
         sheet.reset_dimensions()
         rows = sheet.iter_rows(max_col=32, values_only=True)
         headers = [str(v or '').strip() for v in next(rows,())]
-        if len(headers)<11:
-            raise ValueError('Foglio vuoto o intestazioni mancanti')
-        metel = headers[1] == 'Codice Prodotto Azienda' and headers[10] == 'Prezzo al Pubblico'
-        if metel and any(headers[i] != h for i,h in {0:'Sigla Marchio',3:'Descrizione prodotto',11:'Moltiplic. prezzo',12:'Codice valuta',13:'Unità misura',15:'SP'}.items()):
-            raise ValueError('Colonne METEL diverse dal formato Vimar atteso')
-        if metel and data.get('fonte', '').upper() != 'VIMAR':
-            raise ValueError('Questo formato METEL richiede la fonte VIMAR')
-        if not metel and (len([h for h in headers if h]) != len(set(h for h in headers if h)) or not {'codice','descrizione','unita','prezzo'} <= set(headers)):
-            raise ValueError('Primo foglio: formato Vimar METEL oppure colonne codice, descrizione, unita, prezzo')
+        normalized = [' '.join(h.casefold().split()) for h in headers]
+        metel = 'codice prodotto azienda' in normalized
+        positions = {}
+        if metel:
+            aliases = {'brand':('sigla marchio',), 'code':('codice prodotto azienda',),
+                'description':('descrizione prodotto',), 'price':('prezzo al pubblico',),
+                'multiplier':('moltiplic. prezzo','moltiplicatore prezzo'),
+                'currency':('codice valuta',), 'unit':('unità misura','unità di misura'),
+                'status':('sp','stato del prodotto')}
+            for field,names in aliases.items():
+                matches=[i for i,h in enumerate(normalized) if h in names]
+                if len(matches)!=1:
+                    raise ValueError('Colonna METEL mancante o duplicata: '+names[0])
+                positions[field]=matches[0]
+        elif len([h for h in headers if h]) != len(set(h for h in headers if h)) or not {'codice','descrizione','unita','prezzo'} <= set(headers):
+            raise ValueError('Primo foglio: Excel METEL oppure colonne codice, descrizione, unita, prezzo')
+        source=str(data.get('fonte','')).strip().upper()
+        brands={'VIW':('VIMAR','Vimar'),'GEW':('GEWISS','Gewiss')}
         items, inactive = [], []
         for n, row in enumerate(rows, 2):
             if n > 100001:
@@ -52,20 +61,31 @@ def read_excel(data):
             if any(isinstance(v, str) and v.startswith('=') for v in row):
                 raise ValueError('Riga %d: esportare le formule come valori prima di importare' % n)
             if metel:
-                if row[0] != 'VIW' or row[12] != 'EUR' or row[13] not in ('PCE','LM'):
-                    raise ValueError('Riga %d: marchio, valuta o unità non supportati' % n)
-                if row[11] not in (1,10,100,1000,10000,100000) or row[15] not in (1,2,3,6,7,9):
+                values={k:row[i] for k,i in positions.items()}
+                brand=str(values['brand'] or '').strip().upper()
+                if brand not in brands:
+                    raise ValueError('Riga %d: marchio METEL %s non ancora supportato; occorre verificare il relativo listino' % (n,brand))
+                expected,label=brands[brand]
+                if source!=expected:
+                    raise ValueError('Il file contiene marchio %s (%s), ma la fonte scelta è %s. Seleziona %s e ripeti la verifica.' % (brand,label,source or 'vuota',expected))
+                currency=str(values['currency'] or '').strip().upper()
+                unit=str(values['unit'] or '').strip().upper()
+                if currency!='EUR' or unit not in ('PCE','LM'):
+                    raise ValueError('Riga %d: valuta o unità non supportate' % n)
+                multiplier=number(values['multiplier']);status=number(values['status'])
+                if multiplier not in (1,10,100,1000,10000,100000) or status not in (1,2,3,6,7,9):
                     raise ValueError('Riga %d: moltiplicatore o stato non valido' % n)
-                if not isinstance(row[1], str):
+                multiplier=int(multiplier);status=int(status);code=values['code']
+                if not isinstance(code,str):
                     raise ValueError('Riga %d: il codice deve essere testo per conservare gli zeri iniziali' % n)
-                if row[15] == 9:
-                    inactive.append(row[1])
-                details = {'foglio':sheet.title, 'riga':n, 'stato_metel':row[15],
-                           'prezzo_pubblico_originale':row[10], 'moltiplicatore':row[11]}
-                items.append(dict(codice=row[1], descrizione=row[3], unita='cad' if row[13]=='PCE' else 'm',
-                    prezzo=str(Decimal(str(number(row[10]))) / Decimal(str(row[11]))),
-                    categoria='Vimar — ' + {1:'Nuovo',2:'In esaurimento',3:'A magazzino',6:'Su commessa',7:'In esaurimento',9:'Annullato'}[row[15]],
-                    dettagli=json.dumps(details, ensure_ascii=False)))
+                code=code.strip()
+                if status==9:inactive.append(code)
+                details={'foglio':sheet.title,'riga':n,'stato_metel':status,
+                         'prezzo_pubblico_originale':values['price'],'moltiplicatore':multiplier}
+                items.append(dict(codice=code,descrizione=values['description'],unita='cad' if unit=='PCE' else 'm',
+                    prezzo=str(Decimal(str(number(values['price']))) / Decimal(str(multiplier))),
+                    categoria=label+' — '+{1:'Nuovo',2:'In esaurimento',3:'A magazzino',6:'Su commessa',7:'In esaurimento',9:'Annullato'}[status],
+                    dettagli=json.dumps(details,ensure_ascii=False)))
             else:
                 items.append({h:v for h,v in zip(headers,row) if h})
         return {k:v for k,v in data.items() if k != 'xlsx'} | {

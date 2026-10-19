@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.9.40
+
+- Lettore Excel METEL con riconoscimento delle intestazioni abbreviate/estese e delle colonne anche riordinate. Verificato sui listini Vimar e Gewiss forniti.
+- Supporto a stato e moltiplicatore espressi come testo; mantenuti codici con zeri iniziali, prezzo al pubblico e conversione del moltiplicatore.
+- Aggiunta fonte GEWISS. Controllo del marchio interno: un file GEW non viene importato come BTICINO o VIMAR. La verifica indica la fonte da selezionare.
+- BTicino METEL resta da verificare con un file BTicino effettivo; nessuna modifica ad associazioni o prezzi dei preventivi salvati.
+
 ## 0.9.39
 
 - Scatole di derivazione spostate nella sezione Quadri elettrici. Scelta della stanza e del tipo/formato prima dell’inserimento.
