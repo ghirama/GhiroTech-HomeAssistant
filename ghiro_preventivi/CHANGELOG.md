@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.9.31
+
+- Porta nel preventivo importa la distinta completa di scatole, frutti, derivazioni, quadri e componenti, escludendo i riepiloghi punti.
+- I due comandi di importazione usano la stessa distinta senza accodare duplicati. Conferma prima di sostituire voci e prezzi a schermo.
+
 ## 0.9.30
 
 - PDF condivisi nel progetto: scelta del documento e assegnazione indipendente della pagina per ogni appartamento, senza ricaricare il file.

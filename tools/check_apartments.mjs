@@ -16,9 +16,9 @@ assert.equal(main.run('apartments.length'),3);
 assert.equal(main.run("rooms[2].scatole[0].note"),'Nota originale');
 assert.equal(main.run("apartments[0].nome"),'Parti comuni');
 main.run('toQuote();lines.forEach(r=>r.prezzo=10);render()');
-assert.equal(main.run('new Set(lines.map(r=>r.appartamento)).size'),3);
+assert.equal(main.run('new Set(lines.map(r=>r.appartamento)).size'),2);
 const total=main.run('calc().subtotal');assert.ok(total>0);
-assert.match(main.get('totals').innerHTML,/Parti comuni/);
+assert.ok(!main.get('totals').innerHTML.includes('Parti comuni'));
 main.run('lines=[];gcQuote()');assert.equal(main.run('new Set(lines.map(r=>r.appartamento)).size'),2);
 assert.equal(main.run("lines.filter(r=>r.codice==='FR-presa').length"),2);
 main.run("apartments=[];rooms=[{nome:'Legacy'}];normalizeApartments()");assert.equal(main.run('rooms[0].appartamento_id'), 'app-1');
@@ -104,3 +104,10 @@ main.run('toQuote()');assert.equal(main.run("lines.filter(l=>l.codice==='QE').le
 main.run('lines=[];gcQuote()');assert.equal(main.run('lines.length'),4);
 main.run('qeClone(0);qeRemoveComponent(0,0)');assert.equal(main.run('qePanels()[1].componenti.length'),1);
 main.run('qeDelete(0)');assert.equal(main.run('qePanels().length'),1);
+
+// Import uses only the full material list, never point summaries, and is repeatable.
+main.run("newConfig();addRoom();gcAddBox(0);gcPut(0,0,0);jdAdd(0);qeAdd();qePut(0,1,1);rooms[0].luci=3;rooms[0].comandi=5;toQuote()");
+assert.equal(main.run("lines.some(l=>l.codice.startsWith('CIV-'))"),false);
+for(const prefix of ['SCAT-','FR-','DER-','QE'])assert.ok(main.run(`lines.some(l=>l.codice.startsWith('${prefix}'))`));
+const imported=main.run('JSON.stringify(lines)');main.run('gcQuote();toQuote()');assert.equal(main.run('JSON.stringify(lines)'),imported);
+main.run("lines[0].prezzo=123;editingQuoteId=99;confirm=()=>false;gcQuote()");assert.equal(main.run('lines[0].prezzo'),123);assert.equal(main.run('editingQuoteId'),99);
