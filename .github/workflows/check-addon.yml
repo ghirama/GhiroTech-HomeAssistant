@@ -55,4 +55,5 @@ jobs:
       - name: Costruisci l’immagine add-on e verifica il supporto PDF
         run: |
           docker build -t ghiro-pdf-test ./ghiro_preventivi
+          docker run --rm --entrypoint python3 ghiro-pdf-test -c "from excel_quote import build_quote; import io,zipfile; data=build_quote({'righe':[{'descrizione':'Quadro','prezzo':100,'quantita':1}]}); assert zipfile.ZipFile(io.BytesIO(data)).testzip() is None; print('Excel export OK')"
           docker run --rm --entrypoint python3 -v "${{ github.workspace }}/tests/fixtures:/fixtures:ro" ghiro-pdf-test -c "import base64,tempfile,pathlib; from pdf_plan import import_pdf; folder=tempfile.TemporaryDirectory(); result=import_pdf(folder.name,'prova.pdf',base64.b64encode(pathlib.Path('/fixtures/planimetria.pdf').read_bytes()).decode()); assert result['pagine']==2; print('PDF conversion OK'); folder.cleanup()"

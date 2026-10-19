@@ -77,6 +77,22 @@ class SavingTest(unittest.TestCase):
         self.assertEqual(self.request('/api/preventivi/'+str(quote['id']))[0],200)
         self.assertEqual(self.request('/api/configurazioni',{'id':ident,'titolo':'Non ricreare','stanze':rooms})[0],404)
 
+    def test_excel_download_does_not_save_quote(self):
+        import zipfile
+        import io
+        payload={'titolo':'Bozza non salvata','righe':[{'descrizione':'Scatola','quantita':2,'prezzo':15}]}
+        connection=http.client.HTTPConnection(self.host)
+        connection.request('POST','/api/preventivi/excel',json.dumps(payload),{'Content-Type':'application/json','Origin':'http://'+self.host})
+        response=connection.getresponse()
+        self.assertEqual(response.status,200)
+        self.assertIn('spreadsheetml.sheet',response.getheader('Content-Type'))
+        with zipfile.ZipFile(io.BytesIO(response.read())) as z:
+            self.assertIsNone(z.testzip())
+        connection.close()
+        self.assertEqual(self.request('/api/preventivi')[1],[])
+        self.assertEqual(self.request('/api/preventivi/excel',payload,origin='https://invalid.example')[0],403)
+        self.assertEqual(self.request('/api/preventivi/excel',{'righe':[]})[0],400)
+
     def test_box_presets_persist_and_validate(self):
         data={'nome':'Termostato','serie':'Vimar Arké','scatola':{'moduli':3,'frutti':[None,'termostato2'],'note':'A lato letto'}}
         status,saved=self.request('/api/scatole-preimpostate',data);self.assertEqual(status,200)

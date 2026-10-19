@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.9.32
+
+- Esportazione Excel del preventivo aperto con logo e colori aziendali, dati cliente, subtotali per appartamento, IVA e totale.
+- Foglio Calcolo interno con costi, quote materiale, sconto e ricarico modificabili; formule collegate al foglio cliente e stampa A4.
+
 ## 0.9.31
 
 - Porta nel preventivo importa la distinta completa di scatole, frutti, derivazioni, quadri e componenti, escludendo i riepiloghi punti.

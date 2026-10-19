@@ -15,6 +15,8 @@ In Home Assistant apri **Impostazioni → Componenti aggiuntivi → Negozio → 
 Aggiorna il negozio e verifica la presenza dell'add-on. Prima di sostituire un'installazione locale già in uso, esegui un backup e verifica la migrazione dei dati.
 
 ## Nuove versioni
+Nel preventivo aperto, **Esporta Excel** scarica le voci correnti (anche non ancora salvate) in un file `.xlsx` con logo e colori aziendali. Il foglio **Preventivo** è impostato per la stampa cliente A4; **Calcolo interno** contiene costi, quantità, quota materiale, sconto, ricarico e IVA modificabili. Le formule aggiornano i prezzi e i totali. Le modifiche nel file Excel non vengono sincronizzate con il gestionale.
+
 Carica nella cartella principale un file `GhiroTech_HA_Addon_vX.Y.zip` contenente `ghiro_preventivi/`: GitHub Actions lo estrarrà nella cartella corretta. Una volta importato, il file ZIP può essere eliminato per mantenere pulito il repository.
 
 **Importante:** non pubblicare database operativi, documenti clienti, credenziali o backup. I dati dell'applicazione devono restare nella cartella persistente `/data` di Home Assistant. Gli aggiornamenti di Home Assistant non vengono installati automaticamente soltanto perché è cambiato il repository: serve incrementare la versione dell'add-on e configurare l'aggiornamento in Home Assistant.

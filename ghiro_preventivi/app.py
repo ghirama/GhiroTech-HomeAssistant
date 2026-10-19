@@ -107,6 +107,11 @@ class H(BaseHTTPRequestHandler):
   try:
    if path.startswith('/api/auth/'):return self.send({'errore':'non trovato'},404)
    if not self.same_origin():return self.send({'errore':'Origine non valida'},403)
+   if path=='/api/preventivi/excel':
+    length=int(self.headers.get('Content-Length','0'))
+    if not 0<length<=5*1024*1024:return self.send({'errore':'Preventivo troppo grande'},413)
+    from excel_quote import build_quote
+    b=build_quote(self.body());self.send_response(200);self.send_header('Content-Type','application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');self.send_header('Content-Disposition','attachment; filename="Preventivo_GhiroTech.xlsx"');self.send_header('Content-Length',str(len(b)));self.end_headers();self.wfile.write(b);return
    if path=='/api/configurazioni/riepilogo-pdf':
     length=int(self.headers.get('Content-Length','0'))
     if not 0<length<=5*1024*1024:return self.send({'errore':'Riepilogo troppo grande'},413)
