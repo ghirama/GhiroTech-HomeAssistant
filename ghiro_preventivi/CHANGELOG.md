@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.9.38
+
+- Materiali applicabili a tutto l’impianto oppure solo all’appartamento attivo. La scelta generale comprende le parti comuni e viene ereditata dai nuovi appartamenti.
+- Impostazione generale salvata nella configurazione; modifiche locali indipendenti, senza cambiare gli altri appartamenti. Riapplicare a tutto l’impianto sostituisce tutte le scelte correnti.
+
 ## 0.9.37
 
 - Scelta materiali spostata in Configurazione impianto, per appartamento: marca, serie, colore frutti, placca e posa.
