@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.9.39
+
+- Scatole di derivazione spostate nella sezione Quadri elettrici. Scelta della stanza e del tipo/formato prima dell’inserimento.
+- Stanza modificabile anche sulle scatole già inserite, mantenendo dimensioni, quantità e note. Nessuna migrazione dei dati: riepilogo e preventivo continuano a usare la stanza assegnata.
+
 ## 0.9.38
 
 - Materiali applicabili a tutto l’impianto oppure solo all’appartamento attivo. La scelta generale comprende le parti comuni e viene ereditata dai nuovi appartamenti.
