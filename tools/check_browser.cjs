@@ -48,6 +48,14 @@ const {execFileSync}=require('node:child_process');
   assert.equal(await page.evaluate(()=>lines.some(l=>l.codice.startsWith('CIV-'))),false);
   assert.equal(await page.locator('#printView img').evaluate(img=>img.complete&&img.naturalWidth>0),true);
   await mkdir('browser-artifacts',{recursive:true});
+  // Download the current unsaved state, without altering the archived quote.
+  await page.evaluate(()=>{$('quoteTitle').value='Modifica non salvata Excel';$('discount').value='10';$('markup').value='20';render();show('preventivi')});
+  const excelDownload=page.waitForEvent('download');
+  await page.getByRole('button',{name:'Esporta Excel',exact:true}).click();
+  const excel=await excelDownload;assert.ok(excel.suggestedFilename().endsWith('.xlsx'));
+  await excel.saveAs('browser-artifacts/preventivo.xlsx');
+  execFileSync('python3',['-c',"import zipfile,xml.etree.ElementTree as E; z=zipfile.ZipFile('browser-artifacts/preventivo.xlsx'); p=z.read('xl/worksheets/sheet1.xml').decode(); assert 'Modifica non salvata Excel' in p; assert 'Calcolo interno' in p; assert z.testzip() is None"]);
+  await page.evaluate(()=>{$('discount').value='0';$('markup').value='0';render()});
   await page.emulateMedia({media:'print'});
   await page.pdf({path:'browser-artifacts/quote.pdf',format:'A4',printBackground:true});
   assert.equal(await page.getByRole('link',{name:'Apri editor planimetria (beta)'}).isVisible(),false);
