@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.9.33
+
+- Esportazione Excel divisa in Riepilogo generale, un foglio per appartamento e Parti comuni se presenti.
+- Mantenute colonne, costi e formule esistenti; Calcolo interno resta collegato ai fogli cliente, senza separazione aggiuntiva materiali/manodopera.
+- Logo, intestazione aziendale e stampa A4 su ogni foglio cliente.
+
 ## 0.9.32
 
 - Esportazione Excel del preventivo aperto con logo e colori aziendali, dati cliente, subtotali per appartamento, IVA e totale.
