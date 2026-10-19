@@ -1,6 +1,7 @@
 import sqlite3,json,pathlib,shutil,os,uuid,datetime,html,cgi,io,csv,secrets,hashlib,hmac,time
 from price_import import initialize_catalog, import_catalog
 import catalog_config
+import catalog_auto
 from storage import activate as activate_storage, configure as configure_storage, read_state as storage_state
 from pdf_plan import import_pdf, preview as pdf_preview, directory as pdf_directory
 from http.server import ThreadingHTTPServer,BaseHTTPRequestHandler
@@ -78,6 +79,7 @@ class H(BaseHTTPRequestHandler):
    if path=='/api/impostazioni/archivio':self.send(storage_state(CONTROL));return
    if path=='/api/scatole-preimpostate':self.send([dict(x) for x in c.execute('SELECT id,nome,scatola_json FROM scatole_preimpostate ORDER BY id DESC')]);return
    if path=='/api/configurazioni':self.send([dict(x) for x in c.execute('SELECT * FROM configurazioni_civili ORDER BY id DESC')]);return
+   if path=='/api/listino/automatico':return self.send(catalog_auto.options(c))
    if path=='/api/listino/associazioni':return self.send(catalog_config.associations(c))
    if path=='/api/listino/fonti':
     self.send([r[0] for r in c.execute("SELECT DISTINCT CASE WHEN instr(codice,':')>0 THEN substr(codice,1,instr(codice,':')-1) ELSE 'BASE_EPPAT' END FROM voci ORDER BY 1")]);return
@@ -144,6 +146,11 @@ class H(BaseHTTPRequestHandler):
     if length<=0 or length>20*1024*1024:return self.send({'errore':'File massimo 20 MB'},413)
     data=self.body()
     return self.send(import_catalog(c,data,DATA/'backup_listini',preview=path.endswith('/preview')))
+   if path in ('/api/listino/automatico/analizza','/api/listino/automatico/salva'):
+    length=int(self.headers.get('Content-Length','0'))
+    if not 0<length<=100000:return self.send({'errore':'Richiesta troppo grande'},413)
+    payload=self.body()
+    return self.send(catalog_auto.save(c,payload) if path.endswith('/salva') else catalog_auto.analyse(c,payload))
    if path in ('/api/listino/associazioni','/api/listino/risolvi'):
     length=int(self.headers.get('Content-Length','0'))
     if not 0<length<=5*1024*1024:return self.send({'errore':'Richiesta troppo grande'},413)
@@ -175,7 +182,7 @@ class H(BaseHTTPRequestHandler):
     c.execute('DELETE FROM scatole_preimpostate WHERE id=?',(int(d['id']),));c.commit();return self.send({'ok':True})
    elif path=='/api/scatole-preimpostate':
     name=str(d.get('nome','')).strip();series='';box=d.get('scatola')
-    sizes={'presa':1,'schuko':2,'interruttore':1,'deviatore':1,'pulsante':1,'invertitore':1,'dati':1,'tv':1,'tapparella':1,'cieco':1,'ronzatore':1,'campanello':3,'presenza1':1,'presenza2':2,'termostato2':2,'termostato3':3}
+    sizes={'presa':1,'schuko':2,'interruttore':1,'deviatore':1,'pulsante':1,'invertitore':1,'dati':1,'tv':1,'tapparella':1,'cieco':1,'ronzatore':1,'campanello':3,'campanello2':2,'presenza1':1,'presenza2':2,'termostato2':2,'termostato3':3}
     if not name or len(name)>100:raise ValueError('Nome obbligatorio, massimo 100 caratteri')
     if not isinstance(box,dict) or box.get('moduli') not in [3,4,6,7]:raise ValueError('Scatola non valida')
     fruits=box.get('frutti');note=box.get('note','')

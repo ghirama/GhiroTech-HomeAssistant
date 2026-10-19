@@ -20,3 +20,5 @@ Nel preventivo aperto, **Esporta Excel** scarica le voci correnti (anche non sal
 Carica nella cartella principale un file `GhiroTech_HA_Addon_vX.Y.zip` contenente `ghiro_preventivi/`: GitHub Actions lo estrarrà nella cartella corretta. Una volta importato, il file ZIP può essere eliminato per mantenere pulito il repository.
 
 **Importante:** non pubblicare database operativi, documenti clienti, credenziali o backup. I dati dell'applicazione devono restare nella cartella persistente `/data` di Home Assistant. Gli aggiornamenti di Home Assistant non vengono installati automaticamente soltanto perché è cambiato il repository: serve incrementare la versione dell'add-on e configurare l'aggiornamento in Home Assistant.
+
+Per gli abbinamenti guidati Vimar, consultare [Associazioni automatiche](ghiro_preventivi/CATALOG_SOURCES.md).
