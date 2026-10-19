@@ -61,6 +61,17 @@ class SavingTest(unittest.TestCase):
         response=connection.getresponse();status=response.status;value=json.loads(response.read());connection.close()
         return status,value
 
+    def test_whole_system_materials_persist_and_legacy_updates_preserve_them(self):
+        profile={'serie':'Vimar Plana','colore':'Bianco','scelte':{'FR-presa':'14203'}}
+        status,saved=self.request('/api/configurazioni',{'titolo':'Intero impianto','stanze':[],'materiali':profile});self.assertEqual(status,200)
+        self.assertEqual(self.request('/api/configurazioni',{'id':saved['id'],'titolo':'Editor precedente','stanze':[]})[0],200)
+        self.stop_server();self.scope=load_app(self.folder);self.start_server()
+        item=next(c for c in self.request('/api/configurazioni')[1] if c['id']==saved['id'])
+        self.assertEqual(json.loads(item['materiali_json']),profile)
+        self.assertEqual(self.request('/api/configurazioni',{'id':saved['id'],'titolo':'Reset','materiali':None})[0],200)
+        self.assertIsNone(json.loads(self.request('/api/configurazioni')[1][0]['materiali_json']))
+        self.assertEqual(self.request('/api/configurazioni',{'titolo':'Invalid','materiali':[]})[0],400)
+
     def test_config_description_rename_and_delete(self):
         rooms=[{'nome':'Cucina','scatole':[{'moduli':3,'frutti':['presa']}]}]
         status,saved=self.request('/api/configurazioni',{'titolo':'Impianto','descrizione':'Primo piano','stanze':rooms});self.assertEqual(status,200)

@@ -30,7 +30,7 @@ def init():
  CREATE TABLE IF NOT EXISTS admin_login(id INTEGER PRIMARY KEY CHECK(id=1),username TEXT NOT NULL,password_hash TEXT NOT NULL);
  CREATE TABLE IF NOT EXISTS auth_sessions(token_hash TEXT PRIMARY KEY,expires INTEGER NOT NULL);
  ''')
- for tab,col,typ in [('preventivi','cliente_id','INTEGER'),('preventivi','sconto_materiale','REAL DEFAULT 0'),('righe','quota_materiale','REAL DEFAULT 0'),('righe','appartamento',"TEXT DEFAULT ''"),('righe','associazione',"TEXT DEFAULT ''"),('configurazioni_civili','descrizione',"TEXT DEFAULT ''"),('configurazioni_civili','appartamenti_json',"TEXT DEFAULT '[]'")]:
+ for tab,col,typ in [('preventivi','cliente_id','INTEGER'),('preventivi','sconto_materiale','REAL DEFAULT 0'),('righe','quota_materiale','REAL DEFAULT 0'),('righe','appartamento',"TEXT DEFAULT ''"),('righe','associazione',"TEXT DEFAULT ''"),('configurazioni_civili','materiali_json',"TEXT DEFAULT 'null'"),('configurazioni_civili','descrizione',"TEXT DEFAULT ''"),('configurazioni_civili','appartamenti_json',"TEXT DEFAULT '[]'")]:
   if col not in [x[1] for x in c.execute('PRAGMA table_info('+tab+')')]:c.execute('ALTER TABLE '+tab+' ADD COLUMN '+col+' '+typ)
  c.execute("UPDATE scatole_preimpostate SET serie='' WHERE serie<>''")
  initialize_catalog(c)
@@ -202,7 +202,7 @@ class H(BaseHTTPRequestHandler):
    elif path=='/api/configurazioni':
     cid=d.get('id');existing=None
     if cid:
-     existing=c.execute('SELECT cliente_id,appartamenti_json,descrizione FROM configurazioni_civili WHERE id=?',(int(cid),)).fetchone()
+     existing=c.execute('SELECT cliente_id,appartamenti_json,descrizione,materiali_json FROM configurazioni_civili WHERE id=?',(int(cid),)).fetchone()
      if not existing:return self.send({'errore':'Progetto non trovato: salva come nuovo progetto'},404)
     client=d.get('cliente_id') if 'cliente_id' in d else (existing['cliente_id'] if existing else None)
     apartments=d.get('appartamenti',json.loads(existing['appartamenti_json'] or '[]') if existing else [])
@@ -211,10 +211,12 @@ class H(BaseHTTPRequestHandler):
     if len({a['id'] for a in apartments})!=len(apartments) or len({a['nome'].strip().casefold() for a in apartments})!=len(apartments):raise ValueError('Appartamenti duplicati')
     description=d.get('descrizione',existing['descrizione'] if existing else '')
     if not isinstance(description,str) or len(description)>5000:raise ValueError('Descrizione troppo lunga (massimo 5000 caratteri)')
-    args=(client or None,str(d.get('titolo','')),json.dumps(d.get('stanze',[]),ensure_ascii=False),datetime.date.today().isoformat(),json.dumps(apartments,ensure_ascii=False),description)
+    materials=d.get('materiali',json.loads(existing['materiali_json'] or 'null') if existing else None)
+    if materials is not None and (not isinstance(materials,dict) or len(json.dumps(materials))>20000):raise ValueError('Materiali impianto non validi')
+    args=(client or None,str(d.get('titolo','')),json.dumps(d.get('stanze',[]),ensure_ascii=False),datetime.date.today().isoformat(),json.dumps(apartments,ensure_ascii=False),description,json.dumps(materials,ensure_ascii=False))
     if cid:
-     c.execute('UPDATE configurazioni_civili SET cliente_id=?,titolo=?,stanze_json=?,aggiornato=?,appartamenti_json=?,descrizione=? WHERE id=?',args+(int(cid),));cur=c.execute('SELECT id FROM configurazioni_civili WHERE id=?',(int(cid),))
-    else:cur=c.execute('INSERT INTO configurazioni_civili(cliente_id,titolo,stanze_json,aggiornato,appartamenti_json,descrizione) VALUES(?,?,?,?,?,?)',args)
+     c.execute('UPDATE configurazioni_civili SET cliente_id=?,titolo=?,stanze_json=?,aggiornato=?,appartamenti_json=?,descrizione=?,materiali_json=? WHERE id=?',args+(int(cid),));cur=c.execute('SELECT id FROM configurazioni_civili WHERE id=?',(int(cid),))
+    else:cur=c.execute('INSERT INTO configurazioni_civili(cliente_id,titolo,stanze_json,aggiornato,appartamenti_json,descrizione,materiali_json) VALUES(?,?,?,?,?,?,?)',args)
    elif path=='/api/preventivi':
     import math
     def number(v):

@@ -1,14 +1,14 @@
-# Associazioni automatiche Vimar (0.9.37)
+# Associazioni automatiche Vimar (0.9.38)
 
 ## Utilizzo
 
-Caricare il file in Listini prezzi. In Configura impianto civile, scegliere l’appartamento e usare Materiali dell’appartamento:
+Caricare il file in Listini prezzi. In Configura impianto civile, scegliere l’appartamento e usare Materiali dell’impianto. Scegliere la destinazione “Solo questo appartamento” oppure “Tutto l’impianto”:
 1. Scegliere marca, serie, colore frutti, modello/finitura placca e posa.
 2. Analizza abbinamenti, completare le scelte tecniche richieste.
-3. Applica all’appartamento: le scatole esistenti ricevono i materiali scelti, anche le nuove li ereditano. Le impostazioni si salvano con la configurazione.
+3. Applica alla destinazione selezionata: le scatole esistenti ricevono i materiali scelti, anche le nuove li ereditano. Le impostazioni si salvano con la configurazione.
 4. Porta nel preventivo: codici e prezzi vengono risolti dal listino corrente secondo le scelte del progetto.
 
-Ogni appartamento mantiene le proprie impostazioni, comprese le parti comuni. Duplicare crea copie indipendenti. Le scatole preimpostate continuano a salvare solo composizione e note: ereditano i materiali dell’appartamento in cui vengono inserite. Le associazioni manuali precedenti restano compatibili. Un cambio manuale della serie/finitura della singola scatola disattiva il suo profilo automatico. Applica all’appartamento sostituisce queste eccezioni.
+“Tutto l’impianto” aggiorna tutti gli appartamenti e le parti comuni, sostituendo anche eventuali eccezioni. Il valore generale resta salvato ed è ereditato dai nuovi appartamenti. “Solo questo appartamento” consente eccezioni indipendenti e non modifica il valore generale. Duplicare crea copie indipendenti. Le scatole preimpostate continuano a salvare solo composizione e note: ereditano i materiali dell’appartamento in cui vengono inserite. Le associazioni manuali precedenti restano compatibili. Un cambio manuale della serie/finitura della singola scatola disattiva il suo profilo automatico. Applica all’appartamento sostituisce queste eccezioni.
 
 Prezzi e codici sono verificati nuovamente all’importazione nel preventivo; scelte non più disponibili vengono segnalate senza sostituzioni. I preventivi archiviati mantengono i prezzi salvati. Le scelte del progetto non modificano le associazioni globali né altri progetti.
 
