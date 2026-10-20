@@ -2,6 +2,8 @@
 import json
 import re
 import sqlite3
+from functools import lru_cache
+from pathlib import Path
 
 
 def initialize(c):
@@ -79,8 +81,8 @@ def mutate(c, action, data):
 
 def specs(description):
     s = description.upper()
-    width = re.search(r'(?<!\w)(?<!\d[.,])(\d+(?:[.,]\d+)?)\s*M(?:ODULI)?\b', s)
-    modules = float(width[1].replace(',', '.')) if width else None
+    widths = re.findall(r'(?<!\w)(?<!\d[.,])(\d+(?:[.,]\d+)?)\s*M(?:ODULI)?\b', s)
+    modules = float(widths[-1].replace(',', '.')) if widths else None
     arrangement = re.search(r'\(\s*(\d+)\s*[X×]\s*(\d+)\s*\)', s)
     result = {'moduli': modules}
     if arrangement and modules == int(arrangement[1]) * int(arrangement[2]):
@@ -89,6 +91,8 @@ def specs(description):
 
 
 def search(c, query):
+    if query.get('guidata', [''])[0] == '1':
+        return guided_search(c, query)
     q = str(query.get('q', [''])[0]).strip()[:200]
     container = query.get('tipo', [''])[0] == 'contenitore'
     sql = "SELECT v.codice,v.descrizione,v.prezzo,v.unita FROM voci v WHERE v.codice LIKE 'GEWISS:%' AND v.prezzo>0 AND lower(v.unita)='cad' AND NOT EXISTS(SELECT 1 FROM catalog_status s WHERE s.code=v.codice AND s.active=0)"
@@ -107,3 +111,121 @@ def search(c, query):
         if len(rows) == 100:
             break
     return rows
+
+
+# Catalogue metadata has no prices: every result is joined to the current list.
+
+FACETS = ('categoria', 'serie', 'montaggio', 'ip', 'moduli', 'poli',
+          'corrente', 'curva', 'potere', 'differenziale', 'sensibilita')
+
+
+@lru_cache(maxsize=1)
+def catalogue():
+    return json.loads(Path(__file__).with_name('gewiss_catalog.json').read_text())
+
+
+def characteristics(description):
+    """Read explicit METEL attributes; never choose an electrical rating."""
+    s = description.upper().replace('È', 'E').replace('É', 'E')
+    compact = re.sub(r'\s+', '', s)
+    kind = 'Altro'
+    if re.match(r'^(CENTRALINO|QUADRO)\b', s):
+        kind = 'Contenitore'
+    elif 'AFDD' in s or 'BLOCCO' in s or 'COMPONIB' in s:
+        pass  # A separate block/AFDD is not an ordinary MCB or complete RCD.
+    elif re.match(r'INT\.?MAG\.?DIF', compact):
+        kind = 'Magnetotermico differenziale'
+    elif re.match(r'INT\.?MAGNET', compact):
+        kind = 'Magnetotermico'
+    elif re.match(r'INT\.?DIFF\.?PURO', compact):
+        kind = 'Differenziale'
+    elif 'SEZIONATORE' in s:
+        kind = 'Sezionatore'
+    elif 'SCARICATORE' in s:
+        kind = 'Scaricatore di sovratensione'
+    elif compact.startswith('CONTATTORE'):
+        kind = 'Contattore'
+    elif compact.startswith(('RELE', 'RELÈ')):
+        kind = 'Relè'
+    elif compact.startswith('TEMPORIZZATORE'):
+        kind = 'Temporizzatore'
+    elif compact.startswith('ALIMENTATORE'):
+        kind = 'Alimentatore'
+    elif compact.startswith('MORSETTIERA'):
+        kind = 'Morsettiera'
+    elif compact.startswith(('COPRIFORO', 'COPRIMODUL')):
+        kind = 'Copriforo'
+    out = {'categoria':kind}
+    if kind == 'Contenitore':
+        mount = 'Incasso' if re.search(r'\bINC\.|INCASSO', s) else 'Parete' if re.search(r'\bPAR\.|PARETE', s) else None
+        if mount:
+            out['montaggio'] = mount
+        ip = re.search(r'\bIP\s*(\d{2})\b', s)
+        if ip:
+            out['ip'] = 'IP'+ip[1]
+    if kind in ('Magnetotermico', 'Magnetotermico differenziale', 'Differenziale', 'Sezionatore'):
+        poles = re.search(r'(?<!\d)([1-4]P(?:\+N)?)', compact)
+        if poles:
+            out['poli'] = poles[1]
+        curve = re.search(r'(?<![A-Z])([BCD])\s*(\d+(?:[.,]\d+)?)', s)
+        if kind.startswith('Magnetotermico') and curve:
+            out.update(curva=curve[1], corrente=float(curve[2].replace(',', '.')))
+        elif kind in ('Differenziale', 'Sezionatore'):
+            amps = re.search(r'(?:P(?:\+N)?)[. ]*(\d+(?:[.,]\d+)?)A', compact)
+            if amps:
+                out['corrente'] = float(amps[1].replace(',', '.'))
+        if kind.startswith('Magnetotermico'):
+            ka = re.search(r'(?<![\d.,])(\d+(?:[.,]\d+)?)\s*KA', s)
+            if ka:
+                out['potere'] = float(ka[1].replace(',', '.'))
+        if kind in ('Differenziale', 'Magnetotermico differenziale'):
+            diff = re.search(r'(?<![A-Z])(AC|A(?:\[?IR\]?)?|F|B\+?)/(\d+(?:[.,]\d+)?)', s)
+            if diff:
+                out.update(differenziale=diff[1], sensibilita=round(float(diff[2].replace(',', '.'))*1000, 3))
+    return out
+
+
+def enriched(item):
+    item = dict(item)
+    item.update(specs(item['descrizione']))
+    item.update(characteristics(item['descrizione']))
+    fact = catalogue()['articoli'].get(item['codice'].removeprefix('GEWISS:'))
+    if fact:
+        # Both references describe the same SKU. A disagreement is exposed,
+        # never resolved by silently applying an unverified footprint.
+        if item['moduli'] is not None and item['moduli'] != fact['moduli']:
+            item['avviso'] = 'Ingombro discordante tra listino e catalogo: verifica la scheda tecnica.'
+            item['moduli'] = None
+        else:
+            item.update(fact)
+            item['fonte'] = catalogue()['fonte']
+    return item
+
+
+def guided_search(c, query):
+    """Facets are computed before pagination; legacy search retains its API."""
+    container = query.get('tipo', [''])[0] == 'contenitore'
+    q = str(query.get('q', [''])[0]).upper().strip()[:200]
+    filters = {key:str(query.get(key, [''])[0])[:100] for key in FACETS}
+    sql = "SELECT v.codice,v.descrizione,v.prezzo,v.unita FROM voci v WHERE v.codice LIKE 'GEWISS:%' AND v.prezzo>0 AND lower(v.unita)='cad' AND NOT EXISTS(SELECT 1 FROM catalog_status s WHERE s.code=v.codice AND s.active=0) ORDER BY v.codice"
+    pool = []
+    for row in c.execute(sql):
+        item = enriched(row)
+        if container:
+            if item['categoria'] != 'Contenitore' or item['moduli'] is None:
+                continue
+        elif item['categoria'] == 'Contenitore':
+            continue
+        haystack = item['codice']+' '+item['descrizione'].upper()
+        if all(token in haystack for token in q.split()):
+            pool.append(item)
+
+    def formatted(value):
+        return format(value, 'g') if isinstance(value, (int,float)) else str(value)
+
+    def matches(item, exclude=None):
+        return all(not value or key == exclude or formatted(item.get(key,'')) == value for key,value in filters.items())
+
+    facets = {key:sorted({formatted(item[key]) for item in pool if key in item and item[key] is not None and matches(item,key)}, key=lambda x:(0,float(x)) if re.fullmatch(r'\d+(?:\.\d+)?',x) else (1,x)) for key in FACETS}
+    found = [item for item in pool if matches(item)]
+    return {'articoli':found[:100], 'totale':len(found), 'filtri':facets}

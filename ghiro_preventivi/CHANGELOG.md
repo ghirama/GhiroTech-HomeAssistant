@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.9.43
+
+- Scelta guidata Gewiss nei quadri: filtri per tipo, serie, moduli, poli, corrente, curva, potere di interruzione, tipo differenziale e sensibilità; per i contenitori anche installazione e IP.
+- Integrati 1.446 codici con ingombri espliciti dal catalogo commerciale 2025/2026; dimensioni esterne e disposizione delle file quando riportate. Ogni scheda indica la pagina PDF della fonte.
+- Codici abbinati al listino attivo: prezzi aggiornabili tramite importazione METEL, senza modificare le associazioni. Nessun prezzo commerciale incluso nei dati del catalogo.
+- Dimensioni trasferite al quadro, ingombri applicati ai componenti e controlli di capienza mantenuti. Dati discordanti bloccati, ingombri mancanti da verificare e frazioni di modulo non gestite dalla griglia.
+
 ## 0.9.42
 
 - Excel più leggibile: codice articolo nei fogli appartamento, descrizioni più larghe, sezioni con subtotali, riepilogo generale e filtri nel calcolo interno. Logo e colori aziendali conservati.
