@@ -155,7 +155,7 @@ def _build_combined(data):
         for col, src, value in zip('ABCDEF', 'ACDEIJ', [apartment, values[2], values[3], qty, sell, amount]):
             cell(out, col, value, f"'Calcolo interno'!{src}{j}")
         # Allow long descriptions to wrap instead of clipping in print.
-        height = min(409, max(42, 15 * math.ceil(len(values[2]) / 55)))
+        height = min(409, max(38, 15 * sum(max(1, math.ceil(len(part) / 60)) for part in values[2].split('\n')) + 10))
         out.set('ht', str(height)); ir.set('ht', str(height))
         ps.append(out); cs.append(ir)
         group = groups.setdefault(apartment, {'total': 0, 'rows': []})
@@ -232,9 +232,37 @@ def quoted(name):
 
 
 
+def merge(root, address):
+    merges = root.find(tag('mergeCells'))
+    if merges is None:
+        merges = ET.Element(tag('mergeCells'))
+        pos = next((i for i, x in enumerate(root) if x.tag in (tag('pageMargins'), tag('pageSetup'), tag('headerFooter'), tag('drawing'))), len(root))
+        root.insert(pos, merges)
+    ET.SubElement(merges, tag('mergeCell'), {'ref': address})
+    merges.set('count', str(len(merges)))
+
+
+def section(line):
+    code = label(line.get('codice')).upper()
+    desc = label(line.get('descrizione')).casefold()
+    if code == 'IMPIANTO-MANODOPERA' or desc.startswith('manodopera'):
+        return 'Manodopera'
+    if code in ('IMPIANTO-CAVI', 'IMPIANTO-TUBAZIONI'):
+        return 'Cavi e tubazioni'
+    if code.startswith('QE') or desc.startswith('quadro ') or ' — contenitore ' in desc or ' — fila ' in desc:
+        return 'Quadri elettrici'
+    if code.startswith('DER-') or 'scatola di derivazione' in desc:
+        return 'Scatole di derivazione'
+    if code.startswith(('SCAT-', 'FR-', 'VIMAR:', 'BTICINO:')):
+        return 'Scatole e componenti'
+    return 'Altre forniture e lavorazioni'
+
+
+SECTION_ORDER = ['Scatole e componenti', 'Scatole di derivazione', 'Quadri elettrici', 'Altre forniture e lavorazioni', 'Cavi e tubazioni', 'Manodopera']
+
+
 def build_quote(data):
-    # Preserve the existing costs, formulas and columns; split only the client
-    # view into apartment sheets. All views refer to the same internal inputs.
+    # One editable cost sheet feeds all client sheets and the overall summary.
     combined = _build_combined(data)
     with zipfile.ZipFile(io.BytesIO(combined)) as z:
         original = {name: z.read(name) for name in z.namelist()}
@@ -250,14 +278,20 @@ def build_quote(data):
             if int(row.get('r')) >= 17:
                 rows.remove(row)
         return root, rows
-    # Reuse the established subtotal and total formatting from the template.
     subtotal_style = template_rows[18 + len(lines)]
     total_style = template_rows[max(template_rows)]
     summary, summary_rows = clean_sheet()
     sh = {int(r.get('r')): r for r in summary_rows}
     cell(sh[2], 'A', 'RIEPILOGO PREVENTIVO')
+    cell(sh[14], 'A', 'Un foglio per ogni appartamento o zona. Importi in euro.')
     for col, value in zip('ABCDEF', ['Appartamento / zona', '', '', 'Voci', 'Imponibile', 'Totale IVA inclusa']):
         cell(sh[16], col, value)
+    merge(summary, 'A16:C16')
+    # A compact overview needs no large frozen header.
+    for view in summary.findall('./'+tag('sheetViews')+'/'+tag('sheetView')):
+        for item in list(view):
+            if item.tag in (tag('pane'), tag('selection')):
+                view.remove(item)
     used = {'riepilogo generale', 'calcolo interno', 'history'}
     sheets = [('Riepilogo generale', summary, 1, 'F')]
     grand = 0; vat = number(data.get('iva')) / 100
@@ -268,34 +302,53 @@ def build_quote(data):
         root, rows = clean_sheet()
         header = next(r for r in rows if r.get('r') == '11')
         cell(header, 'A', apartment + ' — ' + label(data.get('titolo') or 'Preventivo'))
-        net = 0
-        for j, source_index in enumerate(groups[apartment], 17):
-            # Preserve formulas pointing to the original internal row, not the
-            # new apartment row number. Cell addresses alone move here.
-            row = copy.deepcopy(template_rows[17 + source_index]); row.set('r', str(j))
-            for c in row.findall(tag('c')):
-                c.set('r', re.sub(r'\d+$', str(j), c.get('r')))
-            rows.append(row)
-            net += float(next(c for c in row if c.get('r') == f'F{j}').findtext(tag('v')))
-        last = 16 + len(groups[apartment]); total_row = last + 4
+        net = 0; j = 17; subtotals = []
+        for category in SECTION_ORDER:
+            indices = [i for i in groups[apartment] if section(lines[i]) == category]
+            if not indices:
+                continue
+            heading = clone(subtotal_style, j);cell(heading, 'A', category.upper());rows.append(heading)
+            merge(root, f'A{j}:F{j}');j += 1;first = j;amount = 0
+            for source_index in indices:
+                row = copy.deepcopy(template_rows[17 + source_index]);row.set('r', str(j))
+                for c in row.findall(tag('c')):
+                    c.set('r', re.sub(r'\d+$', str(j), c.get('r')))
+                code = label(lines[source_index].get('codice'))
+                if code.startswith('IMPIANTO-'):
+                    cell(row, 'A', code.removeprefix('IMPIANTO-'), f'''SUBSTITUTE('Calcolo interno'!B{9+source_index},"IMPIANTO-","")''')
+                else:
+                    cell(row, 'A', code, f"'Calcolo interno'!B{9+source_index}")
+                rows.append(row)
+                amount += float(next(c for c in row if c.get('r') == f'F{j}').findtext(tag('v')))
+                j += 1
+            row = clone(subtotal_style, j);cell(row, 'A', 'Subtotale '+category.lower())
+            cell(row, 'F', amount, f'SUM(F{first}:F{j-1})');rows.append(row);merge(root, f'A{j}:E{j}')
+            subtotals.append(j);net += amount;j += 2
+        net_row = j;total_row = j+2
         for r, title, value, formula, style in (
-            (last+2, 'Imponibile', net, f'SUM(F17:F{last})', subtotal_style),
-            (last+3, 'IVA', net*vat, f"F{last+2}*'Calcolo interno'!$B$6", subtotal_style),
-            (total_row, 'TOTALE PREVENTIVO', net*(1+vat), f'F{last+2}+F{last+3}', total_style),
+            (j, 'Imponibile', net, 'SUM('+','.join('F'+str(n) for n in subtotals)+')', subtotal_style),
+            (j+1, 'IVA', net*vat, f"F{j}*'Calcolo interno'!$B$6", subtotal_style),
+            (j+2, 'TOTALE '+apartment.upper(), net*(1+vat), f'F{j}+F{j+1}', total_style),
         ):
-            row = clone(style, r); cell(row, 'B', title); cell(row, 'F', value, formula); rows.append(row)
-        r = 16 + len(sheets); row = clone(template_rows[17], r)
-        cell(row, 'A', apartment); cell(row, 'D', len(groups[apartment]))
-        cell(row, 'E', net, f'{quoted(name)}!F{last+2}')
+            row = clone(style, r);cell(row, 'A', title);cell(row, 'F', value, formula);rows.append(row);merge(root, f'A{r}:E{r}')
+        r = 16 + len(sheets);row = clone(template_rows[17], r)
+        cell(row, 'A', apartment);counter=cell(row, 'D', len(groups[apartment]))
+        counter.set('s', next(c for c in total_style if c.get('r', '').startswith('D')).get('s', '0'))
+        cell(row, 'E', net, f'{quoted(name)}!F{net_row}')
         cell(row, 'F', net*(1+vat), f'{quoted(name)}!F{total_row}')
-        summary_rows.append(row); sheets.append((name, root, 1, 'F')); grand += net
+        summary_rows.append(row);merge(summary, f'A{r}:C{r}')
+        sheets.append((name, root, 1, 'F'));grand += net
     last = 16 + len(groups)
-    row = clone(total_style, last+2); cell(row, 'B', 'TOTALE GENERALE')
+    row = clone(total_style, last+2);cell(row, 'A', 'TOTALE GENERALE')
     cell(row, 'D', len(lines), f'SUM(D17:D{last})')
-    cell(row, 'E', grand, f'SUM(E17:E{last})'); cell(row, 'F', grand*(1+vat), f'SUM(F17:F{last})')
-    summary_rows.append(row)
-    row = clone(subtotal_style, last+3); cell(row, 'B', 'IVA complessiva')
-    cell(row, 'F', grand*vat, f'F{last+2}-E{last+2}'); summary_rows.append(row)
+    cell(row, 'E', grand, f'SUM(E17:E{last})');cell(row, 'F', grand*(1+vat), f'SUM(F17:F{last})')
+    summary_rows.append(row);merge(summary, f'A{last+2}:C{last+2}')
+    row = clone(subtotal_style, last+3);cell(row, 'A', 'IVA complessiva')
+    cell(row, 'F', grand*vat, f'F{last+2}-E{last+2}');summary_rows.append(row);merge(summary, f'A{last+3}:E{last+3}')
+    # Filtering the editable source does not move cross-sheet references.
+    filter_node = ET.Element(tag('autoFilter'), {'ref': f'A8:J{8+len(lines)}'})
+    pos = list(internal).index(internal.find(tag('sheetData'))) + 1
+    internal.insert(pos, filter_node)
     sheets.append(('Calcolo interno', internal, 2, 'J'))
     return package_workbook(original, sheets)
 

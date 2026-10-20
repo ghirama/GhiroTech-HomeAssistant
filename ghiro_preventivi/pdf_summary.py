@@ -50,6 +50,8 @@ def build_summary(data, logo):
     for a in data['appartamenti']:
         if a['stanze'] or a['quadri']:story.append(PageBreak())
         story.append(p(a['nome'],'HeadG'))
+        if a.get('costi_impianto'):
+            story.extend([p('Cavi, tubazioni e manodopera','SubG'),table(['Voce','Quantità','Unità'],[[r['descrizione'],r['quantita'],r['unita']] for r in a['costi_impianto']],[125,28,23])])
         for r in a['stanze']:
             story.append(p(r['nome'],'HeadG'))
             story.append(table(['Riepilogo punti','Quantità'],r['punti'],[143,33]))
@@ -63,7 +65,7 @@ def build_summary(data, logo):
             story.extend([p(q['nome']+' | Quadro elettrico','HeadG'),p(q['dettagli'])])
             story.append(table(['Fila / posizione','Componente','Moduli','Circuito e caratteristiche / codice'],[[str(c['fila'])+' / '+str(c['posizione']),c['tipo'],c['moduli'],'\n'.join(filter(None,[c.get('descrizione'),c.get('codice'),c.get('articolo')]))] for c in q['componenti']] or [['-','Nessun componente','-','']],[27,51,20,78]))
             if q.get('note'):story.append(p('Note: '+q['note']))
-        if not a['stanze'] and not a['quadri']:story.append(p('Nessuna stanza o quadro inserito.'))
+        if not a['stanze'] and not a['quadri'] and not a.get('costi_impianto'):story.append(p('Nessuna stanza o quadro inserito.'))
     doc=SimpleDocTemplate(out,pagesize=A4,rightMargin=17*mm,leftMargin=17*mm,topMargin=16*mm,bottomMargin=24*mm,title=str(data.get('titolo') or 'Riepilogo impianto'),author='Ghiro Tech & Light')
     doc.build(story,onFirstPage=footer,onLaterPages=footer)
     return out.getvalue()
