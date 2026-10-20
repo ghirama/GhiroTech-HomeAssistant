@@ -1,0 +1,7610 @@
+{
+  "fonte": "Gewiss — Catalogo commerciale 2025/2026",
+  "articoli": {
+    "GW26409": {
+      "moduli": 1.5,
+      "serie": "90 AM",
+      "pagina": 513
+    },
+    "GW26410": {
+      "moduli": 3.0,
+      "serie": "90 AM",
+      "pagina": 513
+    },
+    "GW40001": {
+      "moduli": 4.0,
+      "serie": "40 CD",
+      "pagina": 198,
+      "larghezza": 105,
+      "altezza": 170,
+      "profondita": 98
+    },
+    "GW40003": {
+      "moduli": 8.0,
+      "serie": "40 CD",
+      "pagina": 198,
+      "larghezza": 180,
+      "altezza": 180,
+      "profondita": 98
+    },
+    "GW40005": {
+      "moduli": 12.0,
+      "serie": "40 CD",
+      "pagina": 198,
+      "larghezza": 250,
+      "altezza": 250,
+      "profondita": 135
+    },
+    "GW40007": {
+      "moduli": 24.0,
+      "serie": "40 CD",
+      "pagina": 198,
+      "perFila": 12,
+      "file": 2,
+      "larghezza": 250,
+      "altezza": 375,
+      "profondita": 135
+    },
+    "GW40009": {
+      "moduli": 36.0,
+      "serie": "40 CD",
+      "pagina": 198,
+      "perFila": 18,
+      "file": 2,
+      "larghezza": 376,
+      "altezza": 400,
+      "profondita": 135
+    },
+    "GW40022": {
+      "moduli": 2.0,
+      "serie": "40 CD",
+      "pagina": 200,
+      "larghezza": 45,
+      "altezza": 130,
+      "profondita": 85
+    },
+    "GW40023": {
+      "moduli": 4.0,
+      "serie": "40 CD",
+      "pagina": 200,
+      "larghezza": 90,
+      "altezza": 130,
+      "profondita": 85
+    },
+    "GW40024": {
+      "moduli": 6.0,
+      "serie": "40 CD",
+      "pagina": 200,
+      "larghezza": 140,
+      "altezza": 155,
+      "profondita": 85
+    },
+    "GW40026": {
+      "moduli": 8.0,
+      "serie": "40 CD",
+      "pagina": 200,
+      "larghezza": 180,
+      "altezza": 180,
+      "profondita": 95
+    },
+    "GW40028": {
+      "moduli": 12.0,
+      "serie": "40 CD",
+      "pagina": 200,
+      "capacita_catalogo": "12+1",
+      "larghezza": 250,
+      "altezza": 215,
+      "profondita": 95
+    },
+    "GW40030": {
+      "moduli": 24.0,
+      "serie": "40 CD",
+      "pagina": 200,
+      "perFila": 12,
+      "file": 2,
+      "capacita_catalogo": "24+2 (12x2)",
+      "larghezza": 250,
+      "altezza": 340,
+      "profondita": 95
+    },
+    "GW40032": {
+      "moduli": 36.0,
+      "serie": "40 CD",
+      "pagina": 200,
+      "perFila": 12,
+      "file": 3,
+      "capacita_catalogo": "36+3 (12x3)",
+      "larghezza": 250,
+      "altezza": 465,
+      "profondita": 95
+    },
+    "GW40043": {
+      "moduli": 8.0,
+      "serie": "40 CD",
+      "pagina": 199,
+      "larghezza": 200,
+      "altezza": 180,
+      "profondita": 100
+    },
+    "GW40045": {
+      "moduli": 12.0,
+      "serie": "40 CD",
+      "pagina": 199,
+      "larghezza": 280,
+      "altezza": 225,
+      "profondita": 100
+    },
+    "GW40047": {
+      "moduli": 24.0,
+      "serie": "40 CD",
+      "pagina": 199,
+      "perFila": 12,
+      "file": 2,
+      "larghezza": 280,
+      "altezza": 350,
+      "profondita": 100
+    },
+    "GW40049": {
+      "moduli": 36.0,
+      "serie": "40 CD",
+      "pagina": 199,
+      "perFila": 18,
+      "file": 2,
+      "larghezza": 400,
+      "altezza": 400,
+      "profondita": 130
+    },
+    "GW40051": {
+      "moduli": 54.0,
+      "serie": "40 CD",
+      "pagina": 199,
+      "perFila": 18,
+      "file": 3,
+      "larghezza": 400,
+      "altezza": 550,
+      "profondita": 130
+    },
+    "GW40053": {
+      "moduli": 72.0,
+      "serie": "40 CD",
+      "pagina": 199,
+      "perFila": 18,
+      "file": 4,
+      "larghezza": 400,
+      "altezza": 850,
+      "profondita": 150
+    },
+    "GW40063": {
+      "moduli": 8.0,
+      "serie": "40 CD",
+      "pagina": 199,
+      "larghezza": 200,
+      "altezza": 180,
+      "profondita": 100
+    },
+    "GW40065": {
+      "moduli": 12.0,
+      "serie": "40 CD",
+      "pagina": 199,
+      "larghezza": 280,
+      "altezza": 225,
+      "profondita": 100
+    },
+    "GW40067": {
+      "moduli": 24.0,
+      "serie": "40 CD",
+      "pagina": 199,
+      "perFila": 12,
+      "file": 2,
+      "larghezza": 280,
+      "altezza": 350,
+      "profondita": 100
+    },
+    "GW40069": {
+      "moduli": 36.0,
+      "serie": "40 CD",
+      "pagina": 199,
+      "perFila": 18,
+      "file": 2,
+      "larghezza": 400,
+      "altezza": 400,
+      "profondita": 130
+    },
+    "GW40071": {
+      "moduli": 54.0,
+      "serie": "40 CD",
+      "pagina": 199,
+      "perFila": 18,
+      "file": 3,
+      "larghezza": 400,
+      "altezza": 550,
+      "profondita": 130
+    },
+    "GW40073": {
+      "moduli": 72.0,
+      "serie": "40 CD",
+      "pagina": 199,
+      "perFila": 18,
+      "file": 4,
+      "larghezza": 400,
+      "altezza": 850,
+      "profondita": 150
+    },
+    "GW40101": {
+      "moduli": 4.0,
+      "serie": "40 CD",
+      "pagina": 197,
+      "larghezza": 143,
+      "altezza": 210,
+      "profondita": 100
+    },
+    "GW40102": {
+      "moduli": 8.0,
+      "serie": "40 CD",
+      "pagina": 197,
+      "larghezza": 215,
+      "altezza": 210,
+      "profondita": 100
+    },
+    "GW40103": {
+      "moduli": 12.0,
+      "serie": "40 CD",
+      "pagina": 197,
+      "larghezza": 298,
+      "altezza": 260,
+      "profondita": 140
+    },
+    "GW40104": {
+      "moduli": 24.0,
+      "serie": "40 CD",
+      "pagina": 197,
+      "perFila": 12,
+      "file": 2,
+      "larghezza": 298,
+      "altezza": 420,
+      "profondita": 140
+    },
+    "GW40105": {
+      "moduli": 36.0,
+      "serie": "40 CD",
+      "pagina": 197,
+      "perFila": 12,
+      "file": 3,
+      "larghezza": 298,
+      "altezza": 570,
+      "profondita": 140
+    },
+    "GW40106": {
+      "moduli": 18.0,
+      "serie": "40 CD",
+      "pagina": 197,
+      "larghezza": 410,
+      "altezza": 285,
+      "profondita": 140
+    },
+    "GW40107": {
+      "moduli": 36.0,
+      "serie": "40 CD",
+      "pagina": 197,
+      "perFila": 18,
+      "file": 2,
+      "larghezza": 410,
+      "altezza": 463,
+      "profondita": 140
+    },
+    "GW40108": {
+      "moduli": 54.0,
+      "serie": "40 CD",
+      "pagina": 197,
+      "perFila": 18,
+      "file": 3,
+      "larghezza": 410,
+      "altezza": 655,
+      "profondita": 140
+    },
+    "GW40109": {
+      "moduli": 72.0,
+      "serie": "40 CD",
+      "pagina": 197,
+      "perFila": 18,
+      "file": 4,
+      "larghezza": 410,
+      "altezza": 878,
+      "profondita": 160
+    },
+    "GW40113": {
+      "moduli": 12.0,
+      "serie": "40 CDe",
+      "pagina": 207,
+      "larghezza": 298,
+      "altezza": 260,
+      "profondita": 140
+    },
+    "GW40114": {
+      "moduli": 24.0,
+      "serie": "40 CDe",
+      "pagina": 207,
+      "perFila": 12,
+      "file": 2,
+      "larghezza": 298,
+      "altezza": 420,
+      "profondita": 140
+    },
+    "GW40115": {
+      "moduli": 36.0,
+      "serie": "40 CDe",
+      "pagina": 207,
+      "perFila": 12,
+      "file": 3,
+      "larghezza": 298,
+      "altezza": 570,
+      "profondita": 140
+    },
+    "GW40123": {
+      "moduli": 12.0,
+      "serie": "40 CDe",
+      "pagina": 207,
+      "larghezza": 298,
+      "altezza": 260,
+      "profondita": 140
+    },
+    "GW40124": {
+      "moduli": 24.0,
+      "serie": "40 CDe",
+      "pagina": 207,
+      "perFila": 12,
+      "file": 2,
+      "larghezza": 298,
+      "altezza": 420,
+      "profondita": 140
+    },
+    "GW40125": {
+      "moduli": 36.0,
+      "serie": "40 CDe",
+      "pagina": 207,
+      "perFila": 12,
+      "file": 3,
+      "larghezza": 298,
+      "altezza": 570,
+      "profondita": 140
+    },
+    "GW40151N": {
+      "moduli": 12.0,
+      "serie": "40 CDe",
+      "pagina": 210,
+      "capacita_catalogo": "12+2"
+    },
+    "GW40152N": {
+      "moduli": 24.0,
+      "serie": "40 CDe",
+      "pagina": 210,
+      "perFila": 12,
+      "file": 2,
+      "capacita_catalogo": "24+4 (12x2)"
+    },
+    "GW40153N": {
+      "moduli": 36.0,
+      "serie": "40 CDe",
+      "pagina": 210,
+      "perFila": 12,
+      "file": 3,
+      "capacita_catalogo": "36+6 (12x3)"
+    },
+    "GW40154N": {
+      "moduli": 48.0,
+      "serie": "40 CDe",
+      "pagina": 210,
+      "perFila": 12,
+      "file": 4,
+      "capacita_catalogo": "48+8 (12x4)"
+    },
+    "GW40155N": {
+      "moduli": 60.0,
+      "serie": "40 CDe",
+      "pagina": 210,
+      "perFila": 12,
+      "file": 5,
+      "capacita_catalogo": "60+10 (12x5)"
+    },
+    "GW40161N": {
+      "moduli": 12.0,
+      "serie": "40 CDe",
+      "pagina": 210,
+      "capacita_catalogo": "12+2"
+    },
+    "GW40162N": {
+      "moduli": 24.0,
+      "serie": "40 CDe",
+      "pagina": 210,
+      "perFila": 12,
+      "file": 2,
+      "capacita_catalogo": "24+4 (12x2)"
+    },
+    "GW40163N": {
+      "moduli": 36.0,
+      "serie": "40 CDe",
+      "pagina": 210,
+      "perFila": 12,
+      "file": 3,
+      "capacita_catalogo": "36+6 (12x3)"
+    },
+    "GW40164N": {
+      "moduli": 48.0,
+      "serie": "40 CDe",
+      "pagina": 210,
+      "perFila": 12,
+      "file": 4,
+      "capacita_catalogo": "48+8 (12x4)"
+    },
+    "GW40165N": {
+      "moduli": 60.0,
+      "serie": "40 CDe",
+      "pagina": 210,
+      "perFila": 12,
+      "file": 5,
+      "capacita_catalogo": "60+10 (12x5)"
+    },
+    "GW40285TB": {
+      "moduli": 8.0,
+      "serie": "40 CDi",
+      "pagina": 276,
+      "larghezza": 248,
+      "altezza": 195,
+      "profondita": 107
+    },
+    "GW40287TB": {
+      "moduli": 4.0,
+      "serie": "40 CDi",
+      "pagina": 276,
+      "larghezza": 146,
+      "altezza": 165,
+      "profondita": 108
+    },
+    "GW40289TB": {
+      "moduli": 12.0,
+      "serie": "40 CDi",
+      "pagina": 276,
+      "larghezza": 328,
+      "altezza": 218,
+      "profondita": 106
+    },
+    "GW40293TB": {
+      "moduli": 24.0,
+      "serie": "40 CDi",
+      "pagina": 276,
+      "perFila": 12,
+      "file": 2,
+      "larghezza": 328,
+      "altezza": 338,
+      "profondita": 108
+    },
+    "GW40299TB": {
+      "moduli": 36.0,
+      "serie": "40 CDi",
+      "pagina": 276,
+      "perFila": 12,
+      "file": 3,
+      "larghezza": 328,
+      "altezza": 493,
+      "profondita": 118
+    },
+    "GW40423": {
+      "moduli": 4.5,
+      "serie": "40 CDe / 40 CDi",
+      "pagina": 208
+    },
+    "GW40467": {
+      "moduli": 4.5,
+      "serie": "40 CDe / 40 CDi",
+      "pagina": 208
+    },
+    "GW40467TB": {
+      "moduli": 6.5,
+      "serie": "40 CDi",
+      "pagina": 286
+    },
+    "GW40467TN": {
+      "moduli": 6.5,
+      "serie": "40 CDi",
+      "pagina": 286
+    },
+    "GW40467VA": {
+      "moduli": 6.5,
+      "serie": "40 CDi",
+      "pagina": 286
+    },
+    "GW40467VT": {
+      "moduli": 6.5,
+      "serie": "40 CDi",
+      "pagina": 286
+    },
+    "GW40468": {
+      "moduli": 4.5,
+      "serie": "40 CDi",
+      "pagina": 289
+    },
+    "GW40501": {
+      "moduli": 13.0,
+      "serie": "40 CDe",
+      "pagina": 212,
+      "larghezza": 250,
+      "altezza": 225,
+      "profondita": 93
+    },
+    "GW40502": {
+      "moduli": 26.0,
+      "serie": "40 CDe",
+      "pagina": 212,
+      "perFila": 13,
+      "file": 2,
+      "larghezza": 250,
+      "altezza": 350,
+      "profondita": 93
+    },
+    "GW40503": {
+      "moduli": 39.0,
+      "serie": "40 CDe",
+      "pagina": 212,
+      "perFila": 13,
+      "file": 3,
+      "larghezza": 250,
+      "altezza": 475,
+      "profondita": 93
+    },
+    "GW40504": {
+      "moduli": 52.0,
+      "serie": "40 CDe",
+      "pagina": 212,
+      "perFila": 13,
+      "file": 4,
+      "larghezza": 250,
+      "altezza": 600,
+      "profondita": 93
+    },
+    "GW40601": {
+      "moduli": 2.0,
+      "serie": "40 CDi",
+      "pagina": 278,
+      "larghezza": 83,
+      "altezza": 160,
+      "profondita": 74
+    },
+    "GW40602": {
+      "moduli": 4.0,
+      "serie": "40 CDi",
+      "pagina": 278,
+      "larghezza": 120,
+      "altezza": 160,
+      "profondita": 85
+    },
+    "GW40603": {
+      "moduli": 6.0,
+      "serie": "40 CDi",
+      "pagina": 278,
+      "larghezza": 200,
+      "altezza": 170,
+      "profondita": 85
+    },
+    "GW40604": {
+      "moduli": 8.0,
+      "serie": "40 CDi",
+      "pagina": 278,
+      "larghezza": 240,
+      "altezza": 195,
+      "profondita": 85
+    },
+    "GW40605": {
+      "moduli": 12.0,
+      "serie": "40 CDi",
+      "pagina": 278,
+      "larghezza": 330,
+      "altezza": 270,
+      "profondita": 85
+    },
+    "GW40606": {
+      "moduli": 24.0,
+      "serie": "40 CDi",
+      "pagina": 278,
+      "perFila": 12,
+      "file": 2,
+      "larghezza": 330,
+      "altezza": 420,
+      "profondita": 85
+    },
+    "GW40608": {
+      "moduli": 18.0,
+      "serie": "40 CDi",
+      "pagina": 278,
+      "larghezza": 465,
+      "altezza": 310,
+      "profondita": 85
+    },
+    "GW40609": {
+      "moduli": 36.0,
+      "serie": "40 CDi",
+      "pagina": 278,
+      "perFila": 18,
+      "file": 2,
+      "larghezza": 465,
+      "altezza": 505,
+      "profondita": 85
+    },
+    "GW40610": {
+      "moduli": 54.0,
+      "serie": "40 CDi",
+      "pagina": 278,
+      "perFila": 18,
+      "file": 3,
+      "larghezza": 465,
+      "altezza": 680,
+      "profondita": 95
+    },
+    "GW40611": {
+      "moduli": 72.0,
+      "serie": "40 CDi",
+      "pagina": 278,
+      "perFila": 18,
+      "file": 4,
+      "larghezza": 465,
+      "altezza": 880,
+      "profondita": 95
+    },
+    "GW40655": {
+      "moduli": 8.0,
+      "serie": "40 CDi",
+      "pagina": 284,
+      "larghezza": 236,
+      "altezza": 195,
+      "profondita": 89
+    },
+    "GW40657": {
+      "moduli": 12.0,
+      "serie": "40 CDi",
+      "pagina": 284,
+      "capacita_catalogo": "12+1",
+      "larghezza": 326,
+      "altezza": 217,
+      "profondita": 89
+    },
+    "GW40659": {
+      "moduli": 24.0,
+      "serie": "40 CDi",
+      "pagina": 284,
+      "perFila": 12,
+      "file": 2,
+      "capacita_catalogo": "24+2 (12x2)",
+      "larghezza": 326,
+      "altezza": 346,
+      "profondita": 89
+    },
+    "GW40661": {
+      "moduli": 36.0,
+      "serie": "40 CDi",
+      "pagina": 284,
+      "perFila": 18,
+      "file": 2,
+      "capacita_catalogo": "36+2 (18x2)",
+      "larghezza": 453,
+      "altezza": 396,
+      "profondita": 95
+    },
+    "GW40671": {
+      "moduli": 4.0,
+      "serie": "40 CDi",
+      "pagina": 277
+    },
+    "GW40673": {
+      "moduli": 8.0,
+      "serie": "40 CDi",
+      "pagina": 277
+    },
+    "GW40674": {
+      "moduli": 12.0,
+      "serie": "40 CDi",
+      "pagina": 277
+    },
+    "GW40677": {
+      "moduli": 24.0,
+      "serie": "40 CDi",
+      "pagina": 277
+    },
+    "GW40679": {
+      "moduli": 36.0,
+      "serie": "40 CDi",
+      "pagina": 277
+    },
+    "GW40685": {
+      "moduli": 12.0,
+      "serie": "40 CDi",
+      "pagina": 280
+    },
+    "GW40687": {
+      "moduli": 24.0,
+      "serie": "40 CDi",
+      "pagina": 280,
+      "perFila": 12,
+      "file": 2
+    },
+    "GW40688": {
+      "moduli": 36.0,
+      "serie": "40 CDi",
+      "pagina": 280,
+      "perFila": 18,
+      "file": 2
+    },
+    "GW40689": {
+      "moduli": 54.0,
+      "serie": "40 CDi",
+      "pagina": 280,
+      "perFila": 18,
+      "file": 3
+    },
+    "GW40690": {
+      "moduli": 72.0,
+      "serie": "40 CDi",
+      "pagina": 280,
+      "perFila": 18,
+      "file": 4
+    },
+    "GW40882": {
+      "moduli": 4.0,
+      "serie": "40 CDi",
+      "pagina": 279,
+      "larghezza": 120,
+      "altezza": 160,
+      "profondita": 85
+    },
+    "GW40883": {
+      "moduli": 6.0,
+      "serie": "40 CDi",
+      "pagina": 279,
+      "larghezza": 200,
+      "altezza": 170,
+      "profondita": 85
+    },
+    "GW40884": {
+      "moduli": 8.0,
+      "serie": "40 CDi",
+      "pagina": 279,
+      "larghezza": 240,
+      "altezza": 195,
+      "profondita": 85
+    },
+    "GW40885": {
+      "moduli": 12.0,
+      "serie": "40 CDi",
+      "pagina": 279,
+      "larghezza": 330,
+      "altezza": 270,
+      "profondita": 85
+    },
+    "GW40886": {
+      "moduli": 24.0,
+      "serie": "40 CDi",
+      "pagina": 279,
+      "perFila": 12,
+      "file": 2,
+      "larghezza": 330,
+      "altezza": 420,
+      "profondita": 85
+    },
+    "GW40888": {
+      "moduli": 18.0,
+      "serie": "40 CDi",
+      "pagina": 279,
+      "larghezza": 465,
+      "altezza": 310,
+      "profondita": 85
+    },
+    "GW40889": {
+      "moduli": 36.0,
+      "serie": "40 CDi",
+      "pagina": 279,
+      "perFila": 18,
+      "file": 2,
+      "larghezza": 465,
+      "altezza": 505,
+      "profondita": 85
+    },
+    "GW40890": {
+      "moduli": 54.0,
+      "serie": "40 CDi",
+      "pagina": 279,
+      "perFila": 18,
+      "file": 3,
+      "larghezza": 465,
+      "altezza": 680,
+      "profondita": 95
+    },
+    "GW40891": {
+      "moduli": 72.0,
+      "serie": "40 CDi",
+      "pagina": 279,
+      "perFila": 18,
+      "file": 4,
+      "larghezza": 465,
+      "altezza": 880,
+      "profondita": 95
+    },
+    "GW41885AB": {
+      "moduli": 12.0,
+      "serie": "40 CDi",
+      "pagina": 280,
+      "larghezza": 330,
+      "altezza": 270,
+      "profondita": 16
+    },
+    "GW41886AB": {
+      "moduli": 24.0,
+      "serie": "40 CDi",
+      "pagina": 280,
+      "perFila": 12,
+      "file": 2,
+      "larghezza": 330,
+      "altezza": 420,
+      "profondita": 16
+    },
+    "GW41889AB": {
+      "moduli": 36.0,
+      "serie": "40 CDi",
+      "pagina": 280,
+      "perFila": 18,
+      "file": 2,
+      "larghezza": 465,
+      "altezza": 505,
+      "profondita": 16
+    },
+    "GW41890AB": {
+      "moduli": 54.0,
+      "serie": "40 CDi",
+      "pagina": 280,
+      "perFila": 18,
+      "file": 3,
+      "larghezza": 465,
+      "altezza": 680,
+      "profondita": 25
+    },
+    "GW41891AB": {
+      "moduli": 72.0,
+      "serie": "40 CDi",
+      "pagina": 280,
+      "perFila": 18,
+      "file": 4,
+      "larghezza": 465,
+      "altezza": 880,
+      "profondita": 25
+    },
+    "GW42202": {
+      "moduli": 8.0,
+      "serie": "42 RV",
+      "pagina": 220,
+      "larghezza": 180,
+      "altezza": 180,
+      "profondita": 100
+    },
+    "GW42206": {
+      "moduli": 4.0,
+      "serie": "42 RV",
+      "pagina": 220,
+      "larghezza": 108,
+      "altezza": 180,
+      "profondita": 100
+    },
+    "GW42207": {
+      "moduli": 4.0,
+      "serie": "42 RV",
+      "pagina": 220,
+      "larghezza": 108,
+      "altezza": 180,
+      "profondita": 100
+    },
+    "GW42208": {
+      "moduli": 8.0,
+      "serie": "42 RV",
+      "pagina": 220,
+      "larghezza": 180,
+      "altezza": 180,
+      "profondita": 100
+    },
+    "GW42231": {
+      "moduli": 4.0,
+      "serie": "42 RV",
+      "pagina": 220,
+      "larghezza": 145,
+      "altezza": 200,
+      "profondita": 70
+    },
+    "GW42232": {
+      "moduli": 4.0,
+      "serie": "42 RV",
+      "pagina": 220,
+      "larghezza": 145,
+      "altezza": 200,
+      "profondita": 70
+    },
+    "GW48681": {
+      "moduli": 6.0,
+      "serie": "48 PTC",
+      "pagina": 285,
+      "larghezza": 138,
+      "altezza": 169,
+      "profondita": 70
+    },
+    "GW48682": {
+      "moduli": 12.0,
+      "serie": "48 PTC",
+      "pagina": 285,
+      "larghezza": 308,
+      "altezza": 169,
+      "profondita": 70
+    },
+    "GW48686": {
+      "moduli": 4.0,
+      "serie": "48 PTC",
+      "pagina": 285,
+      "larghezza": 308,
+      "altezza": 169,
+      "profondita": 70
+    },
+    "GW90005": {
+      "moduli": 1.0,
+      "serie": "90 MCB",
+      "pagina": 423
+    },
+    "GW90006": {
+      "moduli": 1.0,
+      "serie": "90 MCB",
+      "pagina": 423
+    },
+    "GW90007": {
+      "moduli": 1.0,
+      "serie": "90 MCB",
+      "pagina": 423
+    },
+    "GW90008": {
+      "moduli": 1.0,
+      "serie": "90 MCB",
+      "pagina": 423
+    },
+    "GW90009": {
+      "moduli": 1.0,
+      "serie": "90 MCB",
+      "pagina": 423
+    },
+    "GW90010": {
+      "moduli": 1.0,
+      "serie": "90 MCB",
+      "pagina": 423
+    },
+    "GW90011": {
+      "moduli": 1.0,
+      "serie": "90 MCB",
+      "pagina": 423
+    },
+    "GW90022": {
+      "moduli": 1.0,
+      "serie": "90 MCB",
+      "pagina": 423
+    },
+    "GW90025": {
+      "moduli": 1.0,
+      "serie": "90 MCB",
+      "pagina": 423
+    },
+    "GW90026": {
+      "moduli": 1.0,
+      "serie": "90 MCB",
+      "pagina": 423
+    },
+    "GW90027": {
+      "moduli": 1.0,
+      "serie": "90 MCB",
+      "pagina": 423
+    },
+    "GW90028": {
+      "moduli": 1.0,
+      "serie": "90 MCB",
+      "pagina": 423
+    },
+    "GW90029": {
+      "moduli": 1.0,
+      "serie": "90 MCB",
+      "pagina": 423
+    },
+    "GW90030": {
+      "moduli": 1.0,
+      "serie": "90 MCB",
+      "pagina": 423
+    },
+    "GW90031": {
+      "moduli": 1.0,
+      "serie": "90 MCB",
+      "pagina": 423
+    },
+    "GW90045": {
+      "moduli": 1.0,
+      "serie": "90 MCB",
+      "pagina": 423
+    },
+    "GW90046": {
+      "moduli": 1.0,
+      "serie": "90 MCB",
+      "pagina": 423
+    },
+    "GW90047": {
+      "moduli": 1.0,
+      "serie": "90 MCB",
+      "pagina": 423
+    },
+    "GW90048": {
+      "moduli": 1.0,
+      "serie": "90 MCB",
+      "pagina": 423
+    },
+    "GW90049": {
+      "moduli": 1.0,
+      "serie": "90 MCB",
+      "pagina": 423
+    },
+    "GW90050": {
+      "moduli": 1.0,
+      "serie": "90 MCB",
+      "pagina": 423
+    },
+    "GW90051": {
+      "moduli": 1.0,
+      "serie": "90 MCB",
+      "pagina": 423
+    },
+    "GW90065": {
+      "moduli": 2.0,
+      "serie": "90 MCB",
+      "pagina": 423
+    },
+    "GW90066": {
+      "moduli": 2.0,
+      "serie": "90 MCB",
+      "pagina": 423
+    },
+    "GW90067": {
+      "moduli": 2.0,
+      "serie": "90 MCB",
+      "pagina": 423
+    },
+    "GW90068": {
+      "moduli": 2.0,
+      "serie": "90 MCB",
+      "pagina": 423
+    },
+    "GW90069": {
+      "moduli": 2.0,
+      "serie": "90 MCB",
+      "pagina": 423
+    },
+    "GW90070": {
+      "moduli": 2.0,
+      "serie": "90 MCB",
+      "pagina": 423
+    },
+    "GW90071": {
+      "moduli": 2.0,
+      "serie": "90 MCB",
+      "pagina": 423
+    },
+    "GW90085": {
+      "moduli": 2.0,
+      "serie": "90 MCB",
+      "pagina": 423
+    },
+    "GW90086": {
+      "moduli": 2.0,
+      "serie": "90 MCB",
+      "pagina": 423
+    },
+    "GW90087": {
+      "moduli": 2.0,
+      "serie": "90 MCB",
+      "pagina": 423
+    },
+    "GW90088": {
+      "moduli": 2.0,
+      "serie": "90 MCB",
+      "pagina": 423
+    },
+    "GW90089": {
+      "moduli": 2.0,
+      "serie": "90 MCB",
+      "pagina": 423
+    },
+    "GW90090": {
+      "moduli": 2.0,
+      "serie": "90 MCB",
+      "pagina": 423
+    },
+    "GW90091": {
+      "moduli": 2.0,
+      "serie": "90 MCB",
+      "pagina": 423
+    },
+    "GW90225": {
+      "moduli": 1.0,
+      "serie": "90 MCB",
+      "pagina": 424
+    },
+    "GW90226": {
+      "moduli": 1.0,
+      "serie": "90 MCB",
+      "pagina": 424
+    },
+    "GW90227": {
+      "moduli": 1.0,
+      "serie": "90 MCB",
+      "pagina": 424
+    },
+    "GW90228": {
+      "moduli": 1.0,
+      "serie": "90 MCB",
+      "pagina": 424
+    },
+    "GW90229": {
+      "moduli": 1.0,
+      "serie": "90 MCB",
+      "pagina": 424
+    },
+    "GW90230": {
+      "moduli": 1.0,
+      "serie": "90 MCB",
+      "pagina": 424
+    },
+    "GW90231": {
+      "moduli": 1.0,
+      "serie": "90 MCB",
+      "pagina": 424
+    },
+    "GW90245": {
+      "moduli": 1.0,
+      "serie": "90 MCB",
+      "pagina": 424
+    },
+    "GW90246": {
+      "moduli": 1.0,
+      "serie": "90 MCB",
+      "pagina": 424
+    },
+    "GW90247": {
+      "moduli": 1.0,
+      "serie": "90 MCB",
+      "pagina": 424
+    },
+    "GW90248": {
+      "moduli": 1.0,
+      "serie": "90 MCB",
+      "pagina": 424
+    },
+    "GW90249": {
+      "moduli": 1.0,
+      "serie": "90 MCB",
+      "pagina": 424
+    },
+    "GW90250": {
+      "moduli": 1.0,
+      "serie": "90 MCB",
+      "pagina": 424
+    },
+    "GW90251": {
+      "moduli": 1.0,
+      "serie": "90 MCB",
+      "pagina": 424
+    },
+    "GW90265": {
+      "moduli": 2.0,
+      "serie": "90 MCB",
+      "pagina": 424
+    },
+    "GW90266": {
+      "moduli": 2.0,
+      "serie": "90 MCB",
+      "pagina": 424
+    },
+    "GW90267": {
+      "moduli": 2.0,
+      "serie": "90 MCB",
+      "pagina": 424
+    },
+    "GW90268": {
+      "moduli": 2.0,
+      "serie": "90 MCB",
+      "pagina": 424
+    },
+    "GW90269": {
+      "moduli": 2.0,
+      "serie": "90 MCB",
+      "pagina": 424
+    },
+    "GW90270": {
+      "moduli": 2.0,
+      "serie": "90 MCB",
+      "pagina": 424
+    },
+    "GW90271": {
+      "moduli": 2.0,
+      "serie": "90 MCB",
+      "pagina": 424
+    },
+    "GW90285": {
+      "moduli": 2.0,
+      "serie": "90 MCB",
+      "pagina": 424
+    },
+    "GW90286": {
+      "moduli": 2.0,
+      "serie": "90 MCB",
+      "pagina": 424
+    },
+    "GW90287": {
+      "moduli": 2.0,
+      "serie": "90 MCB",
+      "pagina": 424
+    },
+    "GW90288": {
+      "moduli": 2.0,
+      "serie": "90 MCB",
+      "pagina": 424
+    },
+    "GW90289": {
+      "moduli": 2.0,
+      "serie": "90 MCB",
+      "pagina": 424
+    },
+    "GW90290": {
+      "moduli": 2.0,
+      "serie": "90 MCB",
+      "pagina": 424
+    },
+    "GW90291": {
+      "moduli": 2.0,
+      "serie": "90 MCB",
+      "pagina": 424
+    },
+    "GW90325": {
+      "moduli": 1.0,
+      "serie": "90 MCB",
+      "pagina": 425
+    },
+    "GW90326": {
+      "moduli": 1.0,
+      "serie": "90 MCB",
+      "pagina": 425
+    },
+    "GW90327": {
+      "moduli": 1.0,
+      "serie": "90 MCB",
+      "pagina": 425
+    },
+    "GW90328": {
+      "moduli": 1.0,
+      "serie": "90 MCB",
+      "pagina": 425
+    },
+    "GW90329": {
+      "moduli": 1.0,
+      "serie": "90 MCB",
+      "pagina": 425
+    },
+    "GW90330": {
+      "moduli": 1.0,
+      "serie": "90 MCB",
+      "pagina": 425
+    },
+    "GW90331": {
+      "moduli": 1.0,
+      "serie": "90 MCB",
+      "pagina": 425
+    },
+    "GW90345": {
+      "moduli": 1.0,
+      "serie": "90 MCB",
+      "pagina": 425
+    },
+    "GW90346": {
+      "moduli": 1.0,
+      "serie": "90 MCB",
+      "pagina": 425
+    },
+    "GW90347": {
+      "moduli": 1.0,
+      "serie": "90 MCB",
+      "pagina": 425
+    },
+    "GW90348": {
+      "moduli": 1.0,
+      "serie": "90 MCB",
+      "pagina": 425
+    },
+    "GW90349": {
+      "moduli": 1.0,
+      "serie": "90 MCB",
+      "pagina": 425
+    },
+    "GW90350": {
+      "moduli": 1.0,
+      "serie": "90 MCB",
+      "pagina": 425
+    },
+    "GW90351": {
+      "moduli": 1.0,
+      "serie": "90 MCB",
+      "pagina": 425
+    },
+    "GW90445": {
+      "moduli": 1.0,
+      "serie": "90 MCB",
+      "pagina": 426
+    },
+    "GW90446": {
+      "moduli": 1.0,
+      "serie": "90 MCB",
+      "pagina": 426
+    },
+    "GW90447": {
+      "moduli": 1.0,
+      "serie": "90 MCB",
+      "pagina": 426
+    },
+    "GW90448": {
+      "moduli": 1.0,
+      "serie": "90 MCB",
+      "pagina": 426
+    },
+    "GW90449": {
+      "moduli": 1.0,
+      "serie": "90 MCB",
+      "pagina": 426
+    },
+    "GW90450": {
+      "moduli": 1.0,
+      "serie": "90 MCB",
+      "pagina": 426
+    },
+    "GW90451": {
+      "moduli": 1.0,
+      "serie": "90 MCB",
+      "pagina": 426
+    },
+    "GW90876": {
+      "moduli": 1.0,
+      "serie": "90 AM",
+      "pagina": 508
+    },
+    "GW91925": {
+      "moduli": 2.0,
+      "serie": "90 MCB",
+      "pagina": 437
+    },
+    "GW91926": {
+      "moduli": 2.0,
+      "serie": "90 MCB",
+      "pagina": 437
+    },
+    "GW91927": {
+      "moduli": 2.0,
+      "serie": "90 MCB",
+      "pagina": 437
+    },
+    "GW91928": {
+      "moduli": 2.0,
+      "serie": "90 MCB",
+      "pagina": 437
+    },
+    "GW91929": {
+      "moduli": 2.0,
+      "serie": "90 MCB",
+      "pagina": 437
+    },
+    "GW92001": {
+      "moduli": 1.0,
+      "serie": "90 MCB",
+      "pagina": 427
+    },
+    "GW92002": {
+      "moduli": 1.0,
+      "serie": "90 MCB",
+      "pagina": 427
+    },
+    "GW92003": {
+      "moduli": 1.0,
+      "serie": "90 MCB",
+      "pagina": 427
+    },
+    "GW92004": {
+      "moduli": 1.0,
+      "serie": "90 MCB",
+      "pagina": 427
+    },
+    "GW92005": {
+      "moduli": 1.0,
+      "serie": "90 MCB",
+      "pagina": 427
+    },
+    "GW92006": {
+      "moduli": 1.0,
+      "serie": "90 MCB",
+      "pagina": 427
+    },
+    "GW92007": {
+      "moduli": 1.0,
+      "serie": "90 MCB",
+      "pagina": 427
+    },
+    "GW92008": {
+      "moduli": 1.0,
+      "serie": "90 MCB",
+      "pagina": 427
+    },
+    "GW92009": {
+      "moduli": 1.0,
+      "serie": "90 MCB",
+      "pagina": 427
+    },
+    "GW92010": {
+      "moduli": 1.0,
+      "serie": "90 MCB",
+      "pagina": 427
+    },
+    "GW92011": {
+      "moduli": 1.0,
+      "serie": "90 MCB",
+      "pagina": 427
+    },
+    "GW92012": {
+      "moduli": 1.0,
+      "serie": "90 MCB",
+      "pagina": 427
+    },
+    "GW92013": {
+      "moduli": 1.0,
+      "serie": "90 MCB",
+      "pagina": 427
+    },
+    "GW92014": {
+      "moduli": 1.0,
+      "serie": "90 MCB",
+      "pagina": 427
+    },
+    "GW92021": {
+      "moduli": 2.0,
+      "serie": "90 MCB",
+      "pagina": 427
+    },
+    "GW92022": {
+      "moduli": 2.0,
+      "serie": "90 MCB",
+      "pagina": 427
+    },
+    "GW92023": {
+      "moduli": 2.0,
+      "serie": "90 MCB",
+      "pagina": 427
+    },
+    "GW92024": {
+      "moduli": 2.0,
+      "serie": "90 MCB",
+      "pagina": 427
+    },
+    "GW92025": {
+      "moduli": 2.0,
+      "serie": "90 MCB",
+      "pagina": 427
+    },
+    "GW92026": {
+      "moduli": 2.0,
+      "serie": "90 MCB",
+      "pagina": 427
+    },
+    "GW92027": {
+      "moduli": 2.0,
+      "serie": "90 MCB",
+      "pagina": 427
+    },
+    "GW92028": {
+      "moduli": 2.0,
+      "serie": "90 MCB",
+      "pagina": 427
+    },
+    "GW92029": {
+      "moduli": 2.0,
+      "serie": "90 MCB",
+      "pagina": 427
+    },
+    "GW92030": {
+      "moduli": 2.0,
+      "serie": "90 MCB",
+      "pagina": 427
+    },
+    "GW92031": {
+      "moduli": 2.0,
+      "serie": "90 MCB",
+      "pagina": 427
+    },
+    "GW92032": {
+      "moduli": 2.0,
+      "serie": "90 MCB",
+      "pagina": 427
+    },
+    "GW92033": {
+      "moduli": 2.0,
+      "serie": "90 MCB",
+      "pagina": 427
+    },
+    "GW92034": {
+      "moduli": 2.0,
+      "serie": "90 MCB",
+      "pagina": 427
+    },
+    "GW92041": {
+      "moduli": 2.0,
+      "serie": "90 MCB",
+      "pagina": 427
+    },
+    "GW92042": {
+      "moduli": 2.0,
+      "serie": "90 MCB",
+      "pagina": 427
+    },
+    "GW92043": {
+      "moduli": 2.0,
+      "serie": "90 MCB",
+      "pagina": 427
+    },
+    "GW92044": {
+      "moduli": 2.0,
+      "serie": "90 MCB",
+      "pagina": 427
+    },
+    "GW92045": {
+      "moduli": 2.0,
+      "serie": "90 MCB",
+      "pagina": 427
+    },
+    "GW92046": {
+      "moduli": 2.0,
+      "serie": "90 MCB",
+      "pagina": 427
+    },
+    "GW92047": {
+      "moduli": 2.0,
+      "serie": "90 MCB",
+      "pagina": 427
+    },
+    "GW92048": {
+      "moduli": 2.0,
+      "serie": "90 MCB",
+      "pagina": 427
+    },
+    "GW92049": {
+      "moduli": 2.0,
+      "serie": "90 MCB",
+      "pagina": 427
+    },
+    "GW92050": {
+      "moduli": 2.0,
+      "serie": "90 MCB",
+      "pagina": 427
+    },
+    "GW92051": {
+      "moduli": 2.0,
+      "serie": "90 MCB",
+      "pagina": 427
+    },
+    "GW92052": {
+      "moduli": 2.0,
+      "serie": "90 MCB",
+      "pagina": 427
+    },
+    "GW92053": {
+      "moduli": 2.0,
+      "serie": "90 MCB",
+      "pagina": 427
+    },
+    "GW92054": {
+      "moduli": 2.0,
+      "serie": "90 MCB",
+      "pagina": 427
+    },
+    "GW92061": {
+      "moduli": 3.0,
+      "serie": "90 MCB",
+      "pagina": 428
+    },
+    "GW92062": {
+      "moduli": 3.0,
+      "serie": "90 MCB",
+      "pagina": 428
+    },
+    "GW92063": {
+      "moduli": 3.0,
+      "serie": "90 MCB",
+      "pagina": 428
+    },
+    "GW92064": {
+      "moduli": 3.0,
+      "serie": "90 MCB",
+      "pagina": 428
+    },
+    "GW92065": {
+      "moduli": 3.0,
+      "serie": "90 MCB",
+      "pagina": 428
+    },
+    "GW92066": {
+      "moduli": 3.0,
+      "serie": "90 MCB",
+      "pagina": 428
+    },
+    "GW92067": {
+      "moduli": 3.0,
+      "serie": "90 MCB",
+      "pagina": 428
+    },
+    "GW92068": {
+      "moduli": 3.0,
+      "serie": "90 MCB",
+      "pagina": 428
+    },
+    "GW92069": {
+      "moduli": 3.0,
+      "serie": "90 MCB",
+      "pagina": 428
+    },
+    "GW92070": {
+      "moduli": 3.0,
+      "serie": "90 MCB",
+      "pagina": 428
+    },
+    "GW92071": {
+      "moduli": 3.0,
+      "serie": "90 MCB",
+      "pagina": 428
+    },
+    "GW92072": {
+      "moduli": 3.0,
+      "serie": "90 MCB",
+      "pagina": 428
+    },
+    "GW92073": {
+      "moduli": 3.0,
+      "serie": "90 MCB",
+      "pagina": 428
+    },
+    "GW92074": {
+      "moduli": 3.0,
+      "serie": "90 MCB",
+      "pagina": 428
+    },
+    "GW92081": {
+      "moduli": 4.0,
+      "serie": "90 MCB",
+      "pagina": 428
+    },
+    "GW92082": {
+      "moduli": 4.0,
+      "serie": "90 MCB",
+      "pagina": 428
+    },
+    "GW92083": {
+      "moduli": 4.0,
+      "serie": "90 MCB",
+      "pagina": 428
+    },
+    "GW92084": {
+      "moduli": 4.0,
+      "serie": "90 MCB",
+      "pagina": 428
+    },
+    "GW92085": {
+      "moduli": 4.0,
+      "serie": "90 MCB",
+      "pagina": 428
+    },
+    "GW92086": {
+      "moduli": 4.0,
+      "serie": "90 MCB",
+      "pagina": 428
+    },
+    "GW92087": {
+      "moduli": 4.0,
+      "serie": "90 MCB",
+      "pagina": 428
+    },
+    "GW92088": {
+      "moduli": 4.0,
+      "serie": "90 MCB",
+      "pagina": 428
+    },
+    "GW92089": {
+      "moduli": 4.0,
+      "serie": "90 MCB",
+      "pagina": 428
+    },
+    "GW92090": {
+      "moduli": 4.0,
+      "serie": "90 MCB",
+      "pagina": 428
+    },
+    "GW92091": {
+      "moduli": 4.0,
+      "serie": "90 MCB",
+      "pagina": 428
+    },
+    "GW92092": {
+      "moduli": 4.0,
+      "serie": "90 MCB",
+      "pagina": 428
+    },
+    "GW92093": {
+      "moduli": 4.0,
+      "serie": "90 MCB",
+      "pagina": 428
+    },
+    "GW92094": {
+      "moduli": 4.0,
+      "serie": "90 MCB",
+      "pagina": 428
+    },
+    "GW92205": {
+      "moduli": 1.0,
+      "serie": "90 MCB",
+      "pagina": 429
+    },
+    "GW92206": {
+      "moduli": 1.0,
+      "serie": "90 MCB",
+      "pagina": 429
+    },
+    "GW92207": {
+      "moduli": 1.0,
+      "serie": "90 MCB",
+      "pagina": 429
+    },
+    "GW92208": {
+      "moduli": 1.0,
+      "serie": "90 MCB",
+      "pagina": 429
+    },
+    "GW92209": {
+      "moduli": 1.0,
+      "serie": "90 MCB",
+      "pagina": 429
+    },
+    "GW92210": {
+      "moduli": 1.0,
+      "serie": "90 MCB",
+      "pagina": 429
+    },
+    "GW92211": {
+      "moduli": 1.0,
+      "serie": "90 MCB",
+      "pagina": 429
+    },
+    "GW92212": {
+      "moduli": 1.0,
+      "serie": "90 MCB",
+      "pagina": 429
+    },
+    "GW92213": {
+      "moduli": 1.0,
+      "serie": "90 MCB",
+      "pagina": 429
+    },
+    "GW92214": {
+      "moduli": 1.0,
+      "serie": "90 MCB",
+      "pagina": 429
+    },
+    "GW92245": {
+      "moduli": 2.0,
+      "serie": "90 MCB",
+      "pagina": 429
+    },
+    "GW92246": {
+      "moduli": 2.0,
+      "serie": "90 MCB",
+      "pagina": 429
+    },
+    "GW92247": {
+      "moduli": 2.0,
+      "serie": "90 MCB",
+      "pagina": 429
+    },
+    "GW92248": {
+      "moduli": 2.0,
+      "serie": "90 MCB",
+      "pagina": 429
+    },
+    "GW92249": {
+      "moduli": 2.0,
+      "serie": "90 MCB",
+      "pagina": 429
+    },
+    "GW92250": {
+      "moduli": 2.0,
+      "serie": "90 MCB",
+      "pagina": 429
+    },
+    "GW92251": {
+      "moduli": 2.0,
+      "serie": "90 MCB",
+      "pagina": 429
+    },
+    "GW92252": {
+      "moduli": 2.0,
+      "serie": "90 MCB",
+      "pagina": 429
+    },
+    "GW92253": {
+      "moduli": 2.0,
+      "serie": "90 MCB",
+      "pagina": 429
+    },
+    "GW92254": {
+      "moduli": 2.0,
+      "serie": "90 MCB",
+      "pagina": 429
+    },
+    "GW92265": {
+      "moduli": 3.0,
+      "serie": "90 MCB",
+      "pagina": 429
+    },
+    "GW92266": {
+      "moduli": 3.0,
+      "serie": "90 MCB",
+      "pagina": 429
+    },
+    "GW92267": {
+      "moduli": 3.0,
+      "serie": "90 MCB",
+      "pagina": 429
+    },
+    "GW92268": {
+      "moduli": 3.0,
+      "serie": "90 MCB",
+      "pagina": 429
+    },
+    "GW92269": {
+      "moduli": 3.0,
+      "serie": "90 MCB",
+      "pagina": 429
+    },
+    "GW92270": {
+      "moduli": 3.0,
+      "serie": "90 MCB",
+      "pagina": 429
+    },
+    "GW92271": {
+      "moduli": 3.0,
+      "serie": "90 MCB",
+      "pagina": 429
+    },
+    "GW92272": {
+      "moduli": 3.0,
+      "serie": "90 MCB",
+      "pagina": 429
+    },
+    "GW92273": {
+      "moduli": 3.0,
+      "serie": "90 MCB",
+      "pagina": 429
+    },
+    "GW92274": {
+      "moduli": 3.0,
+      "serie": "90 MCB",
+      "pagina": 429
+    },
+    "GW92285": {
+      "moduli": 4.0,
+      "serie": "90 MCB",
+      "pagina": 429
+    },
+    "GW92286": {
+      "moduli": 4.0,
+      "serie": "90 MCB",
+      "pagina": 429
+    },
+    "GW92287": {
+      "moduli": 4.0,
+      "serie": "90 MCB",
+      "pagina": 429
+    },
+    "GW92288": {
+      "moduli": 4.0,
+      "serie": "90 MCB",
+      "pagina": 429
+    },
+    "GW92289": {
+      "moduli": 4.0,
+      "serie": "90 MCB",
+      "pagina": 429
+    },
+    "GW92290": {
+      "moduli": 4.0,
+      "serie": "90 MCB",
+      "pagina": 429
+    },
+    "GW92291": {
+      "moduli": 4.0,
+      "serie": "90 MCB",
+      "pagina": 429
+    },
+    "GW92292": {
+      "moduli": 4.0,
+      "serie": "90 MCB",
+      "pagina": 429
+    },
+    "GW92293": {
+      "moduli": 4.0,
+      "serie": "90 MCB",
+      "pagina": 429
+    },
+    "GW92294": {
+      "moduli": 4.0,
+      "serie": "90 MCB",
+      "pagina": 429
+    },
+    "GW92405": {
+      "moduli": 1.0,
+      "serie": "90 MCB",
+      "pagina": 430
+    },
+    "GW92406": {
+      "moduli": 1.0,
+      "serie": "90 MCB",
+      "pagina": 430
+    },
+    "GW92407": {
+      "moduli": 1.0,
+      "serie": "90 MCB",
+      "pagina": 430
+    },
+    "GW92408": {
+      "moduli": 1.0,
+      "serie": "90 MCB",
+      "pagina": 430
+    },
+    "GW92409": {
+      "moduli": 1.0,
+      "serie": "90 MCB",
+      "pagina": 430
+    },
+    "GW92410": {
+      "moduli": 1.0,
+      "serie": "90 MCB",
+      "pagina": 430
+    },
+    "GW92411": {
+      "moduli": 1.0,
+      "serie": "90 MCB",
+      "pagina": 430
+    },
+    "GW92414": {
+      "moduli": 1.0,
+      "serie": "90 MCB",
+      "pagina": 430
+    },
+    "GW92445": {
+      "moduli": 2.0,
+      "serie": "90 MCB",
+      "pagina": 430
+    },
+    "GW92446": {
+      "moduli": 2.0,
+      "serie": "90 MCB",
+      "pagina": 430
+    },
+    "GW92447": {
+      "moduli": 2.0,
+      "serie": "90 MCB",
+      "pagina": 430
+    },
+    "GW92448": {
+      "moduli": 2.0,
+      "serie": "90 MCB",
+      "pagina": 430
+    },
+    "GW92449": {
+      "moduli": 2.0,
+      "serie": "90 MCB",
+      "pagina": 430
+    },
+    "GW92450": {
+      "moduli": 2.0,
+      "serie": "90 MCB",
+      "pagina": 430
+    },
+    "GW92451": {
+      "moduli": 2.0,
+      "serie": "90 MCB",
+      "pagina": 430
+    },
+    "GW92454": {
+      "moduli": 2.0,
+      "serie": "90 MCB",
+      "pagina": 430
+    },
+    "GW92465": {
+      "moduli": 3.0,
+      "serie": "90 MCB",
+      "pagina": 430
+    },
+    "GW92466": {
+      "moduli": 3.0,
+      "serie": "90 MCB",
+      "pagina": 430
+    },
+    "GW92467": {
+      "moduli": 3.0,
+      "serie": "90 MCB",
+      "pagina": 430
+    },
+    "GW92468": {
+      "moduli": 3.0,
+      "serie": "90 MCB",
+      "pagina": 430
+    },
+    "GW92469": {
+      "moduli": 3.0,
+      "serie": "90 MCB",
+      "pagina": 430
+    },
+    "GW92470": {
+      "moduli": 3.0,
+      "serie": "90 MCB",
+      "pagina": 430
+    },
+    "GW92471": {
+      "moduli": 3.0,
+      "serie": "90 MCB",
+      "pagina": 430
+    },
+    "GW92474": {
+      "moduli": 3.0,
+      "serie": "90 MCB",
+      "pagina": 430
+    },
+    "GW92485": {
+      "moduli": 4.0,
+      "serie": "90 MCB",
+      "pagina": 430
+    },
+    "GW92486": {
+      "moduli": 4.0,
+      "serie": "90 MCB",
+      "pagina": 430
+    },
+    "GW92487": {
+      "moduli": 4.0,
+      "serie": "90 MCB",
+      "pagina": 430
+    },
+    "GW92488": {
+      "moduli": 4.0,
+      "serie": "90 MCB",
+      "pagina": 430
+    },
+    "GW92489": {
+      "moduli": 4.0,
+      "serie": "90 MCB",
+      "pagina": 430
+    },
+    "GW92490": {
+      "moduli": 4.0,
+      "serie": "90 MCB",
+      "pagina": 430
+    },
+    "GW92491": {
+      "moduli": 4.0,
+      "serie": "90 MCB",
+      "pagina": 430
+    },
+    "GW92494": {
+      "moduli": 4.0,
+      "serie": "90 MCB",
+      "pagina": 430
+    },
+    "GW92505": {
+      "moduli": 1.0,
+      "serie": "90 MCB",
+      "pagina": 432
+    },
+    "GW92506": {
+      "moduli": 1.0,
+      "serie": "90 MCB",
+      "pagina": 432
+    },
+    "GW92507": {
+      "moduli": 1.0,
+      "serie": "90 MCB",
+      "pagina": 432
+    },
+    "GW92508": {
+      "moduli": 1.0,
+      "serie": "90 MCB",
+      "pagina": 432
+    },
+    "GW92509": {
+      "moduli": 1.0,
+      "serie": "90 MCB",
+      "pagina": 432
+    },
+    "GW92510": {
+      "moduli": 1.0,
+      "serie": "90 MCB",
+      "pagina": 432
+    },
+    "GW92511": {
+      "moduli": 1.0,
+      "serie": "90 MCB",
+      "pagina": 432
+    },
+    "GW92512": {
+      "moduli": 1.0,
+      "serie": "90 MCB",
+      "pagina": 432
+    },
+    "GW92513": {
+      "moduli": 1.0,
+      "serie": "90 MCB",
+      "pagina": 432
+    },
+    "GW92514": {
+      "moduli": 1.0,
+      "serie": "90 MCB",
+      "pagina": 432
+    },
+    "GW92545": {
+      "moduli": 2.0,
+      "serie": "90 MCB",
+      "pagina": 432
+    },
+    "GW92546": {
+      "moduli": 2.0,
+      "serie": "90 MCB",
+      "pagina": 432
+    },
+    "GW92547": {
+      "moduli": 2.0,
+      "serie": "90 MCB",
+      "pagina": 432
+    },
+    "GW92548": {
+      "moduli": 2.0,
+      "serie": "90 MCB",
+      "pagina": 432
+    },
+    "GW92549": {
+      "moduli": 2.0,
+      "serie": "90 MCB",
+      "pagina": 432
+    },
+    "GW92550": {
+      "moduli": 2.0,
+      "serie": "90 MCB",
+      "pagina": 432
+    },
+    "GW92551": {
+      "moduli": 2.0,
+      "serie": "90 MCB",
+      "pagina": 432
+    },
+    "GW92552": {
+      "moduli": 2.0,
+      "serie": "90 MCB",
+      "pagina": 432
+    },
+    "GW92553": {
+      "moduli": 2.0,
+      "serie": "90 MCB",
+      "pagina": 432
+    },
+    "GW92554": {
+      "moduli": 2.0,
+      "serie": "90 MCB",
+      "pagina": 432
+    },
+    "GW92565": {
+      "moduli": 3.0,
+      "serie": "90 MCB",
+      "pagina": 432
+    },
+    "GW92566": {
+      "moduli": 3.0,
+      "serie": "90 MCB",
+      "pagina": 432
+    },
+    "GW92567": {
+      "moduli": 3.0,
+      "serie": "90 MCB",
+      "pagina": 432
+    },
+    "GW92568": {
+      "moduli": 3.0,
+      "serie": "90 MCB",
+      "pagina": 432
+    },
+    "GW92569": {
+      "moduli": 3.0,
+      "serie": "90 MCB",
+      "pagina": 432
+    },
+    "GW92570": {
+      "moduli": 3.0,
+      "serie": "90 MCB",
+      "pagina": 432
+    },
+    "GW92571": {
+      "moduli": 3.0,
+      "serie": "90 MCB",
+      "pagina": 432
+    },
+    "GW92572": {
+      "moduli": 3.0,
+      "serie": "90 MCB",
+      "pagina": 432
+    },
+    "GW92573": {
+      "moduli": 3.0,
+      "serie": "90 MCB",
+      "pagina": 432
+    },
+    "GW92574": {
+      "moduli": 3.0,
+      "serie": "90 MCB",
+      "pagina": 432
+    },
+    "GW92585": {
+      "moduli": 4.0,
+      "serie": "90 MCB",
+      "pagina": 432
+    },
+    "GW92586": {
+      "moduli": 4.0,
+      "serie": "90 MCB",
+      "pagina": 432
+    },
+    "GW92587": {
+      "moduli": 4.0,
+      "serie": "90 MCB",
+      "pagina": 432
+    },
+    "GW92588": {
+      "moduli": 4.0,
+      "serie": "90 MCB",
+      "pagina": 432
+    },
+    "GW92589": {
+      "moduli": 4.0,
+      "serie": "90 MCB",
+      "pagina": 432
+    },
+    "GW92590": {
+      "moduli": 4.0,
+      "serie": "90 MCB",
+      "pagina": 432
+    },
+    "GW92591": {
+      "moduli": 4.0,
+      "serie": "90 MCB",
+      "pagina": 432
+    },
+    "GW92592": {
+      "moduli": 4.0,
+      "serie": "90 MCB",
+      "pagina": 432
+    },
+    "GW92593": {
+      "moduli": 4.0,
+      "serie": "90 MCB",
+      "pagina": 432
+    },
+    "GW92594": {
+      "moduli": 4.0,
+      "serie": "90 MCB",
+      "pagina": 432
+    },
+    "GW92605": {
+      "moduli": 1.0,
+      "serie": "90 MCB",
+      "pagina": 431
+    },
+    "GW92606": {
+      "moduli": 1.0,
+      "serie": "90 MCB",
+      "pagina": 431
+    },
+    "GW92607": {
+      "moduli": 1.0,
+      "serie": "90 MCB",
+      "pagina": 431
+    },
+    "GW92608": {
+      "moduli": 1.0,
+      "serie": "90 MCB",
+      "pagina": 431
+    },
+    "GW92609": {
+      "moduli": 1.0,
+      "serie": "90 MCB",
+      "pagina": 431
+    },
+    "GW92610": {
+      "moduli": 1.0,
+      "serie": "90 MCB",
+      "pagina": 431
+    },
+    "GW92611": {
+      "moduli": 1.0,
+      "serie": "90 MCB",
+      "pagina": 431
+    },
+    "GW92612": {
+      "moduli": 1.0,
+      "serie": "90 MCB",
+      "pagina": 431
+    },
+    "GW92613": {
+      "moduli": 1.0,
+      "serie": "90 MCB",
+      "pagina": 431
+    },
+    "GW92614": {
+      "moduli": 1.0,
+      "serie": "90 MCB",
+      "pagina": 431
+    },
+    "GW92645": {
+      "moduli": 2.0,
+      "serie": "90 MCB",
+      "pagina": 431
+    },
+    "GW92646": {
+      "moduli": 2.0,
+      "serie": "90 MCB",
+      "pagina": 431
+    },
+    "GW92647": {
+      "moduli": 2.0,
+      "serie": "90 MCB",
+      "pagina": 431
+    },
+    "GW92648": {
+      "moduli": 2.0,
+      "serie": "90 MCB",
+      "pagina": 431
+    },
+    "GW92649": {
+      "moduli": 2.0,
+      "serie": "90 MCB",
+      "pagina": 431
+    },
+    "GW92650": {
+      "moduli": 2.0,
+      "serie": "90 MCB",
+      "pagina": 431
+    },
+    "GW92651": {
+      "moduli": 2.0,
+      "serie": "90 MCB",
+      "pagina": 431
+    },
+    "GW92652": {
+      "moduli": 2.0,
+      "serie": "90 MCB",
+      "pagina": 431
+    },
+    "GW92653": {
+      "moduli": 2.0,
+      "serie": "90 MCB",
+      "pagina": 431
+    },
+    "GW92654": {
+      "moduli": 2.0,
+      "serie": "90 MCB",
+      "pagina": 431
+    },
+    "GW92665": {
+      "moduli": 3.0,
+      "serie": "90 MCB",
+      "pagina": 431
+    },
+    "GW92666": {
+      "moduli": 3.0,
+      "serie": "90 MCB",
+      "pagina": 431
+    },
+    "GW92667": {
+      "moduli": 3.0,
+      "serie": "90 MCB",
+      "pagina": 431
+    },
+    "GW92668": {
+      "moduli": 3.0,
+      "serie": "90 MCB",
+      "pagina": 431
+    },
+    "GW92669": {
+      "moduli": 3.0,
+      "serie": "90 MCB",
+      "pagina": 431
+    },
+    "GW92670": {
+      "moduli": 3.0,
+      "serie": "90 MCB",
+      "pagina": 431
+    },
+    "GW92671": {
+      "moduli": 3.0,
+      "serie": "90 MCB",
+      "pagina": 431
+    },
+    "GW92672": {
+      "moduli": 3.0,
+      "serie": "90 MCB",
+      "pagina": 431
+    },
+    "GW92673": {
+      "moduli": 3.0,
+      "serie": "90 MCB",
+      "pagina": 431
+    },
+    "GW92674": {
+      "moduli": 3.0,
+      "serie": "90 MCB",
+      "pagina": 431
+    },
+    "GW92685": {
+      "moduli": 4.0,
+      "serie": "90 MCB",
+      "pagina": 431
+    },
+    "GW92686": {
+      "moduli": 4.0,
+      "serie": "90 MCB",
+      "pagina": 431
+    },
+    "GW92687": {
+      "moduli": 4.0,
+      "serie": "90 MCB",
+      "pagina": 431
+    },
+    "GW92688": {
+      "moduli": 4.0,
+      "serie": "90 MCB",
+      "pagina": 431
+    },
+    "GW92689": {
+      "moduli": 4.0,
+      "serie": "90 MCB",
+      "pagina": 431
+    },
+    "GW92690": {
+      "moduli": 4.0,
+      "serie": "90 MCB",
+      "pagina": 431
+    },
+    "GW92691": {
+      "moduli": 4.0,
+      "serie": "90 MCB",
+      "pagina": 431
+    },
+    "GW92692": {
+      "moduli": 4.0,
+      "serie": "90 MCB",
+      "pagina": 431
+    },
+    "GW92693": {
+      "moduli": 4.0,
+      "serie": "90 MCB",
+      "pagina": 431
+    },
+    "GW92694": {
+      "moduli": 4.0,
+      "serie": "90 MCB",
+      "pagina": 431
+    },
+    "GW92701": {
+      "moduli": 1.0,
+      "serie": "90 MCB",
+      "pagina": 433
+    },
+    "GW92702": {
+      "moduli": 1.0,
+      "serie": "90 MCB",
+      "pagina": 433
+    },
+    "GW92703": {
+      "moduli": 1.0,
+      "serie": "90 MCB",
+      "pagina": 433
+    },
+    "GW92704": {
+      "moduli": 1.0,
+      "serie": "90 MCB",
+      "pagina": 433
+    },
+    "GW92705": {
+      "moduli": 1.0,
+      "serie": "90 MCB",
+      "pagina": 433
+    },
+    "GW92706": {
+      "moduli": 1.0,
+      "serie": "90 MCB",
+      "pagina": 433
+    },
+    "GW92707": {
+      "moduli": 1.0,
+      "serie": "90 MCB",
+      "pagina": 433
+    },
+    "GW92708": {
+      "moduli": 1.0,
+      "serie": "90 MCB",
+      "pagina": 433
+    },
+    "GW92709": {
+      "moduli": 1.0,
+      "serie": "90 MCB",
+      "pagina": 433
+    },
+    "GW92710": {
+      "moduli": 1.0,
+      "serie": "90 MCB",
+      "pagina": 433
+    },
+    "GW92711": {
+      "moduli": 1.0,
+      "serie": "90 MCB",
+      "pagina": 433
+    },
+    "GW92714": {
+      "moduli": 1.0,
+      "serie": "90 MCB",
+      "pagina": 433
+    },
+    "GW92741": {
+      "moduli": 2.0,
+      "serie": "90 MCB",
+      "pagina": 433
+    },
+    "GW92742": {
+      "moduli": 2.0,
+      "serie": "90 MCB",
+      "pagina": 433
+    },
+    "GW92743": {
+      "moduli": 2.0,
+      "serie": "90 MCB",
+      "pagina": 433
+    },
+    "GW92744": {
+      "moduli": 2.0,
+      "serie": "90 MCB",
+      "pagina": 433
+    },
+    "GW92745": {
+      "moduli": 2.0,
+      "serie": "90 MCB",
+      "pagina": 433
+    },
+    "GW92746": {
+      "moduli": 2.0,
+      "serie": "90 MCB",
+      "pagina": 433
+    },
+    "GW92747": {
+      "moduli": 2.0,
+      "serie": "90 MCB",
+      "pagina": 433
+    },
+    "GW92748": {
+      "moduli": 2.0,
+      "serie": "90 MCB",
+      "pagina": 433
+    },
+    "GW92749": {
+      "moduli": 2.0,
+      "serie": "90 MCB",
+      "pagina": 433
+    },
+    "GW92750": {
+      "moduli": 2.0,
+      "serie": "90 MCB",
+      "pagina": 433
+    },
+    "GW92751": {
+      "moduli": 2.0,
+      "serie": "90 MCB",
+      "pagina": 433
+    },
+    "GW92754": {
+      "moduli": 2.0,
+      "serie": "90 MCB",
+      "pagina": 433
+    },
+    "GW92761": {
+      "moduli": 3.0,
+      "serie": "90 MCB",
+      "pagina": 433
+    },
+    "GW92762": {
+      "moduli": 3.0,
+      "serie": "90 MCB",
+      "pagina": 433
+    },
+    "GW92763": {
+      "moduli": 3.0,
+      "serie": "90 MCB",
+      "pagina": 433
+    },
+    "GW92764": {
+      "moduli": 3.0,
+      "serie": "90 MCB",
+      "pagina": 433
+    },
+    "GW92765": {
+      "moduli": 3.0,
+      "serie": "90 MCB",
+      "pagina": 433
+    },
+    "GW92766": {
+      "moduli": 3.0,
+      "serie": "90 MCB",
+      "pagina": 433
+    },
+    "GW92767": {
+      "moduli": 3.0,
+      "serie": "90 MCB",
+      "pagina": 433
+    },
+    "GW92768": {
+      "moduli": 3.0,
+      "serie": "90 MCB",
+      "pagina": 433
+    },
+    "GW92769": {
+      "moduli": 3.0,
+      "serie": "90 MCB",
+      "pagina": 433
+    },
+    "GW92770": {
+      "moduli": 3.0,
+      "serie": "90 MCB",
+      "pagina": 433
+    },
+    "GW92771": {
+      "moduli": 3.0,
+      "serie": "90 MCB",
+      "pagina": 433
+    },
+    "GW92774": {
+      "moduli": 3.0,
+      "serie": "90 MCB",
+      "pagina": 433
+    },
+    "GW92781": {
+      "moduli": 4.0,
+      "serie": "90 MCB",
+      "pagina": 433
+    },
+    "GW92782": {
+      "moduli": 4.0,
+      "serie": "90 MCB",
+      "pagina": 433
+    },
+    "GW92783": {
+      "moduli": 4.0,
+      "serie": "90 MCB",
+      "pagina": 433
+    },
+    "GW92784": {
+      "moduli": 4.0,
+      "serie": "90 MCB",
+      "pagina": 433
+    },
+    "GW92785": {
+      "moduli": 4.0,
+      "serie": "90 MCB",
+      "pagina": 433
+    },
+    "GW92786": {
+      "moduli": 4.0,
+      "serie": "90 MCB",
+      "pagina": 433
+    },
+    "GW92787": {
+      "moduli": 4.0,
+      "serie": "90 MCB",
+      "pagina": 433
+    },
+    "GW92788": {
+      "moduli": 4.0,
+      "serie": "90 MCB",
+      "pagina": 433
+    },
+    "GW92789": {
+      "moduli": 4.0,
+      "serie": "90 MCB",
+      "pagina": 433
+    },
+    "GW92790": {
+      "moduli": 4.0,
+      "serie": "90 MCB",
+      "pagina": 433
+    },
+    "GW92791": {
+      "moduli": 4.0,
+      "serie": "90 MCB",
+      "pagina": 433
+    },
+    "GW92794": {
+      "moduli": 4.0,
+      "serie": "90 MCB",
+      "pagina": 433
+    },
+    "GW92805": {
+      "moduli": 1.0,
+      "serie": "90 MCB",
+      "pagina": 434
+    },
+    "GW92806": {
+      "moduli": 1.0,
+      "serie": "90 MCB",
+      "pagina": 434
+    },
+    "GW92807": {
+      "moduli": 1.0,
+      "serie": "90 MCB",
+      "pagina": 434
+    },
+    "GW92808": {
+      "moduli": 1.0,
+      "serie": "90 MCB",
+      "pagina": 434
+    },
+    "GW92809": {
+      "moduli": 1.0,
+      "serie": "90 MCB",
+      "pagina": 434
+    },
+    "GW92810": {
+      "moduli": 1.0,
+      "serie": "90 MCB",
+      "pagina": 434
+    },
+    "GW92811": {
+      "moduli": 1.0,
+      "serie": "90 MCB",
+      "pagina": 434
+    },
+    "GW92812": {
+      "moduli": 1.0,
+      "serie": "90 MCB",
+      "pagina": 434
+    },
+    "GW92813": {
+      "moduli": 1.0,
+      "serie": "90 MCB",
+      "pagina": 434
+    },
+    "GW92845": {
+      "moduli": 2.0,
+      "serie": "90 MCB",
+      "pagina": 434
+    },
+    "GW92846": {
+      "moduli": 2.0,
+      "serie": "90 MCB",
+      "pagina": 434
+    },
+    "GW92847": {
+      "moduli": 2.0,
+      "serie": "90 MCB",
+      "pagina": 434
+    },
+    "GW92848": {
+      "moduli": 2.0,
+      "serie": "90 MCB",
+      "pagina": 434
+    },
+    "GW92849": {
+      "moduli": 2.0,
+      "serie": "90 MCB",
+      "pagina": 434
+    },
+    "GW92850": {
+      "moduli": 2.0,
+      "serie": "90 MCB",
+      "pagina": 434
+    },
+    "GW92851": {
+      "moduli": 2.0,
+      "serie": "90 MCB",
+      "pagina": 434
+    },
+    "GW92852": {
+      "moduli": 2.0,
+      "serie": "90 MCB",
+      "pagina": 434
+    },
+    "GW92853": {
+      "moduli": 2.0,
+      "serie": "90 MCB",
+      "pagina": 434
+    },
+    "GW92865": {
+      "moduli": 3.0,
+      "serie": "90 MCB",
+      "pagina": 434
+    },
+    "GW92866": {
+      "moduli": 3.0,
+      "serie": "90 MCB",
+      "pagina": 434
+    },
+    "GW92867": {
+      "moduli": 3.0,
+      "serie": "90 MCB",
+      "pagina": 434
+    },
+    "GW92868": {
+      "moduli": 3.0,
+      "serie": "90 MCB",
+      "pagina": 434
+    },
+    "GW92869": {
+      "moduli": 3.0,
+      "serie": "90 MCB",
+      "pagina": 434
+    },
+    "GW92870": {
+      "moduli": 3.0,
+      "serie": "90 MCB",
+      "pagina": 434
+    },
+    "GW92871": {
+      "moduli": 3.0,
+      "serie": "90 MCB",
+      "pagina": 434
+    },
+    "GW92872": {
+      "moduli": 3.0,
+      "serie": "90 MCB",
+      "pagina": 434
+    },
+    "GW92873": {
+      "moduli": 3.0,
+      "serie": "90 MCB",
+      "pagina": 434
+    },
+    "GW92885": {
+      "moduli": 4.0,
+      "serie": "90 MCB",
+      "pagina": 434
+    },
+    "GW92886": {
+      "moduli": 4.0,
+      "serie": "90 MCB",
+      "pagina": 434
+    },
+    "GW92887": {
+      "moduli": 4.0,
+      "serie": "90 MCB",
+      "pagina": 434
+    },
+    "GW92888": {
+      "moduli": 4.0,
+      "serie": "90 MCB",
+      "pagina": 434
+    },
+    "GW92889": {
+      "moduli": 4.0,
+      "serie": "90 MCB",
+      "pagina": 434
+    },
+    "GW92890": {
+      "moduli": 4.0,
+      "serie": "90 MCB",
+      "pagina": 434
+    },
+    "GW92891": {
+      "moduli": 4.0,
+      "serie": "90 MCB",
+      "pagina": 434
+    },
+    "GW92892": {
+      "moduli": 4.0,
+      "serie": "90 MCB",
+      "pagina": 434
+    },
+    "GW92893": {
+      "moduli": 4.0,
+      "serie": "90 MCB",
+      "pagina": 434
+    },
+    "GW93201": {
+      "moduli": 1.5,
+      "serie": "90 MCB",
+      "pagina": 436
+    },
+    "GW93202": {
+      "moduli": 1.5,
+      "serie": "90 MCB",
+      "pagina": 436
+    },
+    "GW93203": {
+      "moduli": 1.5,
+      "serie": "90 MCB",
+      "pagina": 436
+    },
+    "GW93204": {
+      "moduli": 1.5,
+      "serie": "90 MCB",
+      "pagina": 436
+    },
+    "GW93205": {
+      "moduli": 1.5,
+      "serie": "90 MCB",
+      "pagina": 436
+    },
+    "GW93206": {
+      "moduli": 1.5,
+      "serie": "90 MCB",
+      "pagina": 436
+    },
+    "GW93221": {
+      "moduli": 3.0,
+      "serie": "90 MCB",
+      "pagina": 436
+    },
+    "GW93222": {
+      "moduli": 3.0,
+      "serie": "90 MCB",
+      "pagina": 436
+    },
+    "GW93223": {
+      "moduli": 3.0,
+      "serie": "90 MCB",
+      "pagina": 436
+    },
+    "GW93224": {
+      "moduli": 3.0,
+      "serie": "90 MCB",
+      "pagina": 436
+    },
+    "GW93225": {
+      "moduli": 3.0,
+      "serie": "90 MCB",
+      "pagina": 436
+    },
+    "GW93226": {
+      "moduli": 3.0,
+      "serie": "90 MCB",
+      "pagina": 436
+    },
+    "GW93231": {
+      "moduli": 4.5,
+      "serie": "90 MCB",
+      "pagina": 436
+    },
+    "GW93232": {
+      "moduli": 4.5,
+      "serie": "90 MCB",
+      "pagina": 436
+    },
+    "GW93233": {
+      "moduli": 4.5,
+      "serie": "90 MCB",
+      "pagina": 436
+    },
+    "GW93234": {
+      "moduli": 4.5,
+      "serie": "90 MCB",
+      "pagina": 436
+    },
+    "GW93235": {
+      "moduli": 4.5,
+      "serie": "90 MCB",
+      "pagina": 436
+    },
+    "GW93236": {
+      "moduli": 4.5,
+      "serie": "90 MCB",
+      "pagina": 436
+    },
+    "GW93241": {
+      "moduli": 6.0,
+      "serie": "90 MCB",
+      "pagina": 436
+    },
+    "GW93242": {
+      "moduli": 6.0,
+      "serie": "90 MCB",
+      "pagina": 436
+    },
+    "GW93243": {
+      "moduli": 6.0,
+      "serie": "90 MCB",
+      "pagina": 436
+    },
+    "GW93244": {
+      "moduli": 6.0,
+      "serie": "90 MCB",
+      "pagina": 436
+    },
+    "GW93245": {
+      "moduli": 6.0,
+      "serie": "90 MCB",
+      "pagina": 436
+    },
+    "GW93246": {
+      "moduli": 6.0,
+      "serie": "90 MCB",
+      "pagina": 436
+    },
+    "GW93307": {
+      "moduli": 1.5,
+      "serie": "90 MCB",
+      "pagina": 435
+    },
+    "GW93308": {
+      "moduli": 1.5,
+      "serie": "90 MCB",
+      "pagina": 435
+    },
+    "GW93309": {
+      "moduli": 1.5,
+      "serie": "90 MCB",
+      "pagina": 435
+    },
+    "GW93327": {
+      "moduli": 3.0,
+      "serie": "90 MCB",
+      "pagina": 435
+    },
+    "GW93328": {
+      "moduli": 3.0,
+      "serie": "90 MCB",
+      "pagina": 435
+    },
+    "GW93329": {
+      "moduli": 3.0,
+      "serie": "90 MCB",
+      "pagina": 435
+    },
+    "GW93337": {
+      "moduli": 4.5,
+      "serie": "90 MCB",
+      "pagina": 435
+    },
+    "GW93338": {
+      "moduli": 4.5,
+      "serie": "90 MCB",
+      "pagina": 435
+    },
+    "GW93339": {
+      "moduli": 4.5,
+      "serie": "90 MCB",
+      "pagina": 435
+    },
+    "GW93347": {
+      "moduli": 6.0,
+      "serie": "90 MCB",
+      "pagina": 435
+    },
+    "GW93348": {
+      "moduli": 6.0,
+      "serie": "90 MCB",
+      "pagina": 435
+    },
+    "GW93349": {
+      "moduli": 6.0,
+      "serie": "90 MCB",
+      "pagina": 435
+    },
+    "GW93355": {
+      "moduli": 1.5,
+      "serie": "90 MCB",
+      "pagina": 435
+    },
+    "GW93356": {
+      "moduli": 1.5,
+      "serie": "90 MCB",
+      "pagina": 435
+    },
+    "GW93357": {
+      "moduli": 1.5,
+      "serie": "90 MCB",
+      "pagina": 435
+    },
+    "GW93358": {
+      "moduli": 1.5,
+      "serie": "90 MCB",
+      "pagina": 435
+    },
+    "GW93375": {
+      "moduli": 3.0,
+      "serie": "90 MCB",
+      "pagina": 435
+    },
+    "GW93376": {
+      "moduli": 3.0,
+      "serie": "90 MCB",
+      "pagina": 435
+    },
+    "GW93377": {
+      "moduli": 3.0,
+      "serie": "90 MCB",
+      "pagina": 435
+    },
+    "GW93378": {
+      "moduli": 3.0,
+      "serie": "90 MCB",
+      "pagina": 435
+    },
+    "GW93385": {
+      "moduli": 4.5,
+      "serie": "90 MCB",
+      "pagina": 435
+    },
+    "GW93386": {
+      "moduli": 4.5,
+      "serie": "90 MCB",
+      "pagina": 435
+    },
+    "GW93387": {
+      "moduli": 4.5,
+      "serie": "90 MCB",
+      "pagina": 435
+    },
+    "GW93388": {
+      "moduli": 4.5,
+      "serie": "90 MCB",
+      "pagina": 435
+    },
+    "GW93395": {
+      "moduli": 6.0,
+      "serie": "90 MCB",
+      "pagina": 435
+    },
+    "GW93396": {
+      "moduli": 6.0,
+      "serie": "90 MCB",
+      "pagina": 435
+    },
+    "GW93397": {
+      "moduli": 6.0,
+      "serie": "90 MCB",
+      "pagina": 435
+    },
+    "GW93398": {
+      "moduli": 6.0,
+      "serie": "90 MCB",
+      "pagina": 435
+    },
+    "GW94005": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 447
+    },
+    "GW94006": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 447
+    },
+    "GW94007": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 447
+    },
+    "GW94008": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 447
+    },
+    "GW94009": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 447
+    },
+    "GW94010": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 447
+    },
+    "GW94011": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 447
+    },
+    "GW94015": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 447
+    },
+    "GW94016": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 447
+    },
+    "GW94017": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 447
+    },
+    "GW94018": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 447
+    },
+    "GW94019": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 447
+    },
+    "GW94020": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 447
+    },
+    "GW94025": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 447
+    },
+    "GW94026": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 447
+    },
+    "GW94027": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 447
+    },
+    "GW94028": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 447
+    },
+    "GW94029": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 447
+    },
+    "GW94030": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 447
+    },
+    "GW94031": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 447
+    },
+    "GW94035": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 447
+    },
+    "GW94036": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 447
+    },
+    "GW94037": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 447
+    },
+    "GW94038": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 447
+    },
+    "GW94039": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 447
+    },
+    "GW94040": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 447
+    },
+    "GW94045": {
+      "moduli": 3.0,
+      "serie": "90 RCD",
+      "pagina": 448
+    },
+    "GW94046": {
+      "moduli": 3.0,
+      "serie": "90 RCD",
+      "pagina": 448
+    },
+    "GW94047": {
+      "moduli": 3.0,
+      "serie": "90 RCD",
+      "pagina": 448
+    },
+    "GW94048": {
+      "moduli": 3.0,
+      "serie": "90 RCD",
+      "pagina": 448
+    },
+    "GW94049": {
+      "moduli": 3.0,
+      "serie": "90 RCD",
+      "pagina": 448
+    },
+    "GW94050": {
+      "moduli": 3.0,
+      "serie": "90 RCD",
+      "pagina": 448
+    },
+    "GW94051": {
+      "moduli": 3.0,
+      "serie": "90 RCD",
+      "pagina": 448
+    },
+    "GW94055": {
+      "moduli": 3.0,
+      "serie": "90 RCD",
+      "pagina": 448
+    },
+    "GW94056": {
+      "moduli": 3.0,
+      "serie": "90 RCD",
+      "pagina": 448
+    },
+    "GW94057": {
+      "moduli": 3.0,
+      "serie": "90 RCD",
+      "pagina": 448
+    },
+    "GW94058": {
+      "moduli": 3.0,
+      "serie": "90 RCD",
+      "pagina": 448
+    },
+    "GW94059": {
+      "moduli": 3.0,
+      "serie": "90 RCD",
+      "pagina": 448
+    },
+    "GW94060": {
+      "moduli": 3.0,
+      "serie": "90 RCD",
+      "pagina": 448
+    },
+    "GW94065": {
+      "moduli": 4.0,
+      "serie": "90 RCD",
+      "pagina": 448
+    },
+    "GW94066": {
+      "moduli": 4.0,
+      "serie": "90 RCD",
+      "pagina": 448
+    },
+    "GW94067": {
+      "moduli": 4.0,
+      "serie": "90 RCD",
+      "pagina": 448
+    },
+    "GW94068": {
+      "moduli": 4.0,
+      "serie": "90 RCD",
+      "pagina": 448
+    },
+    "GW94069": {
+      "moduli": 4.0,
+      "serie": "90 RCD",
+      "pagina": 448
+    },
+    "GW94070": {
+      "moduli": 4.0,
+      "serie": "90 RCD",
+      "pagina": 448
+    },
+    "GW94071": {
+      "moduli": 4.0,
+      "serie": "90 RCD",
+      "pagina": 448
+    },
+    "GW94075": {
+      "moduli": 4.0,
+      "serie": "90 RCD",
+      "pagina": 448
+    },
+    "GW94076": {
+      "moduli": 4.0,
+      "serie": "90 RCD",
+      "pagina": 448
+    },
+    "GW94077": {
+      "moduli": 4.0,
+      "serie": "90 RCD",
+      "pagina": 448
+    },
+    "GW94078": {
+      "moduli": 4.0,
+      "serie": "90 RCD",
+      "pagina": 448
+    },
+    "GW94079": {
+      "moduli": 4.0,
+      "serie": "90 RCD",
+      "pagina": 448
+    },
+    "GW94080": {
+      "moduli": 4.0,
+      "serie": "90 RCD",
+      "pagina": 448
+    },
+    "GW94105": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 450
+    },
+    "GW94106": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 450
+    },
+    "GW94107": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 450
+    },
+    "GW94108": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 450
+    },
+    "GW94109": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 450
+    },
+    "GW94110": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 450
+    },
+    "GW94111": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 450
+    },
+    "GW94115": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 450
+    },
+    "GW94116": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 450
+    },
+    "GW94117": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 450
+    },
+    "GW94118": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 450
+    },
+    "GW94119": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 450
+    },
+    "GW94120": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 450
+    },
+    "GW94125": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 450
+    },
+    "GW94126": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 450
+    },
+    "GW94127": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 450
+    },
+    "GW94128": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 450
+    },
+    "GW94129": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 450
+    },
+    "GW94130": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 450
+    },
+    "GW94131": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 450
+    },
+    "GW94135": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 450
+    },
+    "GW94136": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 450
+    },
+    "GW94137": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 450
+    },
+    "GW94138": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 450
+    },
+    "GW94139": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 450
+    },
+    "GW94140": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 450
+    },
+    "GW94145": {
+      "moduli": 3.0,
+      "serie": "90 RCD",
+      "pagina": 450
+    },
+    "GW94146": {
+      "moduli": 3.0,
+      "serie": "90 RCD",
+      "pagina": 450
+    },
+    "GW94147": {
+      "moduli": 3.0,
+      "serie": "90 RCD",
+      "pagina": 450
+    },
+    "GW94148": {
+      "moduli": 3.0,
+      "serie": "90 RCD",
+      "pagina": 450
+    },
+    "GW94149": {
+      "moduli": 3.0,
+      "serie": "90 RCD",
+      "pagina": 450
+    },
+    "GW94150": {
+      "moduli": 3.0,
+      "serie": "90 RCD",
+      "pagina": 450
+    },
+    "GW94151": {
+      "moduli": 3.0,
+      "serie": "90 RCD",
+      "pagina": 450
+    },
+    "GW94155": {
+      "moduli": 3.0,
+      "serie": "90 RCD",
+      "pagina": 450
+    },
+    "GW94156": {
+      "moduli": 3.0,
+      "serie": "90 RCD",
+      "pagina": 450
+    },
+    "GW94157": {
+      "moduli": 3.0,
+      "serie": "90 RCD",
+      "pagina": 450
+    },
+    "GW94158": {
+      "moduli": 3.0,
+      "serie": "90 RCD",
+      "pagina": 450
+    },
+    "GW94159": {
+      "moduli": 3.0,
+      "serie": "90 RCD",
+      "pagina": 450
+    },
+    "GW94160": {
+      "moduli": 3.0,
+      "serie": "90 RCD",
+      "pagina": 450
+    },
+    "GW94165": {
+      "moduli": 4.0,
+      "serie": "90 RCD",
+      "pagina": 450
+    },
+    "GW94166": {
+      "moduli": 4.0,
+      "serie": "90 RCD",
+      "pagina": 450
+    },
+    "GW94167": {
+      "moduli": 4.0,
+      "serie": "90 RCD",
+      "pagina": 450
+    },
+    "GW94168": {
+      "moduli": 4.0,
+      "serie": "90 RCD",
+      "pagina": 450
+    },
+    "GW94169": {
+      "moduli": 4.0,
+      "serie": "90 RCD",
+      "pagina": 450
+    },
+    "GW94170": {
+      "moduli": 4.0,
+      "serie": "90 RCD",
+      "pagina": 450
+    },
+    "GW94171": {
+      "moduli": 4.0,
+      "serie": "90 RCD",
+      "pagina": 450
+    },
+    "GW94175": {
+      "moduli": 4.0,
+      "serie": "90 RCD",
+      "pagina": 450
+    },
+    "GW94176": {
+      "moduli": 4.0,
+      "serie": "90 RCD",
+      "pagina": 450
+    },
+    "GW94177": {
+      "moduli": 4.0,
+      "serie": "90 RCD",
+      "pagina": 450
+    },
+    "GW94178": {
+      "moduli": 4.0,
+      "serie": "90 RCD",
+      "pagina": 450
+    },
+    "GW94179": {
+      "moduli": 4.0,
+      "serie": "90 RCD",
+      "pagina": 450
+    },
+    "GW94180": {
+      "moduli": 4.0,
+      "serie": "90 RCD",
+      "pagina": 450
+    },
+    "GW94205": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 449
+    },
+    "GW94206": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 449
+    },
+    "GW94207": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 449
+    },
+    "GW94208": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 449
+    },
+    "GW94209": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 449
+    },
+    "GW94210": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 449
+    },
+    "GW94211": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 449
+    },
+    "GW94215": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 449
+    },
+    "GW94216": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 449
+    },
+    "GW94217": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 449
+    },
+    "GW94218": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 449
+    },
+    "GW94219": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 449
+    },
+    "GW94220": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 449
+    },
+    "GW94225": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 449
+    },
+    "GW94226": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 449
+    },
+    "GW94227": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 449
+    },
+    "GW94228": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 449
+    },
+    "GW94229": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 449
+    },
+    "GW94230": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 449
+    },
+    "GW94231": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 449
+    },
+    "GW94235": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 449
+    },
+    "GW94236": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 449
+    },
+    "GW94237": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 449
+    },
+    "GW94238": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 449
+    },
+    "GW94239": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 449
+    },
+    "GW94240": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 449
+    },
+    "GW94245": {
+      "moduli": 3.0,
+      "serie": "90 RCD",
+      "pagina": 449
+    },
+    "GW94246": {
+      "moduli": 3.0,
+      "serie": "90 RCD",
+      "pagina": 449
+    },
+    "GW94247": {
+      "moduli": 3.0,
+      "serie": "90 RCD",
+      "pagina": 449
+    },
+    "GW94248": {
+      "moduli": 3.0,
+      "serie": "90 RCD",
+      "pagina": 449
+    },
+    "GW94249": {
+      "moduli": 3.0,
+      "serie": "90 RCD",
+      "pagina": 449
+    },
+    "GW94250": {
+      "moduli": 3.0,
+      "serie": "90 RCD",
+      "pagina": 449
+    },
+    "GW94251": {
+      "moduli": 3.0,
+      "serie": "90 RCD",
+      "pagina": 449
+    },
+    "GW94255": {
+      "moduli": 3.0,
+      "serie": "90 RCD",
+      "pagina": 449
+    },
+    "GW94256": {
+      "moduli": 3.0,
+      "serie": "90 RCD",
+      "pagina": 449
+    },
+    "GW94257": {
+      "moduli": 3.0,
+      "serie": "90 RCD",
+      "pagina": 449
+    },
+    "GW94258": {
+      "moduli": 3.0,
+      "serie": "90 RCD",
+      "pagina": 449
+    },
+    "GW94259": {
+      "moduli": 3.0,
+      "serie": "90 RCD",
+      "pagina": 449
+    },
+    "GW94260": {
+      "moduli": 3.0,
+      "serie": "90 RCD",
+      "pagina": 449
+    },
+    "GW94265": {
+      "moduli": 4.0,
+      "serie": "90 RCD",
+      "pagina": 449
+    },
+    "GW94266": {
+      "moduli": 4.0,
+      "serie": "90 RCD",
+      "pagina": 449
+    },
+    "GW94267": {
+      "moduli": 4.0,
+      "serie": "90 RCD",
+      "pagina": 449
+    },
+    "GW94268": {
+      "moduli": 4.0,
+      "serie": "90 RCD",
+      "pagina": 449
+    },
+    "GW94269": {
+      "moduli": 4.0,
+      "serie": "90 RCD",
+      "pagina": 449
+    },
+    "GW94270": {
+      "moduli": 4.0,
+      "serie": "90 RCD",
+      "pagina": 449
+    },
+    "GW94271": {
+      "moduli": 4.0,
+      "serie": "90 RCD",
+      "pagina": 449
+    },
+    "GW94275": {
+      "moduli": 4.0,
+      "serie": "90 RCD",
+      "pagina": 449
+    },
+    "GW94276": {
+      "moduli": 4.0,
+      "serie": "90 RCD",
+      "pagina": 449
+    },
+    "GW94277": {
+      "moduli": 4.0,
+      "serie": "90 RCD",
+      "pagina": 449
+    },
+    "GW94278": {
+      "moduli": 4.0,
+      "serie": "90 RCD",
+      "pagina": 449
+    },
+    "GW94279": {
+      "moduli": 4.0,
+      "serie": "90 RCD",
+      "pagina": 449
+    },
+    "GW94280": {
+      "moduli": 4.0,
+      "serie": "90 RCD",
+      "pagina": 449
+    },
+    "GW94305": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 451
+    },
+    "GW94306": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 451
+    },
+    "GW94307": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 451
+    },
+    "GW94308": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 451
+    },
+    "GW94309": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 451
+    },
+    "GW94310": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 451
+    },
+    "GW94311": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 451
+    },
+    "GW94315": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 451
+    },
+    "GW94316": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 451
+    },
+    "GW94317": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 451
+    },
+    "GW94318": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 451
+    },
+    "GW94319": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 451
+    },
+    "GW94320": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 451
+    },
+    "GW94325": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 451
+    },
+    "GW94326": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 451
+    },
+    "GW94327": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 451
+    },
+    "GW94328": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 451
+    },
+    "GW94329": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 451
+    },
+    "GW94330": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 451
+    },
+    "GW94331": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 451
+    },
+    "GW94335": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 451
+    },
+    "GW94336": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 451
+    },
+    "GW94337": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 451
+    },
+    "GW94338": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 451
+    },
+    "GW94339": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 451
+    },
+    "GW94340": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 451
+    },
+    "GW94345": {
+      "moduli": 3.0,
+      "serie": "90 RCD",
+      "pagina": 451
+    },
+    "GW94346": {
+      "moduli": 3.0,
+      "serie": "90 RCD",
+      "pagina": 451
+    },
+    "GW94347": {
+      "moduli": 3.0,
+      "serie": "90 RCD",
+      "pagina": 451
+    },
+    "GW94348": {
+      "moduli": 3.0,
+      "serie": "90 RCD",
+      "pagina": 451
+    },
+    "GW94349": {
+      "moduli": 3.0,
+      "serie": "90 RCD",
+      "pagina": 451
+    },
+    "GW94350": {
+      "moduli": 3.0,
+      "serie": "90 RCD",
+      "pagina": 451
+    },
+    "GW94351": {
+      "moduli": 3.0,
+      "serie": "90 RCD",
+      "pagina": 451
+    },
+    "GW94355": {
+      "moduli": 3.0,
+      "serie": "90 RCD",
+      "pagina": 451
+    },
+    "GW94356": {
+      "moduli": 3.0,
+      "serie": "90 RCD",
+      "pagina": 451
+    },
+    "GW94357": {
+      "moduli": 3.0,
+      "serie": "90 RCD",
+      "pagina": 451
+    },
+    "GW94358": {
+      "moduli": 3.0,
+      "serie": "90 RCD",
+      "pagina": 451
+    },
+    "GW94359": {
+      "moduli": 3.0,
+      "serie": "90 RCD",
+      "pagina": 451
+    },
+    "GW94360": {
+      "moduli": 3.0,
+      "serie": "90 RCD",
+      "pagina": 451
+    },
+    "GW94365": {
+      "moduli": 4.0,
+      "serie": "90 RCD",
+      "pagina": 451
+    },
+    "GW94366": {
+      "moduli": 4.0,
+      "serie": "90 RCD",
+      "pagina": 451
+    },
+    "GW94367": {
+      "moduli": 4.0,
+      "serie": "90 RCD",
+      "pagina": 451
+    },
+    "GW94368": {
+      "moduli": 4.0,
+      "serie": "90 RCD",
+      "pagina": 451
+    },
+    "GW94369": {
+      "moduli": 4.0,
+      "serie": "90 RCD",
+      "pagina": 451
+    },
+    "GW94370": {
+      "moduli": 4.0,
+      "serie": "90 RCD",
+      "pagina": 451
+    },
+    "GW94371": {
+      "moduli": 4.0,
+      "serie": "90 RCD",
+      "pagina": 451
+    },
+    "GW94375": {
+      "moduli": 4.0,
+      "serie": "90 RCD",
+      "pagina": 451
+    },
+    "GW94376": {
+      "moduli": 4.0,
+      "serie": "90 RCD",
+      "pagina": 451
+    },
+    "GW94377": {
+      "moduli": 4.0,
+      "serie": "90 RCD",
+      "pagina": 451
+    },
+    "GW94378": {
+      "moduli": 4.0,
+      "serie": "90 RCD",
+      "pagina": 451
+    },
+    "GW94379": {
+      "moduli": 4.0,
+      "serie": "90 RCD",
+      "pagina": 451
+    },
+    "GW94380": {
+      "moduli": 4.0,
+      "serie": "90 RCD",
+      "pagina": 451
+    },
+    "GW94401": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 460
+    },
+    "GW94402": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 460
+    },
+    "GW94403": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 460
+    },
+    "GW94404": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 460
+    },
+    "GW94412": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 460
+    },
+    "GW94413": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 460
+    },
+    "GW94414": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 460
+    },
+    "GW94422": {
+      "moduli": 3.5,
+      "serie": "90 RCD",
+      "pagina": 460
+    },
+    "GW94423": {
+      "moduli": 3.5,
+      "serie": "90 RCD",
+      "pagina": 460
+    },
+    "GW94424": {
+      "moduli": 3.5,
+      "serie": "90 RCD",
+      "pagina": 460
+    },
+    "GW94432": {
+      "moduli": 3.5,
+      "serie": "90 RCD",
+      "pagina": 460
+    },
+    "GW94433": {
+      "moduli": 3.5,
+      "serie": "90 RCD",
+      "pagina": 460
+    },
+    "GW94434": {
+      "moduli": 3.5,
+      "serie": "90 RCD",
+      "pagina": 460
+    },
+    "GW94442": {
+      "moduli": 3.5,
+      "serie": "90 RCD",
+      "pagina": 460
+    },
+    "GW94443": {
+      "moduli": 3.5,
+      "serie": "90 RCD",
+      "pagina": 460
+    },
+    "GW94444": {
+      "moduli": 3.5,
+      "serie": "90 RCD",
+      "pagina": 460
+    },
+    "GW94448": {
+      "moduli": 3.5,
+      "serie": "90 RCD",
+      "pagina": 460
+    },
+    "GW94449": {
+      "moduli": 3.5,
+      "serie": "90 RCD",
+      "pagina": 460
+    },
+    "GW94450": {
+      "moduli": 3.5,
+      "serie": "90 RCD",
+      "pagina": 460
+    },
+    "GW94502": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 460
+    },
+    "GW94503": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 460
+    },
+    "GW94504": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 460
+    },
+    "GW94512": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 460
+    },
+    "GW94513": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 460
+    },
+    "GW94514": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 460
+    },
+    "GW94522": {
+      "moduli": 3.5,
+      "serie": "90 RCD",
+      "pagina": 460
+    },
+    "GW94523": {
+      "moduli": 3.5,
+      "serie": "90 RCD",
+      "pagina": 460
+    },
+    "GW94524": {
+      "moduli": 3.5,
+      "serie": "90 RCD",
+      "pagina": 460
+    },
+    "GW94532": {
+      "moduli": 3.5,
+      "serie": "90 RCD",
+      "pagina": 460
+    },
+    "GW94533": {
+      "moduli": 3.5,
+      "serie": "90 RCD",
+      "pagina": 460
+    },
+    "GW94534": {
+      "moduli": 3.5,
+      "serie": "90 RCD",
+      "pagina": 460
+    },
+    "GW94542": {
+      "moduli": 3.5,
+      "serie": "90 RCD",
+      "pagina": 460
+    },
+    "GW94543": {
+      "moduli": 3.5,
+      "serie": "90 RCD",
+      "pagina": 460
+    },
+    "GW94544": {
+      "moduli": 3.5,
+      "serie": "90 RCD",
+      "pagina": 460
+    },
+    "GW94547": {
+      "moduli": 3.5,
+      "serie": "90 RCD",
+      "pagina": 460
+    },
+    "GW94548": {
+      "moduli": 3.5,
+      "serie": "90 RCD",
+      "pagina": 460
+    },
+    "GW94549": {
+      "moduli": 3.5,
+      "serie": "90 RCD",
+      "pagina": 460
+    },
+    "GW94563": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 461
+    },
+    "GW94565": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 461
+    },
+    "GW94566": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 461
+    },
+    "GW94583": {
+      "moduli": 3.5,
+      "serie": "90 RCD",
+      "pagina": 461
+    },
+    "GW94585": {
+      "moduli": 3.5,
+      "serie": "90 RCD",
+      "pagina": 461
+    },
+    "GW94586": {
+      "moduli": 3.5,
+      "serie": "90 RCD",
+      "pagina": 461
+    },
+    "GW94595": {
+      "moduli": 3.5,
+      "serie": "90 RCD",
+      "pagina": 461
+    },
+    "GW94598": {
+      "moduli": 3.5,
+      "serie": "90 RCD",
+      "pagina": 461
+    },
+    "GW94600": {
+      "moduli": 3.5,
+      "serie": "90 RCD",
+      "pagina": 461
+    },
+    "GW94662": {
+      "moduli": 3.0,
+      "serie": "90 RCD",
+      "pagina": 464
+    },
+    "GW94664": {
+      "moduli": 3.0,
+      "serie": "90 RCD",
+      "pagina": 464
+    },
+    "GW94667": {
+      "moduli": 3.0,
+      "serie": "90 RCD",
+      "pagina": 464
+    },
+    "GW94668": {
+      "moduli": 3.0,
+      "serie": "90 RCD",
+      "pagina": 464
+    },
+    "GW94669": {
+      "moduli": 3.0,
+      "serie": "90 RCD",
+      "pagina": 464
+    },
+    "GW94670": {
+      "moduli": 3.0,
+      "serie": "90 RCD",
+      "pagina": 464
+    },
+    "GW94761K": {
+      "moduli": 4.0,
+      "serie": "90 RCD",
+      "pagina": 464
+    },
+    "GW94766K": {
+      "moduli": 4.0,
+      "serie": "90 RCD",
+      "pagina": 464
+    },
+    "GW94777K": {
+      "moduli": 4.0,
+      "serie": "90 RCD",
+      "pagina": 464
+    },
+    "GW94779K": {
+      "moduli": 4.0,
+      "serie": "90 RCD",
+      "pagina": 464
+    },
+    "GW94867": {
+      "moduli": 3.0,
+      "serie": "90 RCD",
+      "pagina": 465
+    },
+    "GW94869": {
+      "moduli": 3.0,
+      "serie": "90 RCD",
+      "pagina": 465
+    },
+    "GW94897": {
+      "moduli": 3.0,
+      "serie": "90 RCD",
+      "pagina": 465
+    },
+    "GW94898": {
+      "moduli": 3.0,
+      "serie": "90 RCD",
+      "pagina": 465
+    },
+    "GW94899": {
+      "moduli": 3.0,
+      "serie": "90 RCD",
+      "pagina": 465
+    },
+    "GW94900": {
+      "moduli": 3.0,
+      "serie": "90 RCD",
+      "pagina": 465
+    },
+    "GW94957K": {
+      "moduli": 4.0,
+      "serie": "90 RCD",
+      "pagina": 465
+    },
+    "GW94959K": {
+      "moduli": 4.0,
+      "serie": "90 RCD",
+      "pagina": 465
+    },
+    "GW94996K": {
+      "moduli": 4.0,
+      "serie": "90 RCD",
+      "pagina": 466
+    },
+    "GW95025": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 455
+    },
+    "GW95025MA": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 456
+    },
+    "GW95026": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 455
+    },
+    "GW95026MA": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 456
+    },
+    "GW95027": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 455
+    },
+    "GW95027MA": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 456
+    },
+    "GW95028": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 455
+    },
+    "GW95028MA": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 456
+    },
+    "GW95029": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 455
+    },
+    "GW95029MA": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 456
+    },
+    "GW95030": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 455
+    },
+    "GW95030MA": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 456
+    },
+    "GW95031": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 455
+    },
+    "GW95031MA": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 456
+    },
+    "GW95035": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 455
+    },
+    "GW95036": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 455
+    },
+    "GW95037": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 455
+    },
+    "GW95038": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 455
+    },
+    "GW95039": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 455
+    },
+    "GW95040": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 455
+    },
+    "GW95105": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 454
+    },
+    "GW95106": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 454
+    },
+    "GW95107": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 454
+    },
+    "GW95108": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 454
+    },
+    "GW95109": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 454
+    },
+    "GW95110": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 454
+    },
+    "GW95111": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 454
+    },
+    "GW95115": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 454
+    },
+    "GW95116": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 454
+    },
+    "GW95117": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 454
+    },
+    "GW95118": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 454
+    },
+    "GW95119": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 454
+    },
+    "GW95120": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 454
+    },
+    "GW95125": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 454
+    },
+    "GW95126": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 454
+    },
+    "GW95127": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 454
+    },
+    "GW95128": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 454
+    },
+    "GW95129": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 454
+    },
+    "GW95130": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 454
+    },
+    "GW95131": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 454
+    },
+    "GW95135": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 454
+    },
+    "GW95136": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 454
+    },
+    "GW95137": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 454
+    },
+    "GW95138": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 454
+    },
+    "GW95139": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 454
+    },
+    "GW95140": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 454
+    },
+    "GW95145": {
+      "moduli": 3.0,
+      "serie": "90 RCD",
+      "pagina": 454
+    },
+    "GW95146": {
+      "moduli": 3.0,
+      "serie": "90 RCD",
+      "pagina": 454
+    },
+    "GW95147": {
+      "moduli": 3.0,
+      "serie": "90 RCD",
+      "pagina": 454
+    },
+    "GW95148": {
+      "moduli": 3.0,
+      "serie": "90 RCD",
+      "pagina": 454
+    },
+    "GW95149": {
+      "moduli": 3.0,
+      "serie": "90 RCD",
+      "pagina": 454
+    },
+    "GW95150": {
+      "moduli": 3.0,
+      "serie": "90 RCD",
+      "pagina": 454
+    },
+    "GW95151": {
+      "moduli": 3.0,
+      "serie": "90 RCD",
+      "pagina": 454
+    },
+    "GW95155": {
+      "moduli": 3.0,
+      "serie": "90 RCD",
+      "pagina": 454
+    },
+    "GW95156": {
+      "moduli": 3.0,
+      "serie": "90 RCD",
+      "pagina": 454
+    },
+    "GW95157": {
+      "moduli": 3.0,
+      "serie": "90 RCD",
+      "pagina": 454
+    },
+    "GW95158": {
+      "moduli": 3.0,
+      "serie": "90 RCD",
+      "pagina": 454
+    },
+    "GW95159": {
+      "moduli": 3.0,
+      "serie": "90 RCD",
+      "pagina": 454
+    },
+    "GW95160": {
+      "moduli": 3.0,
+      "serie": "90 RCD",
+      "pagina": 454
+    },
+    "GW95165": {
+      "moduli": 4.0,
+      "serie": "90 RCD",
+      "pagina": 454
+    },
+    "GW95166": {
+      "moduli": 4.0,
+      "serie": "90 RCD",
+      "pagina": 454
+    },
+    "GW95167": {
+      "moduli": 4.0,
+      "serie": "90 RCD",
+      "pagina": 454
+    },
+    "GW95168": {
+      "moduli": 4.0,
+      "serie": "90 RCD",
+      "pagina": 454
+    },
+    "GW95169": {
+      "moduli": 4.0,
+      "serie": "90 RCD",
+      "pagina": 454
+    },
+    "GW95170": {
+      "moduli": 4.0,
+      "serie": "90 RCD",
+      "pagina": 454
+    },
+    "GW95171": {
+      "moduli": 4.0,
+      "serie": "90 RCD",
+      "pagina": 454
+    },
+    "GW95175": {
+      "moduli": 4.0,
+      "serie": "90 RCD",
+      "pagina": 454
+    },
+    "GW95176": {
+      "moduli": 4.0,
+      "serie": "90 RCD",
+      "pagina": 454
+    },
+    "GW95177": {
+      "moduli": 4.0,
+      "serie": "90 RCD",
+      "pagina": 454
+    },
+    "GW95178": {
+      "moduli": 4.0,
+      "serie": "90 RCD",
+      "pagina": 454
+    },
+    "GW95179": {
+      "moduli": 4.0,
+      "serie": "90 RCD",
+      "pagina": 454
+    },
+    "GW95180": {
+      "moduli": 4.0,
+      "serie": "90 RCD",
+      "pagina": 454
+    },
+    "GW95225": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 456
+    },
+    "GW95225MA": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 457
+    },
+    "GW95226": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 456
+    },
+    "GW95226MA": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 457
+    },
+    "GW95227": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 456
+    },
+    "GW95227MA": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 457
+    },
+    "GW95228": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 456
+    },
+    "GW95228MA": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 457
+    },
+    "GW95229": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 456
+    },
+    "GW95229MA": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 457
+    },
+    "GW95230": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 456
+    },
+    "GW95230MA": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 457
+    },
+    "GW95231": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 456
+    },
+    "GW95231MA": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 457
+    },
+    "GW95235": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 456
+    },
+    "GW95236": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 456
+    },
+    "GW95237": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 456
+    },
+    "GW95238": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 456
+    },
+    "GW95239": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 456
+    },
+    "GW95240": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 456
+    },
+    "GW95245": {
+      "moduli": 3.0,
+      "serie": "90 RCD",
+      "pagina": 456
+    },
+    "GW95246": {
+      "moduli": 3.0,
+      "serie": "90 RCD",
+      "pagina": 456
+    },
+    "GW95247": {
+      "moduli": 3.0,
+      "serie": "90 RCD",
+      "pagina": 456
+    },
+    "GW95248": {
+      "moduli": 3.0,
+      "serie": "90 RCD",
+      "pagina": 456
+    },
+    "GW95249": {
+      "moduli": 3.0,
+      "serie": "90 RCD",
+      "pagina": 456
+    },
+    "GW95250": {
+      "moduli": 3.0,
+      "serie": "90 RCD",
+      "pagina": 456
+    },
+    "GW95325": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 458
+    },
+    "GW95326": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 458
+    },
+    "GW95327": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 458
+    },
+    "GW95328": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 458
+    },
+    "GW95329": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 458
+    },
+    "GW95330": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 458
+    },
+    "GW95331": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 458
+    },
+    "GW95335": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 458
+    },
+    "GW95336": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 458
+    },
+    "GW95337": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 458
+    },
+    "GW95338": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 458
+    },
+    "GW95339": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 458
+    },
+    "GW95340": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 458
+    },
+    "GW95408": {
+      "moduli": 4.0,
+      "serie": "90 RCD",
+      "pagina": 461
+    },
+    "GW95416": {
+      "moduli": 6.0,
+      "serie": "90 RCD",
+      "pagina": 461
+    },
+    "GW95418": {
+      "moduli": 6.0,
+      "serie": "90 RCD",
+      "pagina": 461
+    },
+    "GW95426": {
+      "moduli": 6.0,
+      "serie": "90 RCD",
+      "pagina": 461
+    },
+    "GW95428": {
+      "moduli": 6.0,
+      "serie": "90 RCD",
+      "pagina": 461
+    },
+    "GW95438": {
+      "moduli": 4.0,
+      "serie": "90 RCD",
+      "pagina": 462
+    },
+    "GW95446": {
+      "moduli": 6.0,
+      "serie": "90 RCD",
+      "pagina": 462
+    },
+    "GW95448": {
+      "moduli": 6.0,
+      "serie": "90 RCD",
+      "pagina": 462
+    },
+    "GW95456": {
+      "moduli": 6.0,
+      "serie": "90 RCD",
+      "pagina": 462
+    },
+    "GW95458": {
+      "moduli": 6.0,
+      "serie": "90 RCD",
+      "pagina": 462
+    },
+    "GW95468": {
+      "moduli": 4.0,
+      "serie": "90 RCD",
+      "pagina": 462
+    },
+    "GW95470": {
+      "moduli": 4.0,
+      "serie": "90 RCD",
+      "pagina": 462
+    },
+    "GW95478": {
+      "moduli": 6.0,
+      "serie": "90 RCD",
+      "pagina": 462
+    },
+    "GW95480": {
+      "moduli": 6.0,
+      "serie": "90 RCD",
+      "pagina": 462
+    },
+    "GW95488": {
+      "moduli": 6.0,
+      "serie": "90 RCD",
+      "pagina": 462
+    },
+    "GW95490": {
+      "moduli": 6.0,
+      "serie": "90 RCD",
+      "pagina": 462
+    },
+    "GW95512": {
+      "moduli": 6.0,
+      "serie": "90 RCD",
+      "pagina": 462
+    },
+    "GW95631": {
+      "moduli": 4.0,
+      "serie": "90 RCD",
+      "pagina": 464
+    },
+    "GW95633": {
+      "moduli": 4.0,
+      "serie": "90 RCD",
+      "pagina": 464
+    },
+    "GW95636": {
+      "moduli": 4.0,
+      "serie": "90 RCD",
+      "pagina": 465
+    },
+    "GW95638": {
+      "moduli": 4.0,
+      "serie": "90 RCD",
+      "pagina": 465
+    },
+    "GW95639": {
+      "moduli": 4.0,
+      "serie": "90 RCD",
+      "pagina": 465
+    },
+    "GW95640": {
+      "moduli": 4.0,
+      "serie": "90 RCD",
+      "pagina": 466
+    },
+    "GW95696K": {
+      "moduli": 4.0,
+      "serie": "90 RCD",
+      "pagina": 466
+    },
+    "GW95785": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 456
+    },
+    "GW95786": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 456
+    },
+    "GW95787": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 456
+    },
+    "GW95788": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 456
+    },
+    "GW95789": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 456
+    },
+    "GW95790": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 456
+    },
+    "GW95791": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 456
+    },
+    "GW95795": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 458
+    },
+    "GW95796": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 458
+    },
+    "GW95797": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 458
+    },
+    "GW95798": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 458
+    },
+    "GW95799": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 458
+    },
+    "GW95800": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 458
+    },
+    "GW95801": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 458
+    },
+    "GW95805": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 452
+    },
+    "GW95806": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 452
+    },
+    "GW95807": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 452
+    },
+    "GW95808": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 452
+    },
+    "GW95809": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 452
+    },
+    "GW95810": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 452
+    },
+    "GW95811": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 452
+    },
+    "GW95815": {
+      "moduli": 4.0,
+      "serie": "90 RCD",
+      "pagina": 452
+    },
+    "GW95816": {
+      "moduli": 4.0,
+      "serie": "90 RCD",
+      "pagina": 452
+    },
+    "GW95817": {
+      "moduli": 4.0,
+      "serie": "90 RCD",
+      "pagina": 452
+    },
+    "GW95818": {
+      "moduli": 4.0,
+      "serie": "90 RCD",
+      "pagina": 452
+    },
+    "GW95819": {
+      "moduli": 4.0,
+      "serie": "90 RCD",
+      "pagina": 452
+    },
+    "GW95820": {
+      "moduli": 4.0,
+      "serie": "90 RCD",
+      "pagina": 452
+    },
+    "GW95821": {
+      "moduli": 4.0,
+      "serie": "90 RCD",
+      "pagina": 452
+    },
+    "GW95825": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 457
+    },
+    "GW95826": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 457
+    },
+    "GW95827": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 457
+    },
+    "GW95828": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 457
+    },
+    "GW95829": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 457
+    },
+    "GW95830": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 457
+    },
+    "GW95831": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 457
+    },
+    "GW95835": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 459
+    },
+    "GW95836": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 459
+    },
+    "GW95837": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 459
+    },
+    "GW95838": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 459
+    },
+    "GW95839": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 459
+    },
+    "GW95840": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 459
+    },
+    "GW95841": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 459
+    },
+    "GW95847": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 453
+    },
+    "GW95848": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 453
+    },
+    "GW95849": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 453
+    },
+    "GW95850": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 453
+    },
+    "GW95857": {
+      "moduli": 4.0,
+      "serie": "90 RCD",
+      "pagina": 453
+    },
+    "GW95858": {
+      "moduli": 4.0,
+      "serie": "90 RCD",
+      "pagina": 453
+    },
+    "GW95859": {
+      "moduli": 4.0,
+      "serie": "90 RCD",
+      "pagina": 453
+    },
+    "GW95860": {
+      "moduli": 4.0,
+      "serie": "90 RCD",
+      "pagina": 453
+    },
+    "GW95935": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 453
+    },
+    "GW95936": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 453
+    },
+    "GW95937": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 453
+    },
+    "GW95938": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 453
+    },
+    "GW95939": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 453
+    },
+    "GW95940": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 453
+    },
+    "GW95941": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 453
+    },
+    "GW95955": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 458
+    },
+    "GW95956": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 458
+    },
+    "GW95957": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 458
+    },
+    "GW95958": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 458
+    },
+    "GW95959": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 458
+    },
+    "GW95960": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 458
+    },
+    "GW95961": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 458
+    },
+    "GW95965": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 459
+    },
+    "GW95966": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 459
+    },
+    "GW95967": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 459
+    },
+    "GW95968": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 459
+    },
+    "GW95969": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 459
+    },
+    "GW95970": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 459
+    },
+    "GW95971": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 459
+    },
+    "GW95975": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 455
+    },
+    "GW95976": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 455
+    },
+    "GW95977": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 455
+    },
+    "GW95978": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 455
+    },
+    "GW95979": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 455
+    },
+    "GW95980": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 455
+    },
+    "GW95981": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 455
+    },
+    "GW96001": {
+      "moduli": 0.5,
+      "serie": "90 AM",
+      "pagina": 478
+    },
+    "GW96003": {
+      "moduli": 0.5,
+      "serie": "90 AM",
+      "pagina": 480
+    },
+    "GW96004": {
+      "moduli": 0.5,
+      "serie": "90 AM",
+      "pagina": 480
+    },
+    "GW96006": {
+      "moduli": 0.5,
+      "serie": "90 AM",
+      "pagina": 478
+    },
+    "GW96008": {
+      "moduli": 0.5,
+      "serie": "90 AM",
+      "pagina": 480
+    },
+    "GW96009": {
+      "moduli": 0.5,
+      "serie": "90 AM",
+      "pagina": 478
+    },
+    "GW96011": {
+      "moduli": 1.0,
+      "serie": "90 AM",
+      "pagina": 479
+    },
+    "GW96012": {
+      "moduli": 1.0,
+      "serie": "90 AM",
+      "pagina": 479
+    },
+    "GW96015": {
+      "moduli": 0.5,
+      "serie": "90 AM",
+      "pagina": 480
+    },
+    "GW96016": {
+      "moduli": 1.0,
+      "serie": "90 AM",
+      "pagina": 479
+    },
+    "GW96017": {
+      "moduli": 1.0,
+      "serie": "90 AM",
+      "pagina": 479
+    },
+    "GW96018": {
+      "moduli": 1.0,
+      "serie": "90 AM",
+      "pagina": 479
+    },
+    "GW96104": {
+      "moduli": 1.0,
+      "serie": "90 AM",
+      "pagina": 491
+    },
+    "GW96105": {
+      "moduli": 1.0,
+      "serie": "90 AM",
+      "pagina": 491
+    },
+    "GW96106": {
+      "moduli": 1.0,
+      "serie": "90 AM",
+      "pagina": 491
+    },
+    "GW96114": {
+      "moduli": 2.0,
+      "serie": "90 AM",
+      "pagina": 491
+    },
+    "GW96115": {
+      "moduli": 2.0,
+      "serie": "90 AM",
+      "pagina": 491
+    },
+    "GW96116": {
+      "moduli": 2.0,
+      "serie": "90 AM",
+      "pagina": 491
+    },
+    "GW96124": {
+      "moduli": 3.0,
+      "serie": "90 AM",
+      "pagina": 491
+    },
+    "GW96125": {
+      "moduli": 3.0,
+      "serie": "90 AM",
+      "pagina": 491
+    },
+    "GW96126": {
+      "moduli": 3.0,
+      "serie": "90 AM",
+      "pagina": 491
+    },
+    "GW96134": {
+      "moduli": 4.0,
+      "serie": "90 AM",
+      "pagina": 491
+    },
+    "GW96135": {
+      "moduli": 4.0,
+      "serie": "90 AM",
+      "pagina": 491
+    },
+    "GW96136": {
+      "moduli": 4.0,
+      "serie": "90 AM",
+      "pagina": 491
+    },
+    "GW96147": {
+      "moduli": 1.0,
+      "serie": "90 AM",
+      "pagina": 491
+    },
+    "GW96148": {
+      "moduli": 1.0,
+      "serie": "90 AM",
+      "pagina": 491
+    },
+    "GW96149": {
+      "moduli": 1.0,
+      "serie": "90 AM",
+      "pagina": 491
+    },
+    "GW96157": {
+      "moduli": 2.0,
+      "serie": "90 AM",
+      "pagina": 491
+    },
+    "GW96158": {
+      "moduli": 2.0,
+      "serie": "90 AM",
+      "pagina": 491
+    },
+    "GW96159": {
+      "moduli": 2.0,
+      "serie": "90 AM",
+      "pagina": 491
+    },
+    "GW96167": {
+      "moduli": 3.0,
+      "serie": "90 AM",
+      "pagina": 491
+    },
+    "GW96168": {
+      "moduli": 3.0,
+      "serie": "90 AM",
+      "pagina": 491
+    },
+    "GW96169": {
+      "moduli": 3.0,
+      "serie": "90 AM",
+      "pagina": 491
+    },
+    "GW96177": {
+      "moduli": 4.0,
+      "serie": "90 AM",
+      "pagina": 491
+    },
+    "GW96178": {
+      "moduli": 4.0,
+      "serie": "90 AM",
+      "pagina": 491
+    },
+    "GW96179": {
+      "moduli": 4.0,
+      "serie": "90 AM",
+      "pagina": 491
+    },
+    "GW96182": {
+      "moduli": 2.0,
+      "serie": "90 AM",
+      "pagina": 491
+    },
+    "GW96183": {
+      "moduli": 2.0,
+      "serie": "90 AM",
+      "pagina": 491
+    },
+    "GW96186": {
+      "moduli": 3.5,
+      "serie": "90 AM",
+      "pagina": 492
+    },
+    "GW96187": {
+      "moduli": 3.5,
+      "serie": "90 AM",
+      "pagina": 492
+    },
+    "GW96192": {
+      "moduli": 4.0,
+      "serie": "90 AM",
+      "pagina": 491
+    },
+    "GW96193": {
+      "moduli": 4.0,
+      "serie": "90 AM",
+      "pagina": 491
+    },
+    "GW96194": {
+      "moduli": 4.0,
+      "serie": "90 AM",
+      "pagina": 491
+    },
+    "GW96205": {
+      "moduli": 1.0,
+      "serie": "90 AM",
+      "pagina": 485
+    },
+    "GW96206": {
+      "moduli": 1.0,
+      "serie": "90 AM",
+      "pagina": 485
+    },
+    "GW96207": {
+      "moduli": 1.5,
+      "serie": "90 AM",
+      "pagina": 485
+    },
+    "GW96215": {
+      "moduli": 2.0,
+      "serie": "90 AM",
+      "pagina": 485
+    },
+    "GW96216": {
+      "moduli": 2.0,
+      "serie": "90 AM",
+      "pagina": 485
+    },
+    "GW96217": {
+      "moduli": 3.0,
+      "serie": "90 AM",
+      "pagina": 485
+    },
+    "GW96218": {
+      "moduli": 4.0,
+      "serie": "90 AM",
+      "pagina": 485
+    },
+    "GW96220": {
+      "moduli": 1.0,
+      "serie": "90 AM",
+      "pagina": 485
+    },
+    "GW96226": {
+      "moduli": 1.0,
+      "serie": "90 AM",
+      "pagina": 485
+    },
+    "GW96227": {
+      "moduli": 2.0,
+      "serie": "90 AM",
+      "pagina": 485
+    },
+    "GW96301": {
+      "moduli": 2.0,
+      "serie": "90 AM",
+      "pagina": 485
+    },
+    "GW96302": {
+      "moduli": 2.0,
+      "serie": "90 AM",
+      "pagina": 485
+    },
+    "GW96303": {
+      "moduli": 3.0,
+      "serie": "90 AM",
+      "pagina": 485
+    },
+    "GW96306": {
+      "moduli": 3.0,
+      "serie": "90 AM",
+      "pagina": 485
+    },
+    "GW96307": {
+      "moduli": 3.0,
+      "serie": "90 AM",
+      "pagina": 485
+    },
+    "GW96308": {
+      "moduli": 4.5,
+      "serie": "90 AM",
+      "pagina": 485
+    },
+    "GW96311": {
+      "moduli": 4.0,
+      "serie": "90 AM",
+      "pagina": 485
+    },
+    "GW96312": {
+      "moduli": 4.0,
+      "serie": "90 AM",
+      "pagina": 485
+    },
+    "GW96313": {
+      "moduli": 6.0,
+      "serie": "90 AM",
+      "pagina": 485
+    },
+    "GW96314": {
+      "moduli": 8.0,
+      "serie": "90 AM",
+      "pagina": 485
+    },
+    "GW96321": {
+      "moduli": 3.0,
+      "serie": "90 AM",
+      "pagina": 511
+    },
+    "GW96322": {
+      "moduli": 3.0,
+      "serie": "90 AM",
+      "pagina": 511
+    },
+    "GW96323": {
+      "moduli": 4.0,
+      "serie": "90 AM",
+      "pagina": 511
+    },
+    "GW96324": {
+      "moduli": 6.0,
+      "serie": "90 AM",
+      "pagina": 511
+    },
+    "GW96325": {
+      "moduli": 8.0,
+      "serie": "90 AM",
+      "pagina": 511
+    },
+    "GW96331": {
+      "moduli": 3.0,
+      "serie": "90 AM",
+      "pagina": 490
+    },
+    "GW96331B": {
+      "moduli": 3.0,
+      "serie": "90 AM",
+      "pagina": 490
+    },
+    "GW96339": {
+      "moduli": 1.0,
+      "serie": "90 AM",
+      "pagina": 502
+    },
+    "GW96401": {
+      "moduli": 1.0,
+      "serie": "90 AM",
+      "pagina": 511
+    },
+    "GW96402": {
+      "moduli": 1.0,
+      "serie": "90 AM",
+      "pagina": 511
+    },
+    "GW96403": {
+      "moduli": 2.0,
+      "serie": "90 AM",
+      "pagina": 511
+    },
+    "GW96406": {
+      "moduli": 1.0,
+      "serie": "90 AM",
+      "pagina": 511
+    },
+    "GW96407": {
+      "moduli": 1.0,
+      "serie": "90 AM",
+      "pagina": 511
+    },
+    "GW96408": {
+      "moduli": 2.0,
+      "serie": "90 AM",
+      "pagina": 511
+    },
+    "GW96411": {
+      "moduli": 2.0,
+      "serie": "90 AM",
+      "pagina": 511
+    },
+    "GW96421": {
+      "moduli": 2.0,
+      "serie": "90 AM",
+      "pagina": 511
+    },
+    "GW96422": {
+      "moduli": 2.0,
+      "serie": "90 AM",
+      "pagina": 511
+    },
+    "GW96423": {
+      "moduli": 2.0,
+      "serie": "90 AM",
+      "pagina": 511
+    },
+    "GW96424": {
+      "moduli": 2.0,
+      "serie": "90 AM",
+      "pagina": 511
+    },
+    "GW96425": {
+      "moduli": 2.0,
+      "serie": "90 AM",
+      "pagina": 511
+    },
+    "GW96426": {
+      "moduli": 2.0,
+      "serie": "90 AM",
+      "pagina": 511
+    },
+    "GW96431": {
+      "moduli": 3.0,
+      "serie": "90 AM",
+      "pagina": 511
+    },
+    "GW96432": {
+      "moduli": 3.0,
+      "serie": "90 AM",
+      "pagina": 511
+    },
+    "GW96433": {
+      "moduli": 3.0,
+      "serie": "90 AM",
+      "pagina": 511
+    },
+    "GW96434": {
+      "moduli": 3.0,
+      "serie": "90 AM",
+      "pagina": 511
+    },
+    "GW96522": {
+      "moduli": 2.5,
+      "serie": "90 AM",
+      "pagina": 512
+    },
+    "GW96523": {
+      "moduli": 2.5,
+      "serie": "90 AM",
+      "pagina": 512
+    },
+    "GW96524": {
+      "moduli": 2.5,
+      "serie": "90 AM",
+      "pagina": 512
+    },
+    "GW96525": {
+      "moduli": 2.5,
+      "serie": "90 AM",
+      "pagina": 512
+    },
+    "GW96526": {
+      "moduli": 2.5,
+      "serie": "90 AM",
+      "pagina": 512
+    },
+    "GW96531": {
+      "moduli": 1.0,
+      "serie": "90 AM",
+      "pagina": 492
+    },
+    "GW96532": {
+      "moduli": 1.0,
+      "serie": "90 AM",
+      "pagina": 492
+    },
+    "GW96533": {
+      "moduli": 1.0,
+      "serie": "90 AM",
+      "pagina": 492
+    },
+    "GW96534": {
+      "moduli": 1.0,
+      "serie": "90 AM",
+      "pagina": 492
+    },
+    "GW96535": {
+      "moduli": 1.0,
+      "serie": "90 AM",
+      "pagina": 492
+    },
+    "GW96536": {
+      "moduli": 1.0,
+      "serie": "90 AM",
+      "pagina": 492
+    },
+    "GW96537": {
+      "moduli": 1.0,
+      "serie": "90 AM",
+      "pagina": 492
+    },
+    "GW96538": {
+      "moduli": 1.0,
+      "serie": "90 AM",
+      "pagina": 492
+    },
+    "GW96539": {
+      "moduli": 1.0,
+      "serie": "90 AM",
+      "pagina": 492
+    },
+    "GW96540": {
+      "moduli": 1.0,
+      "serie": "90 AM",
+      "pagina": 492
+    },
+    "GW96541": {
+      "moduli": 1.0,
+      "serie": "90 AM",
+      "pagina": 492
+    },
+    "GW96542": {
+      "moduli": 1.0,
+      "serie": "90 AM",
+      "pagina": 492
+    },
+    "GW96551": {
+      "moduli": 1.0,
+      "serie": "90 AM",
+      "pagina": 493
+    },
+    "GW96552": {
+      "moduli": 1.0,
+      "serie": "90 AM",
+      "pagina": 493
+    },
+    "GW96553": {
+      "moduli": 1.0,
+      "serie": "90 AM",
+      "pagina": 493
+    },
+    "GW96554": {
+      "moduli": 1.0,
+      "serie": "90 AM",
+      "pagina": 493
+    },
+    "GW96555": {
+      "moduli": 1.0,
+      "serie": "90 AM",
+      "pagina": 493
+    },
+    "GW96556": {
+      "moduli": 1.0,
+      "serie": "90 AM",
+      "pagina": 493
+    },
+    "GW96561": {
+      "moduli": 1.0,
+      "serie": "90 AM",
+      "pagina": 510
+    },
+    "GW96562": {
+      "moduli": 1.0,
+      "serie": "90 AM",
+      "pagina": 510
+    },
+    "GW96563": {
+      "moduli": 1.0,
+      "serie": "90 AM",
+      "pagina": 510
+    },
+    "GW96564": {
+      "moduli": 1.0,
+      "serie": "90 AM",
+      "pagina": 510
+    },
+    "GW96565": {
+      "moduli": 1.0,
+      "serie": "90 AM",
+      "pagina": 510
+    },
+    "GW96566": {
+      "moduli": 1.0,
+      "serie": "90 AM",
+      "pagina": 510
+    },
+    "GW96567": {
+      "moduli": 1.0,
+      "serie": "90 AM",
+      "pagina": 510
+    },
+    "GW96568": {
+      "moduli": 1.0,
+      "serie": "90 AM",
+      "pagina": 510
+    },
+    "GW96569": {
+      "moduli": 1.0,
+      "serie": "90 AM",
+      "pagina": 510
+    },
+    "GW96570": {
+      "moduli": 1.0,
+      "serie": "90 AM",
+      "pagina": 510
+    },
+    "GW96571": {
+      "moduli": 1.0,
+      "serie": "90 AM",
+      "pagina": 510
+    },
+    "GW96581": {
+      "moduli": 1.0,
+      "serie": "90 AM",
+      "pagina": 510
+    },
+    "GW96582": {
+      "moduli": 1.0,
+      "serie": "90 AM",
+      "pagina": 510
+    },
+    "GW96583": {
+      "moduli": 1.0,
+      "serie": "90 AM",
+      "pagina": 510
+    },
+    "GW96584": {
+      "moduli": 1.0,
+      "serie": "90 AM",
+      "pagina": 510
+    },
+    "GW96585": {
+      "moduli": 1.0,
+      "serie": "90 AM",
+      "pagina": 510
+    },
+    "GW96586": {
+      "moduli": 1.0,
+      "serie": "90 AM",
+      "pagina": 510
+    },
+    "GW96587": {
+      "moduli": 1.0,
+      "serie": "90 AM",
+      "pagina": 510
+    },
+    "GW96588": {
+      "moduli": 1.0,
+      "serie": "90 AM",
+      "pagina": 510
+    },
+    "GW96589": {
+      "moduli": 1.0,
+      "serie": "90 AM",
+      "pagina": 510
+    },
+    "GW96590": {
+      "moduli": 1.0,
+      "serie": "90 AM",
+      "pagina": 510
+    },
+    "GW96591": {
+      "moduli": 1.0,
+      "serie": "90 AM",
+      "pagina": 510
+    },
+    "GW96592": {
+      "moduli": 1.0,
+      "serie": "90 AM",
+      "pagina": 510
+    },
+    "GW96598": {
+      "moduli": 1.0,
+      "serie": "90 AM",
+      "pagina": 510
+    },
+    "GW96809": {
+      "moduli": 1.0,
+      "serie": "90 AM",
+      "pagina": 503
+    },
+    "GW96814": {
+      "moduli": 1.0,
+      "serie": "90 AM",
+      "pagina": 503
+    },
+    "GW96815": {
+      "moduli": 1.0,
+      "serie": "90 AM",
+      "pagina": 503
+    },
+    "GW96856": {
+      "moduli": 3.0,
+      "serie": "90 AM",
+      "pagina": 493
+    },
+    "GW96867": {
+      "moduli": 2.0,
+      "serie": "90 AM",
+      "pagina": 507
+    },
+    "GW96872": {
+      "moduli": 3.0,
+      "serie": "90 AM",
+      "pagina": 507
+    },
+    "GW96878": {
+      "moduli": 3.0,
+      "serie": "90 AM",
+      "pagina": 507
+    },
+    "GW96879": {
+      "moduli": 2.0,
+      "serie": "90 AM",
+      "pagina": 507
+    },
+    "GW96897": {
+      "moduli": 2.0,
+      "serie": "90 AM",
+      "pagina": 509
+    },
+    "GW96899": {
+      "moduli": 4.0,
+      "serie": "90 AM",
+      "pagina": 509
+    },
+    "GW96906": {
+      "moduli": 1.0,
+      "serie": "90 AM",
+      "pagina": 499
+    },
+    "GW96907": {
+      "moduli": 1.0,
+      "serie": "90 AM",
+      "pagina": 499
+    },
+    "GW96908": {
+      "moduli": 1.0,
+      "serie": "90 AM",
+      "pagina": 499
+    },
+    "GW96909": {
+      "moduli": 1.0,
+      "serie": "90 AM",
+      "pagina": 499
+    },
+    "GW96951": {
+      "moduli": 3.0,
+      "serie": "90 AM",
+      "pagina": 493
+    },
+    "GW96952": {
+      "moduli": 3.0,
+      "serie": "90 AM",
+      "pagina": 493
+    },
+    "GW96953": {
+      "moduli": 3.0,
+      "serie": "90 AM",
+      "pagina": 493
+    },
+    "GWD4001": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 464
+    },
+    "GWD4002": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 464
+    },
+    "GWD4003": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 464
+    },
+    "GWD4004": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 464
+    },
+    "GWD4011": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 465
+    },
+    "GWD4012": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 465
+    },
+    "GWD4012MA": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 465
+    },
+    "GWD4013": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 465
+    },
+    "GWD4014": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 465
+    },
+    "GWD4022": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 464
+    },
+    "GWD4023": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 464
+    },
+    "GWD4024": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 464
+    },
+    "GWD4025": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 464
+    },
+    "GWD4032": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 465
+    },
+    "GWD4032MA": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 465
+    },
+    "GWD4033": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 465
+    },
+    "GWD4034": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 465
+    },
+    "GWD4035": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 465
+    },
+    "GWD4042": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 464
+    },
+    "GWD4043": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 464
+    },
+    "GWD4044": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 464
+    },
+    "GWD4045": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 464
+    },
+    "GWD4052": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 465
+    },
+    "GWD4052MA": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 465
+    },
+    "GWD4053": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 465
+    },
+    "GWD4054": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 465
+    },
+    "GWD4055": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 465
+    },
+    "GWD4062": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 464
+    },
+    "GWD4072": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 465
+    },
+    "GWD4102": {
+      "moduli": 4.0,
+      "serie": "90 RCD",
+      "pagina": 464
+    },
+    "GWD4103": {
+      "moduli": 4.0,
+      "serie": "90 RCD",
+      "pagina": 464
+    },
+    "GWD4104": {
+      "moduli": 4.0,
+      "serie": "90 RCD",
+      "pagina": 464
+    },
+    "GWD4111": {
+      "moduli": 4.0,
+      "serie": "90 RCD",
+      "pagina": 465
+    },
+    "GWD4112": {
+      "moduli": 4.0,
+      "serie": "90 RCD",
+      "pagina": 465
+    },
+    "GWD4113": {
+      "moduli": 4.0,
+      "serie": "90 RCD",
+      "pagina": 465
+    },
+    "GWD4114": {
+      "moduli": 4.0,
+      "serie": "90 RCD",
+      "pagina": 465
+    },
+    "GWD4122": {
+      "moduli": 4.0,
+      "serie": "90 RCD",
+      "pagina": 464
+    },
+    "GWD4123": {
+      "moduli": 4.0,
+      "serie": "90 RCD",
+      "pagina": 464
+    },
+    "GWD4124": {
+      "moduli": 4.0,
+      "serie": "90 RCD",
+      "pagina": 464
+    },
+    "GWD4125": {
+      "moduli": 4.0,
+      "serie": "90 RCD",
+      "pagina": 464
+    },
+    "GWD4132": {
+      "moduli": 4.0,
+      "serie": "90 RCD",
+      "pagina": 465
+    },
+    "GWD4133": {
+      "moduli": 4.0,
+      "serie": "90 RCD",
+      "pagina": 465
+    },
+    "GWD4134": {
+      "moduli": 4.0,
+      "serie": "90 RCD",
+      "pagina": 465
+    },
+    "GWD4135": {
+      "moduli": 4.0,
+      "serie": "90 RCD",
+      "pagina": 465
+    },
+    "GWD4142": {
+      "moduli": 4.0,
+      "serie": "90 RCD",
+      "pagina": 464
+    },
+    "GWD4143": {
+      "moduli": 4.0,
+      "serie": "90 RCD",
+      "pagina": 464
+    },
+    "GWD4144": {
+      "moduli": 4.0,
+      "serie": "90 RCD",
+      "pagina": 464
+    },
+    "GWD4145": {
+      "moduli": 4.0,
+      "serie": "90 RCD",
+      "pagina": 464
+    },
+    "GWD4152": {
+      "moduli": 4.0,
+      "serie": "90 RCD",
+      "pagina": 465
+    },
+    "GWD4153": {
+      "moduli": 4.0,
+      "serie": "90 RCD",
+      "pagina": 465
+    },
+    "GWD4154": {
+      "moduli": 4.0,
+      "serie": "90 RCD",
+      "pagina": 465
+    },
+    "GWD4155": {
+      "moduli": 4.0,
+      "serie": "90 RCD",
+      "pagina": 465
+    },
+    "GWD4202": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 466
+    },
+    "GWD4203": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 466
+    },
+    "GWD4205": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 466
+    },
+    "GWD4206": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 466
+    },
+    "GWD4208": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 466
+    },
+    "GWD4209": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 466
+    },
+    "GWD4217": {
+      "moduli": 4.0,
+      "serie": "90 RCD",
+      "pagina": 466
+    },
+    "GWD4218": {
+      "moduli": 4.0,
+      "serie": "90 RCD",
+      "pagina": 466
+    },
+    "GWD4220": {
+      "moduli": 4.0,
+      "serie": "90 RCD",
+      "pagina": 466
+    },
+    "GWD4221": {
+      "moduli": 4.0,
+      "serie": "90 RCD",
+      "pagina": 466
+    },
+    "GWD4223": {
+      "moduli": 4.0,
+      "serie": "90 RCD",
+      "pagina": 466
+    },
+    "GWD4224": {
+      "moduli": 4.0,
+      "serie": "90 RCD",
+      "pagina": 466
+    },
+    "GWD4234": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 466
+    },
+    "GWD4235": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 466
+    },
+    "GWD4237": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 466
+    },
+    "GWD4238": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 466
+    },
+    "GWD4249": {
+      "moduli": 4.0,
+      "serie": "90 RCD",
+      "pagina": 466
+    },
+    "GWD4250": {
+      "moduli": 4.0,
+      "serie": "90 RCD",
+      "pagina": 466
+    },
+    "GWD4252": {
+      "moduli": 4.0,
+      "serie": "90 RCD",
+      "pagina": 466
+    },
+    "GWD4253": {
+      "moduli": 4.0,
+      "serie": "90 RCD",
+      "pagina": 466
+    },
+    "GWD4261": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 467
+    },
+    "GWD4265": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 467
+    },
+    "GWD4269": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 467
+    },
+    "GWD4281": {
+      "moduli": 4.0,
+      "serie": "90 RCD",
+      "pagina": 467
+    },
+    "GWD4285": {
+      "moduli": 4.0,
+      "serie": "90 RCD",
+      "pagina": 467
+    },
+    "GWD4289": {
+      "moduli": 4.0,
+      "serie": "90 RCD",
+      "pagina": 467
+    },
+    "GWD4502": {
+      "moduli": 4.0,
+      "serie": "90 RCD",
+      "pagina": 467
+    },
+    "GWD4504": {
+      "moduli": 4.0,
+      "serie": "90 RCD",
+      "pagina": 467
+    },
+    "GWD4507": {
+      "moduli": 4.0,
+      "serie": "90 RCD",
+      "pagina": 467
+    },
+    "GWD4509": {
+      "moduli": 4.0,
+      "serie": "90 RCD",
+      "pagina": 467
+    },
+    "GWD4512": {
+      "moduli": 4.0,
+      "serie": "90 RCD",
+      "pagina": 467
+    },
+    "GWD4514": {
+      "moduli": 4.0,
+      "serie": "90 RCD",
+      "pagina": 467
+    },
+    "GWD4527": {
+      "moduli": 4.0,
+      "serie": "90 RCD",
+      "pagina": 467
+    },
+    "GWD4529": {
+      "moduli": 4.0,
+      "serie": "90 RCD",
+      "pagina": 467
+    },
+    "GWD4532": {
+      "moduli": 4.0,
+      "serie": "90 RCD",
+      "pagina": 467
+    },
+    "GWD4534": {
+      "moduli": 4.0,
+      "serie": "90 RCD",
+      "pagina": 467
+    },
+    "GWD4537": {
+      "moduli": 4.0,
+      "serie": "90 RCD",
+      "pagina": 467
+    },
+    "GWD4539": {
+      "moduli": 4.0,
+      "serie": "90 RCD",
+      "pagina": 467
+    },
+    "GWD4562": {
+      "moduli": 4.0,
+      "serie": "90 RCD",
+      "pagina": 466
+    },
+    "GWD4567": {
+      "moduli": 4.0,
+      "serie": "90 RCD",
+      "pagina": 466
+    },
+    "GWD4617": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 463
+    },
+    "GWD4627": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 463
+    },
+    "GWD4817": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 463
+    },
+    "GWD4827": {
+      "moduli": 2.0,
+      "serie": "90 RCD",
+      "pagina": 463
+    },
+    "GWD6002": {
+      "moduli": 0.5,
+      "serie": "90 AM",
+      "pagina": 480
+    },
+    "GWD6007": {
+      "moduli": 0.5,
+      "serie": "90 AM",
+      "pagina": 480
+    },
+    "GWD6010": {
+      "moduli": 0.5,
+      "serie": "90 AM",
+      "pagina": 480
+    },
+    "GWD6013": {
+      "moduli": 1.0,
+      "serie": "90 AM",
+      "pagina": 480
+    },
+    "GWD6015": {
+      "moduli": 1.0,
+      "serie": "90 AM",
+      "pagina": 480
+    },
+    "GWD6019": {
+      "moduli": 1.0,
+      "serie": "90 AM",
+      "pagina": 481
+    },
+    "GWD6020": {
+      "moduli": 1.0,
+      "serie": "90 AM",
+      "pagina": 481
+    },
+    "GWD6021": {
+      "moduli": 1.0,
+      "serie": "90 AM",
+      "pagina": 481
+    },
+    "GWD6401": {
+      "moduli": 2.0,
+      "serie": "90 AM",
+      "pagina": 488
+    },
+    "GWD6402": {
+      "moduli": 4.0,
+      "serie": "90 AM",
+      "pagina": 488
+    },
+    "GWD6404": {
+      "moduli": 4.0,
+      "serie": "90 AM",
+      "pagina": 488
+    },
+    "GWD6405": {
+      "moduli": 8.0,
+      "serie": "90 AM",
+      "pagina": 488
+    },
+    "GWD6407": {
+      "moduli": 2.0,
+      "serie": "90 AM",
+      "pagina": 488
+    },
+    "GWD6409": {
+      "moduli": 4.0,
+      "serie": "90 AM",
+      "pagina": 488
+    },
+    "GWD6411": {
+      "moduli": 1.0,
+      "serie": "90 AM",
+      "pagina": 488
+    },
+    "GWD6412": {
+      "moduli": 1.0,
+      "serie": "90 AM",
+      "pagina": 488
+    },
+    "GWD6413": {
+      "moduli": 1.0,
+      "serie": "90 AM",
+      "pagina": 488
+    },
+    "GWD6417": {
+      "moduli": 2.0,
+      "serie": "90 AM",
+      "pagina": 488
+    },
+    "GWD6418": {
+      "moduli": 2.0,
+      "serie": "90 AM",
+      "pagina": 488
+    },
+    "GWD6419": {
+      "moduli": 4.0,
+      "serie": "90 AM",
+      "pagina": 488
+    },
+    "GWD6420": {
+      "moduli": 4.0,
+      "serie": "90 AM",
+      "pagina": 488
+    },
+    "GWD6426": {
+      "moduli": 3.0,
+      "serie": "90 AM",
+      "pagina": 488
+    },
+    "GWD6428": {
+      "moduli": 3.0,
+      "serie": "90 AM",
+      "pagina": 488
+    },
+    "GWD6429": {
+      "moduli": 3.0,
+      "serie": "90 AM",
+      "pagina": 488
+    },
+    "GWD6430": {
+      "moduli": 1.0,
+      "serie": "90 AM",
+      "pagina": 488
+    },
+    "GWD6461": {
+      "moduli": 2.0,
+      "serie": "90 AM",
+      "pagina": 489
+    },
+    "GWD6501": {
+      "moduli": 2.5,
+      "serie": "90 AM",
+      "pagina": 486
+    },
+    "GWD6502": {
+      "moduli": 2.5,
+      "serie": "90 AM",
+      "pagina": 486
+    },
+    "GWD6503": {
+      "moduli": 2.5,
+      "serie": "90 AM",
+      "pagina": 486
+    },
+    "GWD6504": {
+      "moduli": 2.5,
+      "serie": "90 AM",
+      "pagina": 486
+    },
+    "GWD6505": {
+      "moduli": 2.5,
+      "serie": "90 AM",
+      "pagina": 486
+    },
+    "GWD6506": {
+      "moduli": 2.5,
+      "serie": "90 AM",
+      "pagina": 486
+    },
+    "GWD6507": {
+      "moduli": 2.5,
+      "serie": "90 AM",
+      "pagina": 486
+    },
+    "GWD6508": {
+      "moduli": 2.5,
+      "serie": "90 AM",
+      "pagina": 486
+    },
+    "GWD6509": {
+      "moduli": 2.5,
+      "serie": "90 AM",
+      "pagina": 486
+    },
+    "GWD6510": {
+      "moduli": 2.5,
+      "serie": "90 AM",
+      "pagina": 486
+    },
+    "GWD6511": {
+      "moduli": 2.5,
+      "serie": "90 AM",
+      "pagina": 486
+    },
+    "GWD6512": {
+      "moduli": 2.5,
+      "serie": "90 AM",
+      "pagina": 486
+    },
+    "GWD6513": {
+      "moduli": 2.5,
+      "serie": "90 AM",
+      "pagina": 486
+    },
+    "GWD6514": {
+      "moduli": 2.5,
+      "serie": "90 AM",
+      "pagina": 486
+    },
+    "GWD6515": {
+      "moduli": 2.5,
+      "serie": "90 AM",
+      "pagina": 486
+    },
+    "GWD6516": {
+      "moduli": 0.5,
+      "serie": "90 AM",
+      "pagina": 487
+    },
+    "GWD6517": {
+      "moduli": 1.0,
+      "serie": "90 AM",
+      "pagina": 487
+    },
+    "GWD6518": {
+      "moduli": 1.0,
+      "serie": "90 AM",
+      "pagina": 487
+    },
+    "GWD6519": {
+      "moduli": 1.0,
+      "serie": "90 AM",
+      "pagina": 487
+    },
+    "GWD6520": {
+      "moduli": 1.0,
+      "serie": "90 AM",
+      "pagina": 487
+    },
+    "GWD6601": {
+      "moduli": 1.0,
+      "serie": "90 AM",
+      "pagina": 495
+    },
+    "GWD6602": {
+      "moduli": 1.0,
+      "serie": "90 AM",
+      "pagina": 495
+    },
+    "GWD6603": {
+      "moduli": 1.0,
+      "serie": "90 AM",
+      "pagina": 495
+    },
+    "GWD6604": {
+      "moduli": 1.0,
+      "serie": "90 AM",
+      "pagina": 495
+    },
+    "GWD6606": {
+      "moduli": 1.0,
+      "serie": "90 AM",
+      "pagina": 495
+    },
+    "GWD6608": {
+      "moduli": 1.0,
+      "serie": "90 AM",
+      "pagina": 495
+    },
+    "GWD6610": {
+      "moduli": 1.0,
+      "serie": "90 AM",
+      "pagina": 495
+    },
+    "GWD6611": {
+      "moduli": 1.0,
+      "serie": "90 AM",
+      "pagina": 495
+    },
+    "GWD6617": {
+      "moduli": 1.0,
+      "serie": "90 AM",
+      "pagina": 495
+    },
+    "GWD6618": {
+      "moduli": 1.0,
+      "serie": "90 AM",
+      "pagina": 495
+    },
+    "GWD6619": {
+      "moduli": 1.0,
+      "serie": "90 AM",
+      "pagina": 495
+    },
+    "GWD6624": {
+      "moduli": 1.0,
+      "serie": "90 AM",
+      "pagina": 495
+    },
+    "GWD6626": {
+      "moduli": 2.0,
+      "serie": "90 AM",
+      "pagina": 495
+    },
+    "GWD6627": {
+      "moduli": 2.0,
+      "serie": "90 AM",
+      "pagina": 495
+    },
+    "GWD6629": {
+      "moduli": 2.0,
+      "serie": "90 AM",
+      "pagina": 495
+    },
+    "GWD6630": {
+      "moduli": 2.0,
+      "serie": "90 AM",
+      "pagina": 495
+    },
+    "GWD6632": {
+      "moduli": 2.0,
+      "serie": "90 AM",
+      "pagina": 495
+    },
+    "GWD6633": {
+      "moduli": 2.0,
+      "serie": "90 AM",
+      "pagina": 495
+    },
+    "GWD6634": {
+      "moduli": 2.0,
+      "serie": "90 AM",
+      "pagina": 495
+    },
+    "GWD6641": {
+      "moduli": 1.0,
+      "serie": "90 AM",
+      "pagina": 497
+    },
+    "GWD6642": {
+      "moduli": 1.0,
+      "serie": "90 AM",
+      "pagina": 497
+    },
+    "GWD6643": {
+      "moduli": 1.0,
+      "serie": "90 AM",
+      "pagina": 497
+    },
+    "GWD6644": {
+      "moduli": 1.0,
+      "serie": "90 AM",
+      "pagina": 497
+    },
+    "GWD6646": {
+      "moduli": 1.0,
+      "serie": "90 AM",
+      "pagina": 497
+    },
+    "GWD6647": {
+      "moduli": 1.0,
+      "serie": "90 AM",
+      "pagina": 497
+    },
+    "GWD6648": {
+      "moduli": 1.0,
+      "serie": "90 AM",
+      "pagina": 497
+    },
+    "GWD6649": {
+      "moduli": 1.0,
+      "serie": "90 AM",
+      "pagina": 497
+    },
+    "GWD6650": {
+      "moduli": 1.0,
+      "serie": "90 AM",
+      "pagina": 497
+    },
+    "GWD6652": {
+      "moduli": 1.0,
+      "serie": "90 AM",
+      "pagina": 497
+    },
+    "GWD6653": {
+      "moduli": 1.0,
+      "serie": "90 AM",
+      "pagina": 497
+    },
+    "GWD6654": {
+      "moduli": 1.0,
+      "serie": "90 AM",
+      "pagina": 497
+    },
+    "GWD6657": {
+      "moduli": 1.0,
+      "serie": "90 AM",
+      "pagina": 497
+    },
+    "GWD6658": {
+      "moduli": 1.0,
+      "serie": "90 AM",
+      "pagina": 497
+    },
+    "GWD6659": {
+      "moduli": 1.0,
+      "serie": "90 AM",
+      "pagina": 497
+    },
+    "GWD6663": {
+      "moduli": 2.0,
+      "serie": "90 AM",
+      "pagina": 497
+    },
+    "GWD6664": {
+      "moduli": 2.0,
+      "serie": "90 AM",
+      "pagina": 497
+    },
+    "GWD6667": {
+      "moduli": 2.0,
+      "serie": "90 AM",
+      "pagina": 497
+    },
+    "GWD6668": {
+      "moduli": 2.0,
+      "serie": "90 AM",
+      "pagina": 497
+    },
+    "GWD6669": {
+      "moduli": 2.0,
+      "serie": "90 AM",
+      "pagina": 497
+    },
+    "GWD6671": {
+      "moduli": 0.5,
+      "serie": "90 AM",
+      "pagina": 498
+    },
+    "GWD6672": {
+      "moduli": 0.5,
+      "serie": "90 AM",
+      "pagina": 498
+    },
+    "GWD6676": {
+      "moduli": 0.5,
+      "serie": "90 AM",
+      "pagina": 498
+    },
+    "GWD6677": {
+      "moduli": 0.5,
+      "serie": "90 AM",
+      "pagina": 498
+    },
+    "GWD6678": {
+      "moduli": 0.5,
+      "serie": "90 AM",
+      "pagina": 498
+    },
+    "GWD6701": {
+      "moduli": 1.0,
+      "serie": "90 AM",
+      "pagina": 494
+    },
+    "GWD6702": {
+      "moduli": 1.0,
+      "serie": "90 AM",
+      "pagina": 494
+    },
+    "GWD6703": {
+      "moduli": 1.0,
+      "serie": "90 AM",
+      "pagina": 494
+    },
+    "GWD6705": {
+      "moduli": 1.0,
+      "serie": "90 AM",
+      "pagina": 494
+    },
+    "GWD6706": {
+      "moduli": 1.0,
+      "serie": "90 AM",
+      "pagina": 494
+    },
+    "GWD6707": {
+      "moduli": 1.0,
+      "serie": "90 AM",
+      "pagina": 494
+    },
+    "GWD6708": {
+      "moduli": 2.0,
+      "serie": "90 AM",
+      "pagina": 494
+    },
+    "GWD6709": {
+      "moduli": 2.0,
+      "serie": "90 AM",
+      "pagina": 494
+    },
+    "GWD6711": {
+      "moduli": 2.0,
+      "serie": "90 AM",
+      "pagina": 494
+    },
+    "GWD6712": {
+      "moduli": 2.0,
+      "serie": "90 AM",
+      "pagina": 494
+    },
+    "GWD6713": {
+      "moduli": 2.0,
+      "serie": "90 AM",
+      "pagina": 494
+    },
+    "GWD6714": {
+      "moduli": 2.0,
+      "serie": "90 AM",
+      "pagina": 494
+    },
+    "GWD6715": {
+      "moduli": 2.0,
+      "serie": "90 AM",
+      "pagina": 494
+    },
+    "GWD6716": {
+      "moduli": 2.0,
+      "serie": "90 AM",
+      "pagina": 494
+    },
+    "GWD6717": {
+      "moduli": 2.0,
+      "serie": "90 AM",
+      "pagina": 494
+    },
+    "GWD6718": {
+      "moduli": 2.0,
+      "serie": "90 AM",
+      "pagina": 494
+    },
+    "GWD6721": {
+      "moduli": 3.0,
+      "serie": "90 AM",
+      "pagina": 494
+    },
+    "GWD6722": {
+      "moduli": 3.0,
+      "serie": "90 AM",
+      "pagina": 494
+    },
+    "GWD6723": {
+      "moduli": 3.0,
+      "serie": "90 AM",
+      "pagina": 494
+    },
+    "GWD6724": {
+      "moduli": 3.0,
+      "serie": "90 AM",
+      "pagina": 494
+    },
+    "GWD6725": {
+      "moduli": 3.0,
+      "serie": "90 AM",
+      "pagina": 494
+    },
+    "GWD6726": {
+      "moduli": 3.0,
+      "serie": "90 AM",
+      "pagina": 494
+    },
+    "GWD6731": {
+      "moduli": 3.0,
+      "serie": "90 AM",
+      "pagina": 494
+    },
+    "GWD6732": {
+      "moduli": 3.0,
+      "serie": "90 AM",
+      "pagina": 494
+    },
+    "GWD6733": {
+      "moduli": 3.0,
+      "serie": "90 AM",
+      "pagina": 494
+    },
+    "GWD6734": {
+      "moduli": 3.0,
+      "serie": "90 AM",
+      "pagina": 494
+    },
+    "GWD6735": {
+      "moduli": 3.0,
+      "serie": "90 AM",
+      "pagina": 494
+    },
+    "GWD6736": {
+      "moduli": 3.0,
+      "serie": "90 AM",
+      "pagina": 494
+    },
+    "GWD6741": {
+      "moduli": 1.0,
+      "serie": "90 AM",
+      "pagina": 494
+    },
+    "GWD6742": {
+      "moduli": 1.0,
+      "serie": "90 AM",
+      "pagina": 494
+    },
+    "GWD6743": {
+      "moduli": 1.0,
+      "serie": "90 AM",
+      "pagina": 494
+    },
+    "GWD6744": {
+      "moduli": 1.0,
+      "serie": "90 AM",
+      "pagina": 494
+    },
+    "GWD6751": {
+      "moduli": 2.0,
+      "serie": "90 AM",
+      "pagina": 494
+    },
+    "GWD6752": {
+      "moduli": 2.0,
+      "serie": "90 AM",
+      "pagina": 494
+    },
+    "GWD6753": {
+      "moduli": 2.0,
+      "serie": "90 AM",
+      "pagina": 494
+    },
+    "GWD6754": {
+      "moduli": 2.0,
+      "serie": "90 AM",
+      "pagina": 494
+    },
+    "GWD6755": {
+      "moduli": 2.0,
+      "serie": "90 AM",
+      "pagina": 494
+    },
+    "GWD6761": {
+      "moduli": 0.5,
+      "serie": "90 AM",
+      "pagina": 496
+    },
+    "GWD6762": {
+      "moduli": 0.5,
+      "serie": "90 AM",
+      "pagina": 496
+    },
+    "GWD6766": {
+      "moduli": 0.5,
+      "serie": "90 AM",
+      "pagina": 482
+    },
+    "GWD6771": {
+      "moduli": 1.0,
+      "serie": "90 AM",
+      "pagina": 504
+    },
+    "GWD6772": {
+      "moduli": 1.0,
+      "serie": "90 AM",
+      "pagina": 504
+    },
+    "GWD6773": {
+      "moduli": 2.0,
+      "serie": "90 AM",
+      "pagina": 504
+    },
+    "GWD6776": {
+      "moduli": 2.5,
+      "serie": "90 AM",
+      "pagina": 504
+    },
+    "GWD6779": {
+      "moduli": 1.0,
+      "serie": "90 AM",
+      "pagina": 505
+    },
+    "GWD6781": {
+      "moduli": 1.0,
+      "serie": "90 AM",
+      "pagina": 505
+    },
+    "GWD6782": {
+      "moduli": 2.0,
+      "serie": "90 AM",
+      "pagina": 505
+    },
+    "GWD6783": {
+      "moduli": 2.0,
+      "serie": "90 AM",
+      "pagina": 505
+    },
+    "GWD6785": {
+      "moduli": 2.0,
+      "serie": "90 AM",
+      "pagina": 506
+    },
+    "GWD6786": {
+      "moduli": 2.0,
+      "serie": "90 AM",
+      "pagina": 506
+    },
+    "GWD6788": {
+      "moduli": 2.0,
+      "serie": "90 AM",
+      "pagina": 506
+    },
+    "GWD6789": {
+      "moduli": 2.0,
+      "serie": "90 AM",
+      "pagina": 506
+    },
+    "GWD6801": {
+      "moduli": 1.0,
+      "serie": "90 AM",
+      "pagina": 508
+    },
+    "GWD6802": {
+      "moduli": 1.0,
+      "serie": "90 AM",
+      "pagina": 508
+    },
+    "GWD6803": {
+      "moduli": 1.0,
+      "serie": "90 AM",
+      "pagina": 508
+    },
+    "GWD6820": {
+      "moduli": 1.0,
+      "serie": "90 AM",
+      "pagina": 508
+    },
+    "GWD6821": {
+      "moduli": 1.0,
+      "serie": "90 AM",
+      "pagina": 508
+    },
+    "GWD6911": {
+      "moduli": 2.0,
+      "serie": "90 AM",
+      "pagina": 509
+    },
+    "GWD6916": {
+      "moduli": 2.0,
+      "serie": "90 AM",
+      "pagina": 500
+    }
+  }
+}

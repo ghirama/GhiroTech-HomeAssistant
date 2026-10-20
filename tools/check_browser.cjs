@@ -416,6 +416,7 @@ const {execFileSync}=require('node:child_process');
   await page.getByRole('button',{name:'Inserisci fila 2 posizione 4',exact:true}).click();
   assert.deepEqual(await page.evaluate(()=>{const c=qePanels()[0].componenti[0];return [c.codice,c.moduli,c.fila,c.posizione]}),['GEWISS:TESTMCB',1,2,4]);
   await page.getByRole('button',{name:'Scegli componente Gewiss',exact:true}).click();
+  await page.getByRole('button',{name:'Azzera filtri',exact:true}).click();
   await page.getByLabel('Cerca articolo Gewiss',{exact:true}).fill('TESTHALF');
   await page.getByRole('button',{name:'Scegli GEWISS:TESTHALF',exact:true}).click();
   assert.equal(await page.evaluate(()=>qePanels()[0].ingombro),1);
@@ -478,6 +479,37 @@ const {execFileSync}=require('node:child_process');
   assert.ok((await page.locator('#printRows').textContent()).includes('Manodopera'));
   await page.evaluate(()=>show('configuratore'));
   await page.locator('#apartmentCosts').screenshot({path:'browser-artifacts/costi-appartamento.png'});
+  // Catalogue dimensions, guided filters and exact SKU persistence (synthetic prices).
+  await page.evaluate(async()=>{await api('listino/import',{fonte:'GEWISS',edizione:'Guided catalogue fixture',voci:[
+   {codice:'GW40007',descrizione:'CENTRALINO PAR.24M.(12X2) IP55',unita:'cad',prezzo:100},
+   {codice:'GW90007',descrizione:'INT.MAGNET.COMPATTO 1P C16 4,5KA 1M',unita:'cad',prezzo:12},
+   {codice:'GW90008',descrizione:'INT.MAGNET.COMPATTO 1P C20 4,5KA 1M',unita:'cad',prezzo:13},
+   {codice:'GW96104',descrizione:'INTER.MANOVRA-SEZIONATORE 1P 32A',unita:'cad',prezzo:10}
+  ]});await newConfig();show('configuratore');qeAdd()});
+  await page.getByRole('button',{name:'Scegli contenitore Gewiss',exact:true}).click();
+  await page.getByLabel('Cerca articolo Gewiss',{exact:true}).fill('GW40007');
+  await page.getByRole('button',{name:'Scegli GEWISS:GW40007',exact:true}).click();
+  assert.deepEqual(await page.evaluate(()=>{const p=qePanels()[0];return [p.larghezza,p.altezza,p.profondita,p.file,p.perFila]}),[250,375,135,2,12]);
+  await page.getByRole('button',{name:'Scegli componente Gewiss',exact:true}).click();
+  await Promise.all([page.waitForResponse(r=>r.url().includes('listino/quadri?')&&new URL(r.url()).searchParams.get('serie')==='90 MCB'),page.getByLabel('Serie catalogo',{exact:true}).selectOption('90 MCB')]);
+  await page.waitForFunction(()=>!$('qeCatalogStatus').textContent.includes('Ricerca'));
+  await Promise.all([page.waitForResponse(r=>r.url().includes('listino/quadri?')&&new URL(r.url()).searchParams.get('corrente')==='16'),page.getByLabel('Corrente nominale (A)',{exact:true}).selectOption('16')]);
+  await page.waitForFunction(()=>!$('qeCatalogStatus').textContent.includes('Ricerca'));
+  assert.equal(await page.evaluate(()=>qePicker.filters.corrente),'16');
+  await page.getByRole('button',{name:'Scegli GEWISS:GW90007',exact:true}).waitFor();
+  assert.equal(await page.getByRole('button',{name:'Scegli GEWISS:GW90008',exact:true}).count(),0);
+  await page.locator('#qeCatalogDialog').screenshot({path:'browser-artifacts/gewiss-guidato.png'});
+  await page.getByRole('button',{name:'Scegli GEWISS:GW90007',exact:true}).click();
+  await page.getByRole('button',{name:'Inserisci fila 1 posizione 6',exact:true}).click();
+  await page.getByLabel('Componente da inserire',{exact:true}).selectOption('Sezionatore');
+  await page.getByRole('button',{name:'Scegli componente Gewiss',exact:true}).click();
+  await page.getByRole('button',{name:'Scegli GEWISS:GW96104',exact:true}).click();
+  await page.getByRole('button',{name:'Inserisci fila 2 posizione 3',exact:true}).click();
+  const guidedConfig=await page.evaluate(async()=>{await saveConfig();return cfgId});
+  await page.reload();await page.evaluate(async id=>{await loadConfigs();await openConfig(id);show('configuratore')},guidedConfig);
+  assert.deepEqual(await page.evaluate(()=>{const p=qePanels()[0];return [p.codice,p.larghezza,p.componenti.find(c=>c.codice==='GEWISS:GW96104').moduli]}),['GEWISS:GW40007',250,1]);
+  await page.evaluate(async()=>await gcQuote());
+  assert.equal(await page.evaluate(()=>lines.find(l=>l.codice==='GEWISS:GW90007').prezzo),12);
   assert.deepEqual(errors,[]);
   console.log('PASS: browser interactions, apartment/common-area persistence, independent copies, box notes, quote totals, tablet layout, multipage print and per-apartment PDFs');
  }finally{if(browser)await browser.close();server.kill()}
