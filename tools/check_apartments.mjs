@@ -111,3 +111,12 @@ assert.equal(main.run("lines.some(l=>l.codice.startsWith('CIV-'))"),false);
 for(const prefix of ['SCAT-','FR-','DER-','QE'])assert.ok(main.run(`lines.some(l=>l.codice.startsWith('${prefix}'))`));
 const imported=main.run('JSON.stringify(lines)');main.run('gcQuote();toQuote()');assert.equal(main.run('JSON.stringify(lines)'),imported);
 main.run("lines[0].prezzo=123;editingQuoteId=99;confirm=()=>false;gcQuote()");assert.equal(main.run('lines[0].prezzo'),123);assert.equal(main.run('editingQuoteId'),99);
+
+// Additional per-apartment lines: absent on legacy data, only positive quantities, independent copies.
+main.run("cfgAutoReset();newConfig();apartmentCostSet('cavi','quantita',100);apartmentCostSet('cavi','prezzo',2);apartmentCostSet('manodopera','quantita',10);apartmentCostSet('manodopera','prezzo',30);duplicateApartment();apartmentCostSet('cavi','quantita',20)");
+assert.equal(main.run('apartments[1].costi_impianto.cavi.quantita'),100);
+assert.equal(main.run('apartmentCostLines(apartments[0]).length'),2);
+main.run("apartmentCostSet('cavi','quantita',-1)");assert.equal(main.run('apartments[0].costi_impianto.cavi.quantita'),20);
+main.run("lines=apartments.flatMap(a=>apartmentCostLines(a));$('discount').value='10';$('markup').value='0';render();cfgAutoReset()");
+assert.equal(main.run('calc().cost'),816);
+assert.equal(main.run('configSummaryData().appartamenti[0].costi_impianto.length'),2);

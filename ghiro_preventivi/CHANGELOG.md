@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.9.42
+
+- Cavi, tubazioni e manodopera per ogni appartamento e per le Parti comuni: quantità, unità, costo unitario, descrizione e totale.
+- Salvataggio automatico e duplicazione indipendente delle voci. Trasferimento nel preventivo, nella stampa e nei fogli Excel dell'appartamento; quantità anche nel riepilogo impianto PDF.
+- Le quantità a zero sono escluse. I costi manuali restano invariati durante l'aggiornamento del listino; lo sconto materiali non si applica alla manodopera.
+
 ## 0.9.41
 
 - Modelli di quadro: salvataggio persistente, rinomina, eliminazione e inserimento indipendente in qualsiasi progetto, conservando dimensioni, componenti, posizioni, codici e note.

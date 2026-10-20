@@ -8,11 +8,11 @@ def sample():
 
 class SummaryPDFTest(unittest.TestCase):
     def test_full_summary_and_long_rows(self):
-        data=sample();data['appartamenti'][0]['stanze'][0]['scatole'][0]['note']='Nota estesa. '*1800+'FINE NOTA'
+        data=sample();data['appartamenti'][1]['costi_impianto']=[{'descrizione':'Manodopera posa tubazioni','quantita':12.5,'unita':'h'}];data['appartamenti'][0]['stanze'][0]['scatole'][0]['note']='Nota estesa. '*1800+'FINE NOTA'
         with tempfile.TemporaryDirectory() as folder:
             file=pathlib.Path(folder)/'report.pdf';file.write_bytes(build_summary(data,ROOT/'logo.jpg'))
             text=subprocess.check_output(['pdftotext',str(file),'-'],text=True)
-            for expected in ['Appartamento 1','Parti comuni','Presa Schuko','ART-001','FINE NOTA','GHIRARDELLI MARCO','Pagina']:
+            for expected in ['Appartamento 1','Parti comuni','Presa Schuko','ART-001','FINE NOTA','GHIRARDELLI MARCO','Pagina','Manodopera posa tubazioni','12.5']:
                 self.assertIn(expected,text)
             self.assertGreater(text.count('\f'),3)
 if __name__=='__main__':unittest.main()
