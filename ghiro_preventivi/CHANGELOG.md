@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.9.45
+
+- Nuovo pulsante Scarica PDF cliente: logo e colori aziendali, riepilogo appartamenti in una o due pagine, seguito dal dettaglio per stanza.
+- Un solo totale di vendita per scatola e quadro, senza prezzi dei singoli componenti né costi, sconti o ricarichi interni. Totali e IVA coerenti con il preventivo.
+- Identità delle scatole conservata anche dopo salvataggio e riapertura; recupero dei preventivi precedenti quando identificabili, altrimenti richiesta esplicita di reimportazione.
+
 ## 0.9.44
 
 - Excel: voci raggruppate per stanza dentro ogni foglio appartamento, con intestazione e subtotale per stanza. Quadri, cavi, tubazioni e manodopera senza stanza restano nelle sezioni generali successive.

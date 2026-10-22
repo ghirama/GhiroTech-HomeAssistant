@@ -134,6 +134,19 @@ class SavingTest(unittest.TestCase):
         self.assertEqual(self.request('/api/preventivi/excel',payload,origin='https://invalid.example')[0],403)
         self.assertEqual(self.request('/api/preventivi/excel',{'righe':[]})[0],400)
 
+    def test_client_pdf_download_and_origin(self):
+        payload={'titolo':'Bozza cliente','righe':[{'descrizione':'Fornitura','quantita':2,'prezzo':15}]}
+        connection=http.client.HTTPConnection(self.host)
+        connection.request('POST','/api/preventivi/cliente-pdf',json.dumps(payload),{'Content-Type':'application/json','Origin':'http://'+self.host})
+        response=connection.getresponse()
+        self.assertEqual(response.status,200)
+        self.assertIn('application/pdf',response.getheader('Content-Type'))
+        self.assertTrue(response.read().startswith(b'%PDF-'))
+        connection.close()
+        self.assertEqual(self.request('/api/preventivi')[1],[])
+        self.assertEqual(self.request('/api/preventivi/cliente-pdf',payload,origin='https://invalid.example')[0],403)
+        self.assertEqual(self.request('/api/preventivi/cliente-pdf',{'righe':[]})[0],400)
+
     def test_box_presets_persist_and_validate(self):
         data={'nome':'Termostato','serie':'Vimar Arké','scatola':{'moduli':3,'frutti':[None,'termostato2'],'note':'A lato letto'}}
         status,saved=self.request('/api/scatole-preimpostate',data);self.assertEqual(status,200)
@@ -180,7 +193,8 @@ class SavingTest(unittest.TestCase):
         # Older callers omitting the new field must not erase apartment metadata.
         status,_=self.request('/api/configurazioni',{'id':project['id'],'titolo':'Aggiornato','stanze':rooms})
         self.assertEqual(status,200)
-        rows=[{'appartamento':a['nome'],'stanza':'Ingresso','descrizione':'Ingresso - presa','quantita':2,'prezzo':12.50} for a in apartments]
+        group={'id':'box1','nome':'Scatola 1','tipo':'scatola','descrizione':'3 moduli'}
+        rows=[{'gruppo_cliente':group,'appartamento':a['nome'],'stanza':'Ingresso','descrizione':'Ingresso - presa','quantita':2,'prezzo':12.50} for a in apartments]
         status,quote=self.request('/api/preventivi',{'titolo':'Tre zone','righe':rows})
         self.assertEqual(status,200)
         self.stop_server();self.scope=load_app(self.folder);self.start_server()
@@ -191,6 +205,7 @@ class SavingTest(unittest.TestCase):
         self.assertEqual([r['appartamento'] for r in result],[a['nome'] for a in apartments])
         self.assertEqual(sum(r['quantita']*r['prezzo'] for r in result),75)
         self.assertEqual([r['stanza'] for r in result],['Ingresso']*3)
+        self.assertEqual([json.loads(r['gruppo_cliente']) for r in result],[group]*3)
         status,_=self.request('/api/configurazioni',{'appartamenti':apartments+[apartments[0]],'stanze':rooms})
         self.assertEqual(status,400)
 
