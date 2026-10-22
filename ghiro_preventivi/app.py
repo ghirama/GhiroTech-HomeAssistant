@@ -31,7 +31,7 @@ def init():
  CREATE TABLE IF NOT EXISTS admin_login(id INTEGER PRIMARY KEY CHECK(id=1),username TEXT NOT NULL,password_hash TEXT NOT NULL);
  CREATE TABLE IF NOT EXISTS auth_sessions(token_hash TEXT PRIMARY KEY,expires INTEGER NOT NULL);
  ''')
- for tab,col,typ in [('preventivi','cliente_id','INTEGER'),('preventivi','sconto_materiale','REAL DEFAULT 0'),('righe','quota_materiale','REAL DEFAULT 0'),('righe','appartamento',"TEXT DEFAULT ''"),('righe','associazione',"TEXT DEFAULT ''"),('righe','stanza','TEXT DEFAULT NULL'),('configurazioni_civili','materiali_json',"TEXT DEFAULT 'null'"),('configurazioni_civili','descrizione',"TEXT DEFAULT ''"),('configurazioni_civili','appartamenti_json',"TEXT DEFAULT '[]'")]:
+ for tab,col,typ in [('preventivi','cliente_id','INTEGER'),('preventivi','sconto_materiale','REAL DEFAULT 0'),('righe','quota_materiale','REAL DEFAULT 0'),('righe','appartamento',"TEXT DEFAULT ''"),('righe','associazione',"TEXT DEFAULT ''"),('righe','stanza','TEXT DEFAULT NULL'),('righe','gruppo_cliente','TEXT DEFAULT NULL'),('configurazioni_civili','materiali_json',"TEXT DEFAULT 'null'"),('configurazioni_civili','descrizione',"TEXT DEFAULT ''"),('configurazioni_civili','appartamenti_json',"TEXT DEFAULT '[]'")]:
   if col not in [x[1] for x in c.execute('PRAGMA table_info('+tab+')')]:c.execute('ALTER TABLE '+tab+' ADD COLUMN '+col+' '+typ)
  c.execute("UPDATE scatole_preimpostate SET serie='' WHERE serie<>''")
  initialize_catalog(c)
@@ -116,6 +116,11 @@ class H(BaseHTTPRequestHandler):
   try:
    if path.startswith('/api/auth/'):return self.send({'errore':'non trovato'},404)
    if not self.same_origin():return self.send({'errore':'Origine non valida'},403)
+   if path=='/api/preventivi/cliente-pdf':
+    length=int(self.headers.get('Content-Length','0'))
+    if not 0<length<=5*1024*1024:return self.send({'errore':'Preventivo troppo grande'},413)
+    from pdf_client_quote import build_client_quote
+    b=build_client_quote(self.body(),BASE/'logo.jpg');self.send_response(200);self.send_header('Content-Type','application/pdf');self.send_header('Content-Disposition','attachment; filename="Preventivo_cliente_GhiroTech.pdf"');self.send_header('Content-Length',str(len(b)));self.end_headers();self.wfile.write(b);return
    if path=='/api/preventivi/excel':
     length=int(self.headers.get('Content-Length','0'))
     if not 0<length<=5*1024*1024:return self.send({'errore':'Preventivo troppo grande'},413)
@@ -237,7 +242,7 @@ class H(BaseHTTPRequestHandler):
     for r in rows:
      material=number(r.get('quota_materiale',0))
      if material>100:raise ValueError('Quota materiale oltre 100%')
-     vals.append((str(r.get('codice','')),str(r.get('descrizione','')),str(r.get('unita','')),number(r.get('quantita',1)),number(r.get('prezzo',0)),material,str(r.get('appartamento','')),json.dumps(r.get('associazione') or None,ensure_ascii=False),None if r.get('stanza') is None else str(r['stanza'])))
+     vals.append((str(r.get('codice','')),str(r.get('descrizione','')),str(r.get('unita','')),number(r.get('quantita',1)),number(r.get('prezzo',0)),material,str(r.get('appartamento','')),json.dumps(r.get('associazione') or None,ensure_ascii=False),None if r.get('stanza') is None else str(r['stanza']),json.dumps(r.get('gruppo_cliente'),ensure_ascii=False) if not isinstance(r.get('gruppo_cliente'),str) else r['gruppo_cliente']))
     discount=number(d.get('sconto_materiale',0))
     if discount>100:raise ValueError('Sconto oltre 100%')
     args=(str(d.get('cliente','')),str(d.get('titolo','')),number(d.get('ricarico',0)),number(d.get('iva',22)),d.get('cliente_id') or None,discount)
@@ -247,7 +252,7 @@ class H(BaseHTTPRequestHandler):
      c.execute('UPDATE preventivi SET cliente=?,titolo=?,ricarico=?,iva=?,cliente_id=?,sconto_materiale=? WHERE id=?',args+(pid,))
      c.execute('DELETE FROM righe WHERE preventivo_id=?',(pid,))
     else:pid=c.execute('INSERT INTO preventivi(cliente,titolo,ricarico,iva,cliente_id,sconto_materiale) VALUES(?,?,?,?,?,?)',args).lastrowid
-    c.executemany('INSERT INTO righe(preventivo_id,codice,descrizione,unita,quantita,prezzo,quota_materiale,appartamento,associazione,stanza) VALUES(?,?,?,?,?,?,?,?,?,?)',[(pid,)+r for r in vals])
+    c.executemany('INSERT INTO righe(preventivo_id,codice,descrizione,unita,quantita,prezzo,quota_materiale,appartamento,associazione,stanza,gruppo_cliente) VALUES(?,?,?,?,?,?,?,?,?,?,?)',[(pid,)+r for r in vals])
     c.commit();return self.send({'id':pid})
    elif path in ('/api/clienti','/api/lavori','/api/pratiche'):
     t=path.split('/')[-1];cols={'clienti':['nome','telefono','email','indirizzo','note'],'lavori':['cliente_id','titolo','tipo','stato','note'],'pratiche':['cliente_id','lavoro_id','titolo','stato','scadenza','note']}[t]

@@ -514,6 +514,13 @@ const {execFileSync}=require('node:child_process');
   await page.getByLabel('Stanza della voce',{exact:true}).first().blur();
   await page.evaluate(async()=>{await refresh();$('quoteClient').value=clients[0].id;await saveQuote();await openEditableQuote(editingQuoteId)});
   assert.equal(await page.getByLabel('Stanza della voce',{exact:true}).first().inputValue(),'Locale tecnico');
+  assert.ok(await page.evaluate(()=>lines.every(l=>{const g=typeof l.gruppo_cliente==='string'?JSON.parse(l.gruppo_cliente):l.gruppo_cliente;return g&&g.tipo==='quadro'})));
+  const clientPdfDownload=page.waitForEvent('download');
+  await page.getByRole('button',{name:'Scarica PDF cliente',exact:true}).click();
+  const clientPdf=await clientPdfDownload;
+  assert.ok(clientPdf.suggestedFilename().endsWith('.pdf'));
+  await clientPdf.saveAs('browser-artifacts/preventivo-cliente.pdf');
+  assert.ok(require('fs').readFileSync('browser-artifacts/preventivo-cliente.pdf').subarray(0,5).equals(Buffer.from('%PDF-')));
   assert.deepEqual(errors,[]);
   console.log('PASS: browser interactions, apartment/common-area persistence, independent copies, box notes, quote totals, tablet layout, multipage print and per-apartment PDFs');
  }finally{if(browser)await browser.close();server.kill()}
