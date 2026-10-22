@@ -180,7 +180,7 @@ class SavingTest(unittest.TestCase):
         # Older callers omitting the new field must not erase apartment metadata.
         status,_=self.request('/api/configurazioni',{'id':project['id'],'titolo':'Aggiornato','stanze':rooms})
         self.assertEqual(status,200)
-        rows=[{'appartamento':a['nome'],'descrizione':'Ingresso - presa','quantita':2,'prezzo':12.50} for a in apartments]
+        rows=[{'appartamento':a['nome'],'stanza':'Ingresso','descrizione':'Ingresso - presa','quantita':2,'prezzo':12.50} for a in apartments]
         status,quote=self.request('/api/preventivi',{'titolo':'Tre zone','righe':rows})
         self.assertEqual(status,200)
         self.stop_server();self.scope=load_app(self.folder);self.start_server()
@@ -190,6 +190,7 @@ class SavingTest(unittest.TestCase):
         result=self.request('/api/preventivi/'+str(quote['id']))[1]['righe']
         self.assertEqual([r['appartamento'] for r in result],[a['nome'] for a in apartments])
         self.assertEqual(sum(r['quantita']*r['prezzo'] for r in result),75)
+        self.assertEqual([r['stanza'] for r in result],['Ingresso']*3)
         status,_=self.request('/api/configurazioni',{'appartamenti':apartments+[apartments[0]],'stanze':rooms})
         self.assertEqual(status,400)
 

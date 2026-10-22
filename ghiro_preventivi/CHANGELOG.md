@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.9.44
+
+- Excel: voci raggruppate per stanza dentro ogni foglio appartamento, con intestazione e subtotale per stanza. Quadri, cavi, tubazioni e manodopera senza stanza restano nelle sezioni generali successive.
+- La stanza accompagna scatole, frutti e derivazioni dal configuratore al preventivo e viene conservata nel salvataggio. Campo Stanza modificabile anche sulle voci inserite a mano.
+- Compatibilità con i preventivi precedenti: recupero del nome stanza dai prefissi delle descrizioni generate dal configuratore quando manca il nuovo campo. Totali, formule, logo e colori conservati.
+
 ## 0.9.43
 
 - Scelta guidata Gewiss nei quadri: filtri per tipo, serie, moduli, poli, corrente, curva, potere di interruzione, tipo differenziale e sensibilità; per i contenitori anche installazione e IP.
