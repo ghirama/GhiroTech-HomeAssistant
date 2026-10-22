@@ -261,6 +261,43 @@ def section(line):
 SECTION_ORDER = ['Scatole e componenti', 'Scatole di derivazione', 'Quadri elettrici', 'Altre forniture e lavorazioni', 'Cavi e tubazioni', 'Manodopera']
 
 
+def room_name(line):
+    # Explicit blanks allow the user to remove an assignment. Old quotes have
+    # NULL/missing metadata: recover only the configurator's known room prefix.
+    if line.get('stanza') is not None:
+        return label(line['stanza']).strip()
+    code = label(line.get('codice')).upper()
+    if not code.startswith(('SCAT-', 'FR-', 'DER-', 'VIMAR:', 'BTICINO:')):
+        return ''
+    association = line.get('associazione')
+    if isinstance(association, str):
+        import json
+        try:
+            association = json.loads(association)
+        except ValueError:
+            association = None
+    context = association.get('contesto') if isinstance(association, dict) else None
+    description = label(context or line.get('descrizione'))
+    return description.split(' — ', 1)[0].strip() if ' — ' in description else ''
+
+
+def apartment_sections(lines, indices):
+    rooms = {}
+    general = []
+    for index in indices:
+        room = room_name(lines[index])
+        if room:
+            rooms.setdefault(room, []).append(index)
+        else:
+            general.append(index)
+    result = [('STANZA — '+room, 'Subtotale stanza — '+room, members) for room,members in rooms.items()]
+    for category in SECTION_ORDER:
+        members = [i for i in general if section(lines[i]) == category]
+        if members:
+            result.append((category.upper(), 'Subtotale '+category.lower(), members))
+    return result
+
+
 def build_quote(data):
     # One editable cost sheet feeds all client sheets and the overall summary.
     combined = _build_combined(data)
@@ -303,11 +340,8 @@ def build_quote(data):
         header = next(r for r in rows if r.get('r') == '11')
         cell(header, 'A', apartment + ' — ' + label(data.get('titolo') or 'Preventivo'))
         net = 0; j = 17; subtotals = []
-        for category in SECTION_ORDER:
-            indices = [i for i in groups[apartment] if section(lines[i]) == category]
-            if not indices:
-                continue
-            heading = clone(subtotal_style, j);cell(heading, 'A', category.upper());rows.append(heading)
+        for heading_text, subtotal_text, indices in apartment_sections(lines, groups[apartment]):
+            heading = clone(subtotal_style, j);cell(heading, 'A', heading_text);rows.append(heading)
             merge(root, f'A{j}:F{j}');j += 1;first = j;amount = 0
             for source_index in indices:
                 row = copy.deepcopy(template_rows[17 + source_index]);row.set('r', str(j))
@@ -321,7 +355,7 @@ def build_quote(data):
                 rows.append(row)
                 amount += float(next(c for c in row if c.get('r') == f'F{j}').findtext(tag('v')))
                 j += 1
-            row = clone(subtotal_style, j);cell(row, 'A', 'Subtotale '+category.lower())
+            row = clone(subtotal_style, j);cell(row, 'A', subtotal_text)
             cell(row, 'F', amount, f'SUM(F{first}:F{j-1})');rows.append(row);merge(root, f'A{j}:E{j}')
             subtotals.append(j);net += amount;j += 2
         net_row = j;total_row = j+2

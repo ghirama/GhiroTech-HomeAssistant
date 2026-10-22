@@ -57,6 +57,38 @@ class ExcelQuoteTests(unittest.TestCase):
             self.assertEqual(raw.find(tag('autoFilter')).get('ref'),'A8:J14')
             self.assertEqual(len([c for c in raw.iter(tag('c')) if c.find(tag('f')) is not None]),18)
 
+    def test_rooms_group_interleaved_rows_keep_apartments_and_totals_separate(self):
+        data=self.sample();data.update(sconto_materiale=0,ricarico=0,iva=0)
+        data['righe']=[dict(appartamento=apt,stanza=room,codice=code,descrizione=desc,unita='cad',quantita=1,prezzo=price,quota_materiale=100) for apt,room,code,desc,price in [
+            ('Casa 1','Cucina','FR-presa','Presa cucina',10),
+            ('Casa 1','Bagno','FR-presa','Presa bagno',20),
+            ('Casa 2','Cucina','FR-presa','Presa altra casa',30),
+            ('Casa 1','Cucina','DER-TEST','Derivazione cucina',40),
+            ('Casa 1',None,'VIMAR:TEST','Ingresso — Scatola 1 — Presa',50),
+            ('Casa 1','','QE','Quadro generale',100),
+            ('Casa 1','','IMPIANTO-MANODOPERA','Manodopera',200)]]
+        with zipfile.ZipFile(io.BytesIO(build_quote(data))) as z:
+            root=ET.fromstring(z.read('xl/worksheets/sheet2.xml'));rows=root.find(tag('sheetData'))
+            labels={r.get('r'):r.findtext('./'+tag('c')+'/'+tag('is')+'/'+tag('t')) for r in rows}
+            self.assertEqual([v for v in labels.values() if v and v.startswith('STANZA')],['STANZA — Cucina','STANZA — Bagno','STANZA — Ingresso'])
+            subtotals={labels[r.get('r')]:float(next(c for c in r if c.get('r').startswith('F')).findtext(tag('v'))) for r in rows if (labels[r.get('r')] or '').startswith('Subtotale')}
+            self.assertEqual(subtotals,{'Subtotale stanza — Cucina':50,'Subtotale stanza — Bagno':20,'Subtotale stanza — Ingresso':50,'Subtotale quadri elettrici':100,'Subtotale manodopera':200})
+            detail_refs=[c.findtext(tag('f')) for c in root.iter(tag('c')) if c.get('r').startswith('B') and c.find(tag('f')) is not None]
+            self.assertEqual(detail_refs,["'Calcolo interno'!C9","'Calcolo interno'!C12","'Calcolo interno'!C10","'Calcolo interno'!C13","'Calcolo interno'!C14","'Calcolo interno'!C15"])
+            summary=ET.fromstring(z.read('xl/worksheets/sheet1.xml'))
+            values={c.get('r'):c.findtext(tag('v')) for c in summary.iter(tag('c'))}
+            self.assertEqual(float(values['E17']),420);self.assertEqual(float(values['E18']),30)
+            self.assertEqual(float(values['E20']),450)
+
+    def test_room_override_and_legacy_recovery(self):
+        from excel_quote import room_name
+        old={'codice':'FR-presa','descrizione':'Cucina — Arké — Presa'}
+        self.assertEqual(room_name(old),'Cucina')
+        self.assertEqual(room_name({**old,'stanza':'Bagno'}),'Bagno')
+        self.assertEqual(room_name({**old,'stanza':''}),'')
+        self.assertEqual(room_name({'codice':'GEWISS:GW90007','descrizione':'Quadro — Magnetotermico'}),'')
+        self.assertEqual(room_name({'codice':'LIBERA','descrizione':'Manodopera — impianto'}),'')
+
     def test_limits_and_invalid_numbers(self):
         for data in ({}, {'righe': [None]}, {'righe': [{}] * 5001}):
             with self.assertRaises(ValueError):
