@@ -1,5 +1,5 @@
 name: "Ghiro Tech Preventivi"
-version: "0.9.45"
+version: "0.9.46"
 slug: "ghiro_preventivi"
 description: "Preventivi elettrici e importazione listini EPPAT, Vimar e BTicino"
 startup: application
@@ -20,3 +20,14 @@ map:
     read_only: false
   - type: media
     read_only: false
+
+# Port 8765 remains reserved for Home Assistant Ingress.
+# Port 8766 is available for a separately authenticated Cloudflare Tunnel.
+ports:
+  8766/tcp: null
+ports_description:
+  8766/tcp: "GhiroTech external web (use only behind Cloudflare Access)"
+options:
+  web_password: ""
+schema:
+  web_password: "password?"
