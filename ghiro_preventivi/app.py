@@ -6,6 +6,9 @@ import panel_catalog
 from storage import activate as activate_storage, configure as configure_storage, read_state as storage_state
 from pdf_plan import import_pdf, preview as pdf_preview, directory as pdf_directory
 from http.server import ThreadingHTTPServer,BaseHTTPRequestHandler
+from threading import Thread
+from functools import lru_cache
+import base64
 from urllib.parse import urlparse,parse_qs
 BASE=pathlib.Path(__file__).parent
 CONTROL=pathlib.Path('/data') if pathlib.Path('/data').is_dir() else BASE
@@ -261,4 +264,34 @@ class H(BaseHTTPRequestHandler):
    c.commit();self.send({'id':int(cid) if path=='/api/configurazioni' and cid else cur.lastrowid})
   except Exception as e:self.send({'errore':str(e)},400)
   finally:c.close()
-if __name__=='__main__':ThreadingHTTPServer(('0.0.0.0',8765),H).serve_forever()
+# Cloudflare Access signs the identity assertion; validate it at the origin.
+# Do not trust the presence of a header without validating its signature.
+CF_TEAM='ghirotech.cloudflareaccess.com'
+CF_AUD='ef78861ca32027fddbfc86c108dfcd6ba30ea9d940c60b58805bd5a66045dde6'
+CF_ISSUER='https://'+CF_TEAM
+
+@lru_cache(maxsize=1)
+def cloudflare_keys():
+ from jwt import PyJWKClient
+ return PyJWKClient(CF_ISSUER+'/cdn-cgi/access/certs',cache_jwk_set=True,lifespan=300)
+
+class ExternalH(H):
+ def ingress_allowed(self):
+  token=self.headers.get('Cf-Access-Jwt-Assertion','')
+  if not token:return False
+  try:
+   import jwt
+   key=cloudflare_keys().get_signing_key_from_jwt(token)
+   jwt.decode(token,key.key,algorithms=['RS256'],audience=CF_AUD,issuer=CF_ISSUER,options={'require':['exp','iat','aud','iss']},leeway=30)
+   return True
+  except Exception:
+   return False
+ def do_GET(self):
+  return H.do_GET(self)
+ def do_POST(self):
+  return H.do_POST(self)
+
+if __name__=='__main__':
+ Thread(target=lambda:ThreadingHTTPServer(('0.0.0.0',8766),ExternalH).serve_forever(),daemon=True).start()
+ ThreadingHTTPServer(('0.0.0.0',8765),H).serve_forever()
+
