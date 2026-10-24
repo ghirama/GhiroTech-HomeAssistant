@@ -6,6 +6,8 @@ import panel_catalog
 from storage import activate as activate_storage, configure as configure_storage, read_state as storage_state
 from pdf_plan import import_pdf, preview as pdf_preview, directory as pdf_directory
 from http.server import ThreadingHTTPServer,BaseHTTPRequestHandler
+from threading import Thread
+import base64
 from urllib.parse import urlparse,parse_qs
 BASE=pathlib.Path(__file__).parent
 CONTROL=pathlib.Path('/data') if pathlib.Path('/data').is_dir() else BASE
@@ -261,4 +263,45 @@ class H(BaseHTTPRequestHandler):
    c.commit();self.send({'id':int(cid) if path=='/api/configurazioni' and cid else cur.lastrowid})
   except Exception as e:self.send({'errore':str(e)},400)
   finally:c.close()
-if __name__=='__main__':ThreadingHTTPServer(('0.0.0.0',8765),H).serve_forever()
+class ExternalH(H):
+ def ingress_allowed(self):
+  # Separate web endpoint: never rely on proxy headers for authentication.
+  options_path=pathlib.Path('/data/options.json')
+  try:
+   options=json.loads(options_path.read_text())
+   password=options.get('web_password','')
+  except (OSError,ValueError,TypeError):
+   password=''
+  if not isinstance(password,str) or len(password)<16:
+   return False
+  authorization=self.headers.get('Authorization','')
+  if not authorization.startswith('Basic '):
+   return False
+  try:
+   raw=base64.b64decode(authorization[6:],validate=True).decode('utf-8')
+   username,provided=raw.split(':',1)
+  except (ValueError,UnicodeDecodeError):
+   return False
+  return hmac.compare_digest(username,'ghirotech') and hmac.compare_digest(provided,password)
+ def unauthorized(self):
+  self.send_response(401)
+  self.send_header('WWW-Authenticate','Basic realm="GhiroTech Gestionale", charset="UTF-8"')
+  self.send_header('Cache-Control','no-store')
+  self.send_header('Content-Length','0')
+  self.end_headers()
+ def do_GET(self):
+  if not self.ingress_allowed():return self.unauthorized()
+  return super().do_GET_external()
+ def do_POST(self):
+  if not self.ingress_allowed():return self.unauthorized()
+  return super().do_POST_external()
+
+# Reuse the existing handlers without changing Ingress access rules.
+H.do_GET_external=H.do_GET
+H.do_POST_external=H.do_POST
+# External handler's authentication is performed before invoking existing routes.
+# The original handlers call ingress_allowed again; ExternalH supplies its own check.
+if __name__=='__main__':
+ Thread(target=lambda:ThreadingHTTPServer(('0.0.0.0',8766),ExternalH).serve_forever(),daemon=True).start()
+ ThreadingHTTPServer(('0.0.0.0',8765),H).serve_forever()
+
