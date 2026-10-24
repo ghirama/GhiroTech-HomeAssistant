@@ -272,7 +272,7 @@ class ExternalH(H):
    password=options.get('web_password','')
   except (OSError,ValueError,TypeError):
    password=''
-  if not isinstance(password,str) or len(password)<12:
+  if not isinstance(password,str) or len(password)<8:
    return False
   authorization=self.headers.get('Authorization','')
   if not authorization.startswith('Basic '):
