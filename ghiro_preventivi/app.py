@@ -263,44 +263,30 @@ class H(BaseHTTPRequestHandler):
    c.commit();self.send({'id':int(cid) if path=='/api/configurazioni' and cid else cur.lastrowid})
   except Exception as e:self.send({'errore':str(e)},400)
   finally:c.close()
+# Cloudflare Access signs the identity assertion; validate it at the origin.
+# Do not trust the presence of a header without validating its signature.
+import jwt
+from jwt import PyJWKClient
+CF_TEAM='ghirotech.cloudflareaccess.com'
+CF_AUD='ef78861ca32027fddbfc86c108dfcd6ba30ea9d940c60b58805bd5a66045dde6'
+CF_ISSUER='https://'+CF_TEAM
+CF_KEYS=PyJWKClient(CF_ISSUER+'/cdn-cgi/access/certs',cache_jwk_set=True,lifespan=300)
+
 class ExternalH(H):
  def ingress_allowed(self):
-  # Separate web endpoint: never rely on proxy headers for authentication.
-  options_path=pathlib.Path('/data/options.json')
+  token=self.headers.get('Cf-Access-Jwt-Assertion','')
+  if not token:return False
   try:
-   options=json.loads(options_path.read_text())
-   password=options.get('web_password','')
-  except (OSError,ValueError,TypeError):
-   password=''
-  if not isinstance(password,str) or len(password)<8:
+   key=CF_KEYS.get_signing_key_from_jwt(token)
+   jwt.decode(token,key.key,algorithms=['RS256'],audience=CF_AUD,issuer=CF_ISSUER,options={'require':['exp','iat','aud','iss']},leeway=30)
+   return True
+  except (jwt.PyJWTError,Exception):
    return False
-  authorization=self.headers.get('Authorization','')
-  if not authorization.startswith('Basic '):
-   return False
-  try:
-   raw=base64.b64decode(authorization[6:],validate=True).decode('utf-8')
-   username,provided=raw.split(':',1)
-  except (ValueError,UnicodeDecodeError):
-   return False
-  return hmac.compare_digest(username,'ghirotech') and hmac.compare_digest(provided,password)
- def unauthorized(self):
-  self.send_response(401)
-  self.send_header('WWW-Authenticate','Basic realm="GhiroTech Gestionale", charset="UTF-8"')
-  self.send_header('Cache-Control','no-store')
-  self.send_header('Content-Length','0')
-  self.end_headers()
  def do_GET(self):
-  if not self.ingress_allowed():return self.unauthorized()
-  return super().do_GET_external()
+  return H.do_GET(self)
  def do_POST(self):
-  if not self.ingress_allowed():return self.unauthorized()
-  return super().do_POST_external()
+  return H.do_POST(self)
 
-# Reuse the existing handlers without changing Ingress access rules.
-H.do_GET_external=H.do_GET
-H.do_POST_external=H.do_POST
-# External handler's authentication is performed before invoking existing routes.
-# The original handlers call ingress_allowed again; ExternalH supplies its own check.
 if __name__=='__main__':
  Thread(target=lambda:ThreadingHTTPServer(('0.0.0.0',8766),ExternalH).serve_forever(),daemon=True).start()
  ThreadingHTTPServer(('0.0.0.0',8765),H).serve_forever()
