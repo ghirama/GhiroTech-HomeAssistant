@@ -265,22 +265,21 @@ class H(BaseHTTPRequestHandler):
   finally:c.close()
 # Cloudflare Access signs the identity assertion; validate it at the origin.
 # Do not trust the presence of a header without validating its signature.
-import jwt
-from jwt import PyJWKClient
 CF_TEAM='ghirotech.cloudflareaccess.com'
 CF_AUD='ef78861ca32027fddbfc86c108dfcd6ba30ea9d940c60b58805bd5a66045dde6'
 CF_ISSUER='https://'+CF_TEAM
-CF_KEYS=PyJWKClient(CF_ISSUER+'/cdn-cgi/access/certs',cache_jwk_set=True,lifespan=300)
 
 class ExternalH(H):
  def ingress_allowed(self):
   token=self.headers.get('Cf-Access-Jwt-Assertion','')
   if not token:return False
   try:
-   key=CF_KEYS.get_signing_key_from_jwt(token)
+   import jwt
+   from jwt import PyJWKClient
+   key=PyJWKClient(CF_ISSUER+'/cdn-cgi/access/certs',cache_jwk_set=True,lifespan=300).get_signing_key_from_jwt(token)
    jwt.decode(token,key.key,algorithms=['RS256'],audience=CF_AUD,issuer=CF_ISSUER,options={'require':['exp','iat','aud','iss']},leeway=30)
    return True
-  except (jwt.PyJWTError,Exception):
+  except Exception:
    return False
  def do_GET(self):
   return H.do_GET(self)
