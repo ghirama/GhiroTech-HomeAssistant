@@ -22,12 +22,8 @@ map:
     read_only: false
 
 # Port 8765 remains reserved for Home Assistant Ingress.
-# Port 8766 is available for a separately authenticated Cloudflare Tunnel.
+# Port 8766 is available for a Cloudflare Access JWT-protected Tunnel.
 ports:
   8766/tcp: null
 ports_description:
-  8766/tcp: "GhiroTech external web (use only behind Cloudflare Access)"
-options:
-  web_password: ""
-schema:
-  web_password: "password?"
+  8766/tcp: "GhiroTech external web (Cloudflare Access only)"
