@@ -266,7 +266,7 @@ class H(BaseHTTPRequestHandler):
   finally:c.close()
 # Cloudflare Access signs the identity assertion; validate it at the origin.
 # Do not trust the presence of a header without validating its signature.
-CF_TEAM='ghirotech.cloudflareaccess.com'
+CF_TEAM='shiny-snow-0672.cloudflareaccess.com'
 CF_AUD='ef78861ca32027fddbfc86c108dfcd6ba30ea9d940c60b58805bd5a66045dde6'
 CF_ISSUER='https://'+CF_TEAM
 
