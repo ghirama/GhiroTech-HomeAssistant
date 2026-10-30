@@ -32,10 +32,28 @@ class ManualQuoteTest(unittest.TestCase):
         status,item=self.request('/api/voci-personali',{'voce':row})
         self.assertEqual(status,200,item)
         self.assertEqual(len(self.request('/api/voci-personali')[1]),1)
-        self.scope['init']()
+        self.stop_server();self.scope=test_saving.load_app(self.folder);self.start_server()
         self.assertEqual(self.request(f'/api/preventivi/{pid}')[1],before)
         self.request('/api/voci-personali',{'id':item['id'],'elimina':True})
         self.assertEqual(self.request('/api/voci-personali')[1],[])
+
+    def test_legacy_migration_preserves_original_values(self):
+        status,data=self.request('/api/preventivi',{'cliente':'Vecchio','titolo':'Archivio','ricarico':15,'iva':22,'righe':[{'codice':'OLD','descrizione':'Storico','prezzo':37.15,'quantita':3,'quota_materiale':100}]})
+        self.assertEqual(status,200)
+        self.stop_server()
+        c=self.scope['conn']()
+        for table,columns in [('preventivi',['dettagli_json']),('righe',['sezione','sconto','ricarico_voce'])]:
+            for column in columns:c.execute('ALTER TABLE '+table+' DROP COLUMN '+column)
+        c.commit()
+        originals={table:[dict(r) for r in c.execute('SELECT * FROM '+table)] for table in ('preventivi','righe')}
+        c.close()
+        self.scope=test_saving.load_app(self.folder);self.start_server()
+        c=self.scope['conn']()
+        for table,rows in originals.items():
+            actual=[dict(r) for r in c.execute('SELECT * FROM '+table)]
+            for old,new in zip(rows,actual):self.assertEqual(old,{k:new[k] for k in old})
+            self.assertEqual(len(rows),len(actual))
+        self.assertEqual(c.execute('PRAGMA integrity_check').fetchone()[0],'ok');c.close()
 
 class ManualCalculationTest(unittest.TestCase):
     def test_exports(self):

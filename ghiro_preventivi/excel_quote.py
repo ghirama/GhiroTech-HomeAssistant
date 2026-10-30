@@ -390,6 +390,7 @@ def build_quote(data):
     if any(details(data).values()):
         root,rows=clean_sheet()
         cell(next(r for r in rows if r.get('r')=='11'),'A','Condizioni commerciali')
+        for col,value in zip('ABCDEF',['Testo','','','','','']):cell(next(r for r in rows if r.get('r')=='16'),col,value)
         j=17
         for key,value in details(data).items():
             if not value:continue
