@@ -34,9 +34,10 @@ def init():
  CREATE TABLE IF NOT EXISTS admin_login(id INTEGER PRIMARY KEY CHECK(id=1),username TEXT NOT NULL,password_hash TEXT NOT NULL);
  CREATE TABLE IF NOT EXISTS auth_sessions(token_hash TEXT PRIMARY KEY,expires INTEGER NOT NULL);
  ''')
- for tab,col,typ in [('preventivi','cliente_id','INTEGER'),('preventivi','sconto_materiale','REAL DEFAULT 0'),('righe','quota_materiale','REAL DEFAULT 0'),('righe','appartamento',"TEXT DEFAULT ''"),('righe','associazione',"TEXT DEFAULT ''"),('righe','stanza','TEXT DEFAULT NULL'),('righe','gruppo_cliente','TEXT DEFAULT NULL'),('configurazioni_civili','materiali_json',"TEXT DEFAULT 'null'"),('configurazioni_civili','descrizione',"TEXT DEFAULT ''"),('configurazioni_civili','appartamenti_json',"TEXT DEFAULT '[]'")]:
+ for tab,col,typ in [('preventivi','dettagli_json',"TEXT DEFAULT '{}'"),('righe','sezione',"TEXT DEFAULT ''"),('righe','sconto','REAL DEFAULT 0'),('righe','ricarico_voce','REAL DEFAULT 0'),('preventivi','cliente_id','INTEGER'),('preventivi','sconto_materiale','REAL DEFAULT 0'),('righe','quota_materiale','REAL DEFAULT 0'),('righe','appartamento',"TEXT DEFAULT ''"),('righe','associazione',"TEXT DEFAULT ''"),('righe','stanza','TEXT DEFAULT NULL'),('righe','gruppo_cliente','TEXT DEFAULT NULL'),('configurazioni_civili','materiali_json',"TEXT DEFAULT 'null'"),('configurazioni_civili','descrizione',"TEXT DEFAULT ''"),('configurazioni_civili','appartamenti_json',"TEXT DEFAULT '[]'")]:
   if col not in [x[1] for x in c.execute('PRAGMA table_info('+tab+')')]:c.execute('ALTER TABLE '+tab+' ADD COLUMN '+col+' '+typ)
  c.execute("UPDATE scatole_preimpostate SET serie='' WHERE serie<>''")
+ c.execute('CREATE TABLE IF NOT EXISTS voci_personali(id INTEGER PRIMARY KEY,nome TEXT NOT NULL,dati_json TEXT NOT NULL)')
  initialize_catalog(c)
  catalog_config.initialize(c)
  panel_catalog.initialize(c)
@@ -102,8 +103,10 @@ class H(BaseHTTPRequestHandler):
     self.send([dict(x) for x in c.execute(sql+' ORDER BY codice LIMIT 100',args)]);return
    for t in ('clienti','lavori','pratiche','preventivi','listini'):
     if path=='/api/'+t:self.send([dict(x) for x in c.execute('SELECT * FROM '+t+' ORDER BY id DESC')]);return
+   if path=='/api/voci-personali':
+    return self.send([dict(x) for x in c.execute('SELECT * FROM voci_personali ORDER BY nome,id')])
    if path.startswith('/api/preventivi/'):
-    pid=int(path.split('/')[-1]);p=c.execute('SELECT * FROM preventivi WHERE id=?',(pid,)).fetchone();self.send({'preventivo':dict(p),'righe':[dict(x) for x in c.execute('SELECT * FROM righe WHERE preventivo_id=?',(pid,))]} if p else {},200 if p else 404);return
+    pid=int(path.split('/')[-1]);p=c.execute('SELECT * FROM preventivi WHERE id=?',(pid,)).fetchone();self.send({'preventivo':dict(p),'righe':[dict(x) for x in c.execute('SELECT * FROM righe WHERE preventivo_id=? ORDER BY id',(pid,))]} if p else {},200 if p else 404);return
    if path.startswith('/api/documenti/'):
     cid=int(path.split('/')[-1]);self.send([dict(x) for x in c.execute('SELECT id,cliente_id,nome,caricato FROM documenti WHERE cliente_id=?',(cid,))]);return
    if path.startswith('/api/download/'):
@@ -233,6 +236,16 @@ class H(BaseHTTPRequestHandler):
     if cid:
      c.execute('UPDATE configurazioni_civili SET cliente_id=?,titolo=?,stanze_json=?,aggiornato=?,appartamenti_json=?,descrizione=?,materiali_json=? WHERE id=?',args+(int(cid),));cur=c.execute('SELECT id FROM configurazioni_civili WHERE id=?',(int(cid),))
     else:cur=c.execute('INSERT INTO configurazioni_civili(cliente_id,titolo,stanze_json,aggiornato,appartamenti_json,descrizione,materiali_json) VALUES(?,?,?,?,?,?,?)',args)
+   elif path=='/api/voci-personali':
+    from manual_quote import validate_line
+    if d.get('elimina'):
+     c.execute('DELETE FROM voci_personali WHERE id=?',(int(d['id']),));c.commit();return self.send({'ok':True})
+    row=d.get('voce',{});validate_line(row)
+    name=str(row.get('descrizione','')).strip()
+    if not name:raise ValueError('Descrizione obbligatoria')
+    payload=json.dumps(row,ensure_ascii=False)
+    if len(payload)>50000:raise ValueError('Voce troppo grande')
+    cur=c.execute('INSERT INTO voci_personali(nome,dati_json) VALUES(?,?)',(name,payload));c.commit();return self.send({'id':cur.lastrowid})
    elif path=='/api/preventivi':
     import math
     def number(v):
@@ -241,8 +254,11 @@ class H(BaseHTTPRequestHandler):
      return x
     rows=d.get('righe',[])
     if not isinstance(rows,list) or len(rows)>5000:raise ValueError('Righe non valide')
+    from manual_quote import validate_line, details
+    info=details(d)
     vals=[]
     for r in rows:
+     validate_line(r)
      material=number(r.get('quota_materiale',0))
      if material>100:raise ValueError('Quota materiale oltre 100%')
      vals.append((str(r.get('codice','')),str(r.get('descrizione','')),str(r.get('unita','')),number(r.get('quantita',1)),number(r.get('prezzo',0)),material,str(r.get('appartamento','')),json.dumps(r.get('associazione') or None,ensure_ascii=False),None if r.get('stanza') is None else str(r['stanza']),json.dumps(r.get('gruppo_cliente'),ensure_ascii=False) if not isinstance(r.get('gruppo_cliente'),str) else r['gruppo_cliente']))
@@ -256,6 +272,9 @@ class H(BaseHTTPRequestHandler):
      c.execute('DELETE FROM righe WHERE preventivo_id=?',(pid,))
     else:pid=c.execute('INSERT INTO preventivi(cliente,titolo,ricarico,iva,cliente_id,sconto_materiale) VALUES(?,?,?,?,?,?)',args).lastrowid
     c.executemany('INSERT INTO righe(preventivo_id,codice,descrizione,unita,quantita,prezzo,quota_materiale,appartamento,associazione,stanza,gruppo_cliente) VALUES(?,?,?,?,?,?,?,?,?,?,?)',[(pid,)+r for r in vals])
+    c.execute('UPDATE preventivi SET dettagli_json=? WHERE id=?',(json.dumps(info,ensure_ascii=False),pid))
+    for saved,row in zip(c.execute('SELECT id FROM righe WHERE preventivo_id=? ORDER BY id',(pid,)).fetchall(),rows):
+     c.execute('UPDATE righe SET sezione=?,sconto=?,ricarico_voce=? WHERE id=?',(str(row.get('sezione','')),number(row.get('sconto',0)),number(row.get('ricarico_voce',0)),saved[0]))
     c.commit();return self.send({'id':pid})
    elif path in ('/api/clienti','/api/lavori','/api/pratiche'):
     t=path.split('/')[-1];cols={'clienti':['nome','telefono','email','indirizzo','note'],'lavori':['cliente_id','titolo','tipo','stato','note'],'pratiche':['cliente_id','lavoro_id','titolo','stato','scadenza','note']}[t]

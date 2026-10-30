@@ -3,6 +3,7 @@
 No office suite or external service is needed on Home Assistant. Formulas have
 cached values for previews and are recalculated by Excel when inputs change.
 """
+from manual_quote import adjusted_cost, details
 import base64
 import copy
 import datetime
@@ -133,6 +134,7 @@ def _build_combined(data):
     cell(pr[8], 'D', client.get('indirizzo', ''))
     cell(pr[9], 'D', ' · '.join(label(client[k]) for k in ('email', 'telefono') if client.get(k)))
     cell(pr[11], 'A', data.get('titolo', 'Preventivo'))
+
     for r, v in ((4, discount), (5, markup), (6, vat)):
         cell(cr[r], 'B', v)
     groups = {}
@@ -141,15 +143,15 @@ def _build_combined(data):
         j, k = i + 9, i + 17
         ir, out = clone(internal, j), clone(detail, k)
         apartment = label(line.get('appartamento')) or 'Generale'
-        qty, cost = number(line.get('quantita')), number(line.get('prezzo'))
+        qty, cost = number(line.get('quantita')), adjusted_cost(line)
         share = max(0, min(100, number(line.get('quota_materiale')))) / 100
         discounted = cost * (1 - share * discount)
         sell = discounted * (1 + markup)
         amount = number(sell * qty)
-        values = [apartment, label(line.get('codice')), label(line.get('descrizione')), label(line.get('unita')), qty, cost, share]
+        values = [apartment, label(line.get('codice')), label(line.get('descrizione')), label(line.get('unita')), qty, number(line.get('prezzo')), share]
         for col, v in zip('ABCDEFG', values):
             cell(ir, col, v)
-        cell(ir, 'H', discounted, f'F{j}*(1-MAX(0,MIN(1,G{j}))*MAX(0,MIN(1,$B$4)))')
+        cell(ir, 'H', discounted, f'F{j}*(1-{number(line.get("sconto"))/100})*(1+{number(line.get("ricarico_voce"))/100})*(1-MAX(0,MIN(1,G{j}))*MAX(0,MIN(1,$B$4)))')
         cell(ir, 'I', sell, f'H{j}*(1+$B$5)')
         cell(ir, 'J', amount, f'I{j}*E{j}')
         for col, src, value in zip('ABCDEF', 'ACDEIJ', [apartment, values[2], values[3], qty, sell, amount]):
@@ -243,6 +245,7 @@ def merge(root, address):
 
 
 def section(line):
+    if line.get('sezione'):return label(line['sezione'])
     code = label(line.get('codice')).upper()
     desc = label(line.get('descrizione')).casefold()
     if code == 'IMPIANTO-MANODOPERA' or desc.startswith('manodopera'):
@@ -291,7 +294,7 @@ def apartment_sections(lines, indices):
         else:
             general.append(index)
     result = [('STANZA — '+room, 'Subtotale stanza — '+room, members) for room,members in rooms.items()]
-    for category in SECTION_ORDER:
+    for category in dict.fromkeys([*SECTION_ORDER,*(section(lines[i]) for i in general)]):
         members = [i for i in general if section(lines[i]) == category]
         if members:
             result.append((category.upper(), 'Subtotale '+category.lower(), members))
@@ -384,6 +387,20 @@ def build_quote(data):
     pos = list(internal).index(internal.find(tag('sheetData'))) + 1
     internal.insert(pos, filter_node)
     sheets.append(('Calcolo interno', internal, 2, 'J'))
+    if any(details(data).values()):
+        root,rows=clean_sheet()
+        cell(next(r for r in rows if r.get('r')=='11'),'A','Condizioni commerciali')
+        for col,value in zip('ABCDEF',['Testo','','','','','']):cell(next(r for r in rows if r.get('r')=='16'),col,value)
+        j=17
+        for key,value in details(data).items():
+            if not value:continue
+            row=clone(subtotal_style,j);cell(row,'A',key.title());rows.append(row);merge(root,f'A{j}:F{j}');j+=1
+            # Split long paragraphs so printed cells cannot clip at Excel's height limit.
+            import textwrap
+            for paragraph in value.split('\n'):
+                for part in textwrap.wrap(paragraph,95) or ['']:
+                    row=clone(template_rows[17],j);cell(row,'A',part);row.set('ht','28');rows.append(row);merge(root,f'A{j}:F{j}');j+=1
+        sheets.append((sheet_name('Condizioni commerciali',used),root,1,'F'))
     return package_workbook(original, sheets)
 
 

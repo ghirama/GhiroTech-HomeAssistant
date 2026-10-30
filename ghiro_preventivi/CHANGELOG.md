@@ -1,3 +1,13 @@
+## 0.10.0 - 2026-10-30
+
+- Preventivi manuali da zero e modifica di quelli importati/archiviati.
+- Duplica, elimina e riordina le voci; sezioni personalizzate.
+- Sconto e ricarico per voce, prima dei parametri generali; IVA unica per preventivo.
+- Archivio SQLite di voci/prezzi personali indipendenti dai listini.
+- Note, riferimento, validità, pagamenti e condizioni persistenti, esportati in PDF/Excel.
+- Migrazione additiva: nessuna riscrittura dei preventivi esistenti all'avvio.
+- Test di persistenza, rifiuto di dati invalidi, compatibilità e parità dei totali.
+
 # Changelog
 
 ## 0.9.45
