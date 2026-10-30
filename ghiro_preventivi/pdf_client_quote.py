@@ -1,4 +1,5 @@
 """Customer quote: bounded overview and room detail, with box-level sale totals."""
+from manual_quote import adjusted_cost, details
 import datetime
 import io
 import json
@@ -61,7 +62,7 @@ def summarize_quote(data):
     for index,line in enumerate(data['righe']):
         if not isinstance(line, dict):
             raise ValueError('Voce non valida')
-        qty,cost = number(line.get('quantita')),number(line.get('prezzo'))
+        qty,cost = number(line.get('quantita')),adjusted_cost(line)
         if qty < 0 or cost < 0:
             raise ValueError('Quantità e prezzo non validi')
         if qty == 0:
@@ -166,6 +167,8 @@ def build_client_quote(data, logo):
             detail.append(['Subtotale '+name,money(sum(item['totale'] for item in items))])
             story.append(table(['Scatola / fornitura','Totale'],detail,[138,38],True,compact=True))
         story += [Spacer(1,6*mm),KeepTogether([table(['Totale '+a['nome'],'Importo'],[['Imponibile',money(a['totale'])],[f'IVA {vat*100:g}%',money(a['totale']*vat)],['TOTALE IVA INCLUSA',money(a['totale']*(1+vat))]],[126,50],True)])]
+    for key,value in details(data).items():
+        if value:story += [p(key.title(),sub),p(value)]
     out=io.BytesIO()
     doc=QuoteDoc(out,pagesize=A4,leftMargin=17*mm,rightMargin=17*mm,topMargin=40*mm,bottomMargin=24*mm,title='Preventivo cliente',author='Ghiro Tech and Light')
     doc.build(story,onFirstPage=page,onLaterPages=page)

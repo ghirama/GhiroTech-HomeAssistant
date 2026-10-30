@@ -120,3 +120,47 @@ Porta nel preventivo e Importa scatole e quadri nel preventivo importano la stes
 6. I listini successivi aggiornano i prezzi per codice, mantenendo gli abbinamenti. I preventivi archiviati non cambiano. Per aggiornare quello aperto premi **Aggiorna prezzi da listino**, controlla gli avvisi e salva. L'operazione sostituisce anche gli eventuali prezzi manuali delle righe riconosciute.
 
 Le associazioni sono nel database dell'archivio e seguono il percorso di salvataggio impostato. Le varianti non vengono scelte automaticamente: un colore o un modello diverso deve avere il proprio abbinamento verificato.
+
+
+## Preventivi manuali — 0.10.0
+
+In Preventivi scegli **Nuovo preventivo manuale**, seleziona/crea il cliente e
+inserisci il titolo. Aggiungi voci libere o dal prezzario/archivio personale.
+Ogni voce consente descrizione, unità, quantità, costo, sezione libera (Materiali,
+Manodopera, Programmazione, Trasferte o altro), stanza/zona, sconto e ricarico.
+Usa Duplica e le frecce per cambiare l'ordine; × elimina dalla bozza.
+Salva preventivo rende persistenti le modifiche. La riapertura dall'archivio
+modifica lo stesso preventivo, anche se proviene dal configuratore.
+
+Calcolo: costo × (1 − sconto voce/100) × (1 + ricarico voce/100), poi
+sconto generale sulla quota materiale e ricarico generale, quantità e IVA.
+L'IVA è unica per il preventivo. I vecchi documenti hanno sconto/ricarico voce zero.
+I prezzi delle voci inserite sono copie: cambiare l'archivio/listino non li cambia.
+Per aggiornare una voce personale inseriscila nella bozza, modificala e archivia
+la nuova versione; elimina quella precedente dall'archivio se non serve più.
+
+Note, condizioni, validità, pagamenti e riferimento sono salvati nel preventivo.
+Il PDF cliente conserva logo e grafica aziendale; Excel mantiene i fogli cliente
+e Calcolo interno e aggiunge Condizioni commerciali quando compilate.
+I coefficienti per voce sono inclusi nelle formule di Calcolo interno.
+
+### Aggiornare l'add-on Home Assistant
+
+1. Esegui un backup completo Home Assistant e scaricalo fuori dal Raspberry Pi.
+   Verifica che comprenda i dati dell'add-on e la cartella archivio selezionata
+   (se su /share o /media, salvala separatamente quando non inclusa nel backup).
+2. Nell'Add-on Store aggiorna i repository/controlla aggiornamenti.
+3. Apri Ghiro Tech Preventivi, verifica versione 0.10.0 e scegli Aggiorna.
+   Non disinstallare l'add-on e non sostituire prezzario.sqlite con quello GitHub.
+4. Riavvia, ricarica la pagina e verifica percorso archivio, preventivi precedenti,
+   configurazioni, listini e planimetrie. Salva una prova nuova e riaprila.
+5. Scarica PDF ed Excel della prova; riavvia ancora e verifica la persistenza.
+
+La migrazione aggiunge colonne e la tabella voci_personali senza cambiare
+righe/importi esistenti. Per tornare indietro ripristina insieme versione e backup
+dati precedente, senza cancellare manualmente tabelle o cartelle.
+
+Richiedono Raspberry Pi reale: build/esecuzione aarch64 o armv7, aggiornamento
+Supervisor, Ingress e Cloudflare, permessi e montaggio del percorso NAS /share
+/media e persistenza attraverso riavvio completo. I test locali usano copie
+SQLite temporanee, mai l'archivio di produzione.
