@@ -33,7 +33,9 @@
   <button type="submit">Scarica ZIP</button>
   <button type="button" onclick="$('fvDocumentDialog').close()">Chiudi</button>
  </form>
-</dialog><div id="fvSaved"></div></section>
+</dialog><div id="fvSaved"></div>
+<button type="button" onclick="fvOpenWorkflow()">Percorso cantiere e consegna</button>
+<div id="fvWorkflow" class="hidden" aria-live="polite"></div></section>
 <section id="fascicoli" class="hidden"><h2>Fascicoli lavori e pratiche</h2><p class="muted">Le checklist sono promemoria operativi: controlla sempre quali adempimenti si applicano al singolo intervento.</p><label>Cliente<select id="prClient"></select></label><label>Lavoro<select id="prWork"></select></label><label>Tipo<select id="prType"><option>Fotovoltaico</option><option>Elettrico</option></select></label><label>Titolo pratica<input id="prTitle" placeholder="Es. Impianto cliente Rossi"></label><label>Scadenza<input id="prDue" type="date"></label><label>Responsabile<input id="prOwner"></label><p><button onclick="createChecklist()">Crea checklist</button></p><p id="prMsg"></p><h3>Pratiche e scadenze</h3><div id="prLists"></div></section><section id="quickClientBox" class="hidden noprint"><h2>Nuovo cliente</h2><form id="quickClientForm"><label>Nome e cognome / Ragione sociale<input name="nome" required></label><label>Telefono<input name="telefono"></label><label>Email<input name="email" type="email"></label><label>Indirizzo<input name="indirizzo"></label><label>Note<input name="note"></label><p><button type="submit">Salva e seleziona</button> <button type="button" class="secondary" onclick="$('quickClientBox').classList.add('hidden')">Annulla</button></p></form></section><section id="impostazioni" class="hidden"><h2>Salvataggio dati</h2><p>La cartella contiene preventivi modificabili, configurazioni, clienti, listini, documenti e planimetrie.</p><p id="storageCurrent"></p><label>Percorso sul server Home Assistant<input id="storagePath" placeholder="/share/ghiro-tech" style="min-width:280px"></label><p class="muted">Scegli una cartella vuota in /share o /media. Può essere su un archivio di rete già montato e disponibile in Home Assistant. Non è un percorso del PC o dell’iPad. Includi la cartella scelta nel backup di Home Assistant. I PDF stampati si salvano con la finestra di stampa del dispositivo.</p><button onclick="saveStorage()">Verifica e salva percorso</button><button class="secondary" onclick="cancelStorage()">Annulla cambio in attesa</button><p id="storageMsg" role="status" aria-live="polite"></p><p>Dopo aver salvato il percorso, riavvia l’add-on per applicarlo. I dati vengono copiati nella nuova cartella; l’originale viene conservato. Finché non riavvii, tutti i salvataggi continuano nella cartella attuale.</p></section><section id="printView" class="hidden"><div class="quote-head"><div><h1>PREVENTIVO</h1><p id="printTitle"></p><small id="printDate"></small></div><img alt="Ghiro Tech and Light" src="logo.jpg"></div><div class="quote-parties"><div><h4>CLIENTE / COMMITTENTE</h4><p id="printClient"></p></div><div><h4>FORNITORE / INSTALLATORE</h4><p><b>GHIRARDELLI MARCO</b><br>Ghiro Tech and Light<br>Via Giacomo Bresadola 5<br>38025 Dimaro Folgarida (TN)<br>P. IVA 02834310399 | REA TN-254793<br>mghirardelli@pec.perind.it</p></div></div><h3>DETTAGLIO ECONOMICO</h3><table><thead><tr><th>Descrizione</th><th>Q.tà</th><th>Prezzo unit.</th><th>Totale</th></tr></thead><tbody id="printRows"></tbody></table><div class="quote-closing"><div id="printApartmentTotals"></div><h3 id="printTotal" style="text-align:right"></h3></div></section></main>
 <div class="noprint" style="max-width:1100px;margin:12px auto;padding:12px"><a href="editor" style="display:inline-block;padding:12px 16px;border-radius:8px;background:#087c98;color:white;text-decoration:none">Apri editor planimetria (beta)</a></div><script>
 let clients=[],items=[],lines=[],quickTarget='quoteClient';let savingQuote=false,savingConfig=false;const $=id=>document.getElementById(id),eur=x=>Number(x).toLocaleString('it-IT',{style:'currency',currency:'EUR'}),esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));async function api(path,body){let r=await fetch('api/'+path,body?{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)}:{});let d=await r.json();if(!r.ok)throw Error(d.errore||'Errore');return d}function show(id){document.querySelectorAll('main>section').forEach(x=>x.classList.add('hidden'));$(id).classList.remove('hidden');refresh()}async function refresh(){let selectedSource=$('searchSource').value;let sources=await api('listino/fonti');$('searchSource').innerHTML='<option value="">Tutte le fonti</option>'+sources.map(x=>'<option value="'+esc(x)+'">'+esc(x)+'</option>').join('');$('searchSource').value=selectedSource;const oldQuote=$('quoteClient').value,oldCfg=$('cfgClient').value;clients=await api('clienti');let opts='<option value="">Seleziona cliente</option>'+clients.map(x=>`<option value="${x.id}">${esc(x.nome)}</option>`).join('')+'<option value="__new__">+ Nuovo cliente</option>';document.querySelectorAll('.clientSelect').forEach(x=>x.innerHTML=opts);$('quoteClient').innerHTML=opts;$('cfgClient').innerHTML=opts;if(oldQuote)$('quoteClient').value=oldQuote;if(oldCfg)$('cfgClient').value=oldCfg;$('clientList').innerHTML=clients.map(x=>`<p><button onclick="detail(${x.id})">${esc(x.nome)}</button> ${esc(x.telefono)}</p>`).join('');$('workList').innerHTML=(await api('lavori')).map(x=>`<p>${esc(x.titolo)} — ${esc(x.stato)} (cliente #${x.cliente_id})</p>`).join('');$('practiceList').innerHTML=(await api('pratiche')).map(x=>`<p>${esc(x.titolo)} — ${esc(x.stato)} ${esc(x.scadenza)}</p>`).join('');$('quoteList').innerHTML=(await api('preventivi')).map(x=>`<p><button onclick="openEditableQuote(${x.id})">Apri / modifica #${x.id}</button> ${esc(x.cliente)} — ${esc(x.titolo)} (${esc(x.data)})</p>`).join('');$('listHistory').innerHTML=(await api('listini')).map(x=>`<p>${esc(x.etichetta)} — ${x.numero_voci} voci</p>`).join('')}
@@ -122,7 +124,67 @@ function fvCalc(){$('fvPower').textContent='Potenza moduli: '+((Number($('fvPane
 function fvRenderMaterials(){$('fvMaterials').innerHTML=fvMaterials.map((m,i)=>'<div class="card"><label>Descrizione<input value="'+esc(m.descrizione)+'" onchange="fvMaterials['+i+'].descrizione=this.value"></label><label>Quantità<input type="number" min="0" step=".01" value="'+m.quantita+'" onchange="fvMaterials['+i+'].quantita=Number(this.value)||0"></label><label>Prezzo unitario €<input type="number" min="0" step=".01" value="'+m.prezzo+'" onchange="fvMaterials['+i+'].prezzo=Number(this.value)||0"></label><button class="secondary" onclick="fvMaterials.splice('+i+',1);fvRenderMaterials()">Rimuovi</button></div>').join('')}
 function fvAddMaterial(){fvMaterials.unshift({descrizione:'Altro materiale',quantita:1,prezzo:0});fvRenderMaterials()}
 async function loadFV(){await refresh();$('fvClient').innerHTML=$('quoteClient').innerHTML;fvRecords=await api('fotovoltaico');$('fvSaved').innerHTML=fvRecords.map(x=>'<p><button onclick="fvOpen('+x.id+')">Apri #'+x.id+'</button> '+esc(x.titolo)+' · '+((x.pannelli*x.watt_pannello)/1000).toLocaleString('it-IT')+' kWp</p>').join('');if(!fvMaterials.length){fvMaterials=fvDefaults();fvRenderMaterials()}fvCalc()}
-function fvOpen(id){let x=fvRecords.find(v=>v.id===id);if(!x)return;fvId=x.id;for(let [field,val] of [['fvClient',x.cliente_id],['fvTitle',x.titolo],['fvPanels',x.pannelli],['fvWatts',x.watt_pannello],['fvInverter',x.inverter_kw],['fvBattery',x.batteria_kwh],['fvOrientation',x.orientamento],['fvTilt',x.inclinazione],['fvNotes',x.note]])$(field).value=val??'';fvMaterials=JSON.parse(x.materiali_json||'[]');fvRenderMaterials();fvCalc()}
+function fvOpen(id){let x=fvRecords.find(v=>v.id===id);if(!x)return;if(fvId!==x.id){$('fvWorkflow').classList.add('hidden');$('fvWorkflow').dataset.plant=''}fvId=x.id;for(let [field,val] of [['fvClient',x.cliente_id],['fvTitle',x.titolo],['fvPanels',x.pannelli],['fvWatts',x.watt_pannello],['fvInverter',x.inverter_kw],['fvBattery',x.batteria_kwh],['fvOrientation',x.orientamento],['fvTilt',x.inclinazione],['fvNotes',x.note]])$(field).value=val??'';fvMaterials=JSON.parse(x.materiali_json||'[]');fvRenderMaterials();fvCalc()}
+const fvWorkflowStatuses=['Da fare','In corso','In attesa','Completata','Non applicabile'];
+async function fvOpenWorkflow(){
+ if(!fvId)return alert('Salva o apri un impianto prima di consultare il percorso');
+ const id=Number(fvId), panel=$('fvWorkflow');
+ panel.dataset.plant=String(id);
+ panel.classList.remove('hidden');
+ panel.textContent='Caricamento del percorso…';
+ try{
+  const tasks=await api('fotovoltaico/percorso/'+id);
+  if(panel.dataset.plant===String(id)&&Number(fvId)===id)fvRenderWorkflow(id,tasks);
+ }catch(error){if(panel.dataset.plant===String(id))panel.textContent=error.message}
+}
+function fvRenderWorkflow(id,tasks,openTask){
+ const pending=tasks.filter(task=>!['Completata','Non applicabile'].includes(task.stato));
+ let phase='';
+ const panels=tasks.map(task=>{
+  const heading=task.fase!==phase?'<h3>'+esc(task.fase)+'</h3>':'';
+  phase=task.fase;
+  const options=fvWorkflowStatuses.map(value=>'<option'+(value===task.stato?' selected':'')+'>'+esc(value)+'</option>').join('');
+  const attachments=task.file.map(file=>'<li><a href="api/fotovoltaico/percorso/'+id+'/allegati/'+file.id+'" download>'+esc(file.nome)+'</a></li>').join('');
+  return heading+'<details class="card"'+(task.task===openTask?' open':'')+'><summary><strong>'+esc(task.titolo)+'</strong> · '+esc(task.stato)+(task.scadenza?' · '+esc(task.scadenza.split('-').reverse().join('/')):'')+'</summary>'+
+   '<p>'+esc(task.guida)+'</p>'+(task.fonte?'<p><a href="'+esc(task.fonte)+'" target="_blank" rel="noopener noreferrer">Modulistica e istruzioni</a></p>':'')+
+   '<form data-task="'+task.task+'" onsubmit="fvSaveWorkflow(event)">'+
+   '<label>Stato<select name="stato">'+options+'</select></label>'+
+   '<label>Scadenza<input type="date" name="scadenza" value="'+esc(task.scadenza)+'"></label>'+
+   '<label>Responsabile<input name="responsabile" maxlength="180" value="'+esc(task.responsabile)+'"></label>'+
+   '<label>Note e protocollo<textarea name="note" maxlength="4000">'+esc(task.note)+'</textarea></label>'+
+   '<label>Documento o ricevuta (facoltativo, max 8 MB)<input type="file" name="allegato"></label>'+
+   '<button type="submit">Salva attività</button> <span role="status"></span></form>'+
+   (attachments?'<ul>'+attachments+'</ul>':'')+'</details>';
+ }).join('');
+ const next=pending.length?'Prossima attività aperta: '+esc(pending[0].titolo):'Tutte le attività sono chiuse.';
+ $('fvWorkflow').innerHTML='<h2>Percorso cantiere e consegna</h2><p>'+next+'</p><p>'+pending.length+
+  ' attività aperte su '+tasks.length+'. Segna come «Non applicabile» le pratiche escluse dal caso.</p>'+panels;
+}
+async function fvSaveWorkflow(event){
+ event.preventDefault();
+ const form=event.currentTarget, panel=$('fvWorkflow'), id=Number(panel.dataset.plant);
+ if(Number(fvId)!==id)return;
+ const state=form.querySelector('[role=status]'), button=form.querySelector('button[type=submit]');
+ const {allegato,...fields}=Object.fromEntries(new FormData(form));
+ if(allegato.size>8*1024*1024){state.textContent='Allegato massimo 8 MB.';return}
+ button.disabled=true;
+ state.textContent='Salvataggio…';
+ const payload={task:form.dataset.task,...fields};
+ try{
+  if(allegato.size){
+   const data=await new Promise((resolve,reject)=>{
+    const reader=new FileReader();
+    reader.onload=()=>resolve(reader.result.split(',')[1]);
+    reader.onerror=()=>reject(new Error('Impossibile leggere l’allegato'));
+    reader.readAsDataURL(allegato);
+   });
+   payload.file={nome:allegato.name,dati:data};
+  }
+  const tasks=await api('fotovoltaico/percorso/'+id,payload);
+  if(Number(fvId)===id&&panel.dataset.plant===String(id))fvRenderWorkflow(id,tasks,payload.task);
+ }catch(error){state.textContent=error.message}
+ finally{button.disabled=false}
+}
 function fvShowDocuments(){
  if(!fvId)return alert('Salva o apri un impianto prima di generare i documenti');
  if($('fvDocumentForm').dataset.plant!==String(fvId)){
@@ -162,7 +224,7 @@ async function fvDownloadDocuments(event){
 }
 function fvPayload(){return{id:fvId,cliente_id:$('fvClient').value,titolo:$('fvTitle').value,pannelli:Number($('fvPanels').value)||0,watt_pannello:Number($('fvWatts').value)||0,inverter_kw:Number($('fvInverter').value)||0,batteria_kwh:Number($('fvBattery').value)||0,orientamento:$('fvOrientation').value,inclinazione:Number($('fvTilt').value)||0,materiali:fvMaterials,note:$('fvNotes').value}}
 async function fvSave(){if(!clients.some(c=>String(c.id)===$('fvClient').value))return alert('Seleziona un cliente');try{let r=await api('fotovoltaico',fvPayload());fvId=r.id;$('fvMsg').textContent='Impianto salvato #'+r.id;await loadFV()}catch(e){alert(e.message)}}
-async function fvDuplicate(){if(!clients.some(c=>String(c.id)===$('fvClient').value))return alert('Seleziona un cliente');let d=fvPayload();d.id=null;d.titolo=nextCopyName(d.titolo,fvRecords.map(x=>x.titolo));try{let r=await api('fotovoltaico',d);fvId=r.id;$('fvTitle').value=d.titolo;$('fvMsg').textContent='Copia creata #'+r.id;await loadFV()}catch(e){alert(e.message)}}
+async function fvDuplicate(){if(!clients.some(c=>String(c.id)===$('fvClient').value))return alert('Seleziona un cliente');let d=fvPayload();d.id=null;d.titolo=nextCopyName(d.titolo,fvRecords.map(x=>x.titolo));try{let r=await api('fotovoltaico',d);fvId=r.id;$('fvWorkflow').classList.add('hidden');$('fvWorkflow').dataset.plant='';$('fvTitle').value=d.titolo;$('fvMsg').textContent='Copia creata #'+r.id;await loadFV()}catch(e){alert(e.message)}}
 function fvToQuote(){editingQuoteId=null;setQuoteDetails({});let cid=$('fvClient').value;if(!clients.some(c=>String(c.id)===cid))return alert('Seleziona un cliente');if(fvMaterials.some(m=>!m.prezzo))return alert('Completa i prezzi della distinta prima del preventivo');show('preventivi');$('quoteClient').value=cid;$('tipo').value='Fotovoltaico';$('quoteTitle').value=$('fvTitle').value;lines=fvMaterials.map(m=>({codice:'FV',descrizione:m.descrizione,unita:'cad',prezzo:Number(m.prezzo)||0,quantita:Number(m.quantita)||0,quota_materiale:m.descrizione.toLowerCase().includes('manodopera')?0:100}));render()}
 async function loadFascicoli(){await refresh();workRecords=await api('lavori');prRecords=await api('checklist');$('prClient').innerHTML='<option value="">Seleziona cliente</option>'+clients.map(c=>'<option value="'+c.id+'">'+esc(c.nome)+'</option>').join('');prWorkSelect();$('prLists').innerHTML=prRecords.map(p=>'<div class="card"><h3>'+esc(p.titolo)+'</h3><p>'+esc(p.tipo)+' · '+esc(p.stato)+' · Scadenza: '+esc(p.scadenza||'non impostata')+'</p><label>Stato<select onchange="updateChecklist('+p.id+',\'stato\',this.value)">'+['Da preparare','In corso','Inviata','Completata'].map(s=>'<option '+(p.stato===s?'selected':'')+'>'+s+'</option>').join('')+'</select></label><label>Scadenza<input type="date" value="'+esc(p.scadenza)+'" onchange="updateChecklist('+p.id+',\'scadenza\',this.value)"></label><label>Responsabile<input value="'+esc(p.responsabile)+'" onchange="updateChecklist('+p.id+',\'responsabile\',this.value)"></label><button onclick="loadChecklistItems('+p.id+')">Apri checklist</button><div id="check-'+p.id+'"></div></div>').join('')}
 function prWorkSelect(){let cid=$('prClient').value;$('prWork').innerHTML='<option value="">Nessun lavoro collegato</option>'+workRecords.filter(w=>!cid||String(w.cliente_id)===cid).map(w=>'<option value="'+w.id+'">'+esc(w.titolo)+'</option>').join('')}

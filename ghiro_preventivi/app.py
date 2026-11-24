@@ -3,13 +3,14 @@ from price_import import initialize_catalog, import_catalog
 import catalog_config
 import catalog_auto
 import panel_catalog
+import fv_workflow
 from storage import activate as activate_storage, configure as configure_storage, read_state as storage_state
 from pdf_plan import import_pdf, preview as pdf_preview, directory as pdf_directory
 from http.server import ThreadingHTTPServer,BaseHTTPRequestHandler
 from threading import Thread
 from functools import lru_cache
 import base64
-from urllib.parse import urlparse,parse_qs
+from urllib.parse import urlparse,parse_qs,quote
 BASE=pathlib.Path(__file__).parent
 CONTROL=pathlib.Path('/data') if pathlib.Path('/data').is_dir() else BASE
 DATA=activate_storage(CONTROL)
@@ -41,6 +42,7 @@ def init():
  initialize_catalog(c)
  catalog_config.initialize(c)
  panel_catalog.initialize(c)
+ fv_workflow.initialize(c)
  c.commit();c.close()
 init()
 class H(BaseHTTPRequestHandler):
@@ -78,6 +80,28 @@ class H(BaseHTTPRequestHandler):
      file=pdf_directory(PLANS,parts[3])/'originale.pdf';content_type='application/pdf'
     else:return self.send({'errore':'non trovato'},404)
     b=file.read_bytes();self.send_response(200);self.send_header('Content-Type',content_type);self.send_header('Content-Length',str(len(b)));self.send_header('Cache-Control','private, max-age=86400');self.send_header('X-Content-Type-Options','nosniff');self.end_headers();self.wfile.write(b);return
+   if path.startswith('/api/fotovoltaico/percorso/'):
+    parts=path.split('/')
+    if len(parts) not in (5,7) or not parts[4].isascii() or not parts[4].isdigit() or len(parts[4])>18:
+     return self.send({'errore':'Impianto non trovato'},404)
+    plant_id=int(parts[4])
+    if not c.execute('SELECT 1 FROM impianti_fv WHERE id=?',(plant_id,)).fetchone():
+     return self.send({'errore':'Impianto non trovato'},404)
+    if len(parts)==5:return self.send(fv_workflow.get_plan(c,plant_id))
+    if parts[5]!='allegati' or not parts[6].isascii() or not parts[6].isdigit() or len(parts[6])>18:
+     return self.send({'errore':'Allegato non trovato'},404)
+    file=c.execute('SELECT nome,dati FROM fv_workflow_files WHERE id=? AND plant_id=?',
+                   (int(parts[6]),plant_id)).fetchone()
+    if not file:return self.send({'errore':'Allegato non trovato'},404)
+    self.send_response(200)
+    self.send_header('Content-Type','application/octet-stream')
+    self.send_header('X-Content-Type-Options','nosniff')
+    self.send_header('Cache-Control','no-store')
+    self.send_header('Content-Disposition',"attachment; filename*=UTF-8''"+quote(file['nome'],safe=''))
+    self.send_header('Content-Length',str(len(file['dati'])))
+    self.end_headers()
+    self.wfile.write(file['dati'])
+    return
    if path=='/api/fotovoltaico':self.send([dict(x) for x in c.execute('SELECT * FROM impianti_fv ORDER BY id DESC')]);return
    if path=='/api/checklist':self.send([dict(x) for x in c.execute('SELECT * FROM checklist_pratiche ORDER BY id DESC')]);return
    if path.startswith('/api/checklist-voci/'):
@@ -122,6 +146,18 @@ class H(BaseHTTPRequestHandler):
   try:
    if path.startswith('/api/auth/'):return self.send({'errore':'non trovato'},404)
    if not self.same_origin():return self.send({'errore':'Origine non valida'},403)
+   if path.startswith('/api/fotovoltaico/percorso/'):
+    raw_id=path.removeprefix('/api/fotovoltaico/percorso/')
+    if not raw_id.isascii() or not raw_id.isdigit() or len(raw_id)>18:
+     return self.send({'errore':'Impianto non trovato'},404)
+    plant_id=int(raw_id)
+    if not c.execute('SELECT 1 FROM impianti_fv WHERE id=?',(plant_id,)).fetchone():
+     return self.send({'errore':'Impianto non trovato'},404)
+    length=int(self.headers.get('Content-Length','0'))
+    if not 0<length<=12*1024*1024:return self.send({'errore':'Richiesta troppo grande'},413)
+    try:fv_workflow.save_task(c,plant_id,self.body())
+    except ValueError as exc:return self.send({'errore':str(exc)},400)
+    return self.send(fv_workflow.get_plan(c,plant_id))
    if path=='/api/fotovoltaico/documenti':
     length=int(self.headers.get('Content-Length','0'))
     if not 0<length<=16384:return self.send({'errore':'Richiesta troppo grande'},413)
