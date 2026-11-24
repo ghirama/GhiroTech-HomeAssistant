@@ -122,6 +122,26 @@ class H(BaseHTTPRequestHandler):
   try:
    if path.startswith('/api/auth/'):return self.send({'errore':'non trovato'},404)
    if not self.same_origin():return self.send({'errore':'Origine non valida'},403)
+   if path=='/api/fotovoltaico/documenti':
+    length=int(self.headers.get('Content-Length','0'))
+    if not 0<length<=16384:return self.send({'errore':'Richiesta troppo grande'},413)
+    payload=self.body()
+    if not isinstance(payload,dict) or type(payload.get('id')) is not int:
+     return self.send({'errore':'Seleziona un impianto salvato'},400)
+    plant=c.execute('SELECT * FROM impianti_fv WHERE id=?',(payload['id'],)).fetchone()
+    client=c.execute('SELECT * FROM clienti WHERE id=?',(plant['cliente_id'],)).fetchone() if plant else None
+    if not client:return self.send({'errore':'Impianto o cliente non trovato'},404)
+    from fv_documents import build_package
+    try:b=build_package(client,plant,payload.get('dati',{}))
+    except ValueError as exc:return self.send({'errore':str(exc)},400)
+    self.send_response(200)
+    self.send_header('Content-Type','application/zip')
+    self.send_header('Content-Disposition','attachment; filename="Documenti_fotovoltaico.zip"')
+    self.send_header('Cache-Control','no-store')
+    self.send_header('Content-Length',str(len(b)))
+    self.end_headers()
+    self.wfile.write(b)
+    return
    if path=='/api/preventivi/cliente-pdf':
     length=int(self.headers.get('Content-Length','0'))
     if not 0<length<=5*1024*1024:return self.send({'errore':'Preventivo troppo grande'},413)
